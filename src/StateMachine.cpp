@@ -1,66 +1,70 @@
-#ifndef STATEMCHINE_H
-#define STATEMCHINE_H
+#ifndef STATEMACHINE_H
+#define STATEMACHINE_H
 
 #include "StateMachine.h"
+#include "Menu.h"
+#include "Sys.h"
 
 #include <Arduino.h>
 
-StateMachine::StateMachine() : currentState(State::intro) {}
+StateMachine::StateMachine() : currentState(STATE::INTRO) {}
 
-void StateMachine::setState(State newState) { currentState = newState; }
+void StateMachine::setState(STATE newState) { currentState = newState; }
 
-State StateMachine::getState() { return currentState; }
+STATE StateMachine::getState() { return currentState; }
 
 void StateMachine::run() {
   static unsigned long delay = 1000;
   static unsigned long introLastMillis = millis();
-  static unsigned long menuLastMillis = millis();
   static unsigned long gameLastMillis = millis();
   static unsigned long scoreLastMillis = millis();
 
-  Serial.println((int)currentState);
+  // TODO rm DEBUG
+  /* Serial.print("State: "); */
+  /* Serial.println((int)currentState); */
 
   switch (currentState) {
-  case State::intro:
-
-    pinMode(13, HIGH);
+  case STATE::INTRO:
+    // TODO Implement
 
     if (millis() - introLastMillis >= delay) {
-      currentState = State::menu;
-      menuLastMillis = millis();
+      currentState = STATE::MENU;
     }
     break;
 
-  case State::menu:
-
-    pinMode(13, LOW);
-
-    if (millis() - menuLastMillis >= delay) {
-      currentState = State::game;
-      gameLastMillis = millis();
+  case STATE::MENU:
+    // TODO Implement
+    if (!digitalRead(Sys::DOWN_PIN)) {
+      menu.next();
+    } else if (!digitalRead(Sys::UP_PIN)) {
+      menu.prev();
+    } else if (!digitalRead(Sys::RIGHT_PIN)) {
+      if (menu.getSelectedMenuItem() == MENU_ITEM::START) {
+        currentState = STATE::GAME;
+      } else if (menu.getSelectedMenuItem() == MENU_ITEM::SCORE) {
+        currentState = STATE::SCORE;
+      }
     }
     break;
 
-  case State::game:
-
-    pinMode(13, HIGH);
+  case STATE::GAME:
+    // TODO Implement
 
     if (millis() - gameLastMillis >= delay) {
       scoreLastMillis = millis();
-      currentState = State::score;
+      currentState = STATE::SCORE;
     }
     break;
 
-  case State::score:
-
-    pinMode(13, LOW);
+  case STATE::SCORE:
+    // TODO Implement
 
     if (millis() - scoreLastMillis >= delay) {
       introLastMillis = millis();
-      currentState = State::intro;
+      currentState = STATE::INTRO;
     }
     break;
   }
 };
 
-#endif // !STATEMCHINE_H
+#endif // STATEMACHINE_H

@@ -1,15 +1,17 @@
+#include "Menu.h"
 
-enum class State { intro, menu, game, score };
+enum class STATE { INTRO, MENU, GAME, SCORE };
 
 class StateMachine {
 private:
-  State currentState;
+  STATE currentState;
+  Menu menu;
 
 public:
   StateMachine();
 
-  void setState(State newState);
-  State getState();
+  void setState(STATE newState);
+  STATE getState();
 
   void run();
 };
