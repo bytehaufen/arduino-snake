@@ -7,5 +7,7 @@ build:
 	pio device monitor
 update:
 	pio run -t compiledb
+monitor:
+	pio device monitor
 clean:
 	pio run -t clean
