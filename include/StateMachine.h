@@ -1,11 +1,14 @@
 #include "Menu.h"
 
+#include <Arduino.h>
+
 enum class STATE { INTRO, MENU, GAME, SCORE };
 
 class StateMachine {
 private:
   STATE currentState;
   Menu menu;
+
 
 public:
   StateMachine();
