@@ -2,8 +2,6 @@
 
 #include "StateMachine.h"
 #include "Sys.h"
-#include "Menu.h"
-#include "Oled.h"
 
 #define DEBUG
 
@@ -12,11 +10,9 @@ Sys sys;
 
 void setup() {
   Serial.begin(115200);
-  Oled oled;
-
 }
 
-void loop() {                 
+void loop() {
   stateMachine.run();
   sys.run();
 

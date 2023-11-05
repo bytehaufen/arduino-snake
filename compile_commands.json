@@ -222,12 +222,6 @@
         "output": ".pio/build/uno/lib717/Adafruit_SH1106/Adafruit_SH1106.cpp.o"
     },
     {
-        "command": "/home/rico/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/uno/src/Menu.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60111 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/uno/Adafruit_SH1106 -Ilib/Adafruit_SSD1306 -Ilib/Adafruit-GFX-Library \"-I.pio/libdeps/uno/Adafruit BusIO\" -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard src/Menu.cpp",
-        "directory": "/home/rico/Projects/arduino/arduino-snake",
-        "file": "src/Menu.cpp",
-        "output": ".pio/build/uno/src/Menu.cpp.o"
-    },
-    {
         "command": "/home/rico/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/uno/src/Oled.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60111 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/uno/Adafruit_SH1106 -Ilib/Adafruit_SSD1306 -Ilib/Adafruit-GFX-Library \"-I.pio/libdeps/uno/Adafruit BusIO\" -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard src/Oled.cpp",
         "directory": "/home/rico/Projects/arduino/arduino-snake",
         "file": "src/Oled.cpp",

@@ -1,11 +1,10 @@
-#ifndef STATEMACHINE_H
-#define STATEMACHINE_H
-
 #include "StateMachine.h"
-#include "Menu.h"
+#include "Arduino.h"
+#include "Oled.h"
 #include "Sys.h"
+#include "WString.h"
 
-StateMachine::StateMachine() : currentState(STATE::INTRO) {}
+StateMachine::StateMachine() : currentState(STATE::INIT) {}
 
 void StateMachine::setState(STATE newState) { currentState = newState; }
 
@@ -13,25 +12,41 @@ STATE StateMachine::getState() { return currentState; }
 
 void StateMachine::run() {
   const unsigned long DELAY = 1000;
+  const unsigned long DELAY_INIT = 1000;
+  const unsigned long DELAY_TO_MENU = 3000;
+  static unsigned long initLastMillis = millis();
   static unsigned long introLastMillis = millis();
   static unsigned long gameLastMillis = millis();
   static unsigned long scoreLastMillis = millis();
 
-  // TODO rm DEBUG
-  /* Serial.print("State: "); */
-  /* Serial.println((int)currentState); */
+  const String MENU_ITEMS[] = {F("Start"), F("Score")};
 
   switch (currentState) {
-  case STATE::INTRO:
-    // TODO Implement
+  case STATE::INIT:
+    Oled::getInstance();
+    if (millis() - initLastMillis >= DELAY_INIT) {
+      currentState = STATE::INTRO;
+    }
 
-    if (millis() - introLastMillis >= DELAY) {
+    break;
+
+  case STATE::INTRO:
+    static bool introFinished = false;
+
+    if (!introFinished &&
+        Oled::getInstance().printSerialized(F("Welcome to Snake!"))) {
+      introFinished = true;
+    }
+    if (introFinished && millis() - introLastMillis >= DELAY_TO_MENU) {
       currentState = STATE::MENU;
     }
     break;
 
   case STATE::MENU:
-    // TODO Implement
+    static uint8_t selectedItem = 0;
+
+    // TODO: Implement
+    Oled::getInstance().printMenu(MENU_ITEMS, 2, selectedItem);
 
     /* if (!digitalRead(Sys::DOWN_PIN)) { */
     /*   menu.next(); */
@@ -44,7 +59,7 @@ void StateMachine::run() {
     /*     currentState = STATE::SCORE; */
     /*   } */
     /* } */
-    /* break; */
+    break;
 
   case STATE::GAME:
     // TODO Implement
@@ -59,11 +74,8 @@ void StateMachine::run() {
     // TODO Implement
 
     if (millis() - scoreLastMillis >= DELAY) {
-      introLastMillis = millis();
       currentState = STATE::INTRO;
     }
     break;
   }
 };
-
-#endif // STATEMACHINE_H

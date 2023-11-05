@@ -1,14 +1,15 @@
-#include "Menu.h"
+#ifndef STATEMACHINE_H
+#define STATEMACHINE_H
+
+#include "Oled.h"
 
 #include <Arduino.h>
 
-enum class STATE { INTRO, MENU, GAME, SCORE };
+enum class STATE {INIT, INTRO, MENU, GAME, SCORE };
 
 class StateMachine {
 private:
   STATE currentState;
-  Menu menu;
-
 
 public:
   StateMachine();
@@ -18,3 +19,5 @@ public:
 
   void run();
 };
+
+#endif // STATEMACHINE_H
