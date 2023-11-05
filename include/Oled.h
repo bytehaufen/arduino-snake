@@ -14,8 +14,8 @@ public:
   static Oled &getInstance();
 
   bool printSerialized(const String &message);
-  /* void printMenu(const char *menuItems, const uint8_t size, const uint8_t selectedItem); */
-  void printMenu(const String menuItems[], const uint8_t size, const uint8_t selectedItem);
+  void printMenu(const String menuItems[], const uint8_t menuItemsCount,
+                 const uint8_t selectedItem);
 };
 
 #endif // OLED_H

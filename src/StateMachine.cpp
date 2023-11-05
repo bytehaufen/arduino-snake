@@ -4,23 +4,21 @@
 #include "Sys.h"
 #include "WString.h"
 
-StateMachine::StateMachine() : currentState(STATE::INIT) {}
+enum class MENU_ITEM { START = 0, SCORE = 1 };
+
+StateMachine::StateMachine()
+    : currentState(STATE::INIT), MENU_ITEMS{F("Start"), F("Score")} {}
 
 void StateMachine::setState(STATE newState) { currentState = newState; }
 
 STATE StateMachine::getState() { return currentState; }
 
 void StateMachine::run() {
-  const unsigned long DELAY = 1000;
-  const unsigned long DELAY_INIT = 1000;
-  // TODO: change back to 3000
-  const unsigned long DELAY_TO_MENU = 1;
   static unsigned long initLastMillis = millis();
   static unsigned long introLastMillis = millis();
-  static unsigned long gameLastMillis = millis();
-  static unsigned long scoreLastMillis = millis();
 
-  const String MENU_ITEMS[] = {F("Start"), F("Score")};
+  void selectPrevMenuItem(MENU_ITEM & item);
+  void selectNextMenuItem(MENU_ITEM & item);
 
   switch (currentState) {
   case STATE::INIT:
@@ -44,39 +42,75 @@ void StateMachine::run() {
     break;
 
   case STATE::MENU:
-    static uint8_t selectedItem = 0;
+    static MENU_ITEM selectedItem = MENU_ITEM::START;
+    static bool firstCall = true;
 
-    // TODO: Implement
-    Oled::getInstance().printMenu(MENU_ITEMS, 2, selectedItem);
+    Sys::BUTTON pressedButton;
+    pressedButton = Sys::getInstance().getPressedButton();
 
-    /* if (!digitalRead(Sys::DOWN_PIN)) { */
-    /*   menu.next(); */
-    /* } else if (!digitalRead(Sys::UP_PIN)) { */
-    /*   menu.prev(); */
-    /* } else if (!digitalRead(Sys::RIGHT_PIN)) { */
-    /*   if (menu.getSelectedMenuItem() == MENU_ITEM::START) { */
-    /*     currentState = STATE::GAME; */
-    /*   } else if (menu.getSelectedMenuItem() == MENU_ITEM::SCORE) { */
-    /*     currentState = STATE::SCORE; */
-    /*   } */
-    /* } */
+    if (firstCall || (pressedButton != Sys::BUTTON::NONE)) {
+      if (pressedButton == Sys::BUTTON::UP) {
+        selectPrevMenuItem(selectedItem);
+      } else if (pressedButton == Sys::BUTTON::DOWN) {
+        selectNextMenuItem(selectedItem);
+      } else if (pressedButton == Sys::BUTTON::MIDDLE) {
+        switch (selectedItem) {
+        case MENU_ITEM::START:
+          currentState = STATE::GAME;
+          // TODO:change delay
+          delay(100);
+          Sys::getInstance().consumeJoystick();
+          break;
+        case MENU_ITEM::SCORE:
+          currentState = STATE::SCORE;
+          // TODO:change delay
+          delay(100);
+          Sys::getInstance().consumeJoystick();
+          break;
+        }
+        firstCall = true;
+        break;
+      }
+      Oled::getInstance().printMenu(MENU_ITEMS, MENU_ITEMS_COUNT,
+                                    static_cast<uint8_t>(selectedItem));
+
+      firstCall = false;
+    }
     break;
 
   case STATE::GAME:
     // TODO Implement
-
-    if (millis() - gameLastMillis >= DELAY) {
-      scoreLastMillis = millis();
+    if (Oled::getInstance().printSerialized(F("Game!"))) {
       currentState = STATE::SCORE;
     }
+
     break;
 
   case STATE::SCORE:
     // TODO Implement
 
-    if (millis() - scoreLastMillis >= DELAY) {
-      currentState = STATE::INTRO;
+    if (Oled::getInstance().printSerialized(F("Score!"))) {
+      currentState = STATE::MENU;
     }
+    break;
+  }
+};
+
+void selectPrevMenuItem(MENU_ITEM &item) {
+  switch (item) {
+  case MENU_ITEM::START:
+    break;
+  case MENU_ITEM::SCORE:
+    item = MENU_ITEM::START;
+    break;
+  }
+}
+void selectNextMenuItem(MENU_ITEM &item) {
+  switch (item) {
+  case MENU_ITEM::START:
+    item = MENU_ITEM::SCORE;
+    break;
+  case MENU_ITEM::SCORE:
     break;
   }
 };

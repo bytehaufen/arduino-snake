@@ -9,56 +9,69 @@ const uint8_t BUTTON_PIN = 2;
 const uint16_t AD_THRESH = 200;
 const uint16_t AD_MAX = 1023;
 
-Sys::Sys() { pinMode(BUTTON_PIN, INPUT_PULLUP); }
+Sys::Sys() : joystickConsumed(true) { pinMode(BUTTON_PIN, INPUT_PULLUP); }
 
-void Sys::run() {
-#ifdef DEBUG
-  /* Serial.print("X_PIN: "); */
-  /* Serial.println(analogRead(X_PIN)); */
-  /* Serial.print("Y_PIN: "); */
-  /* Serial.println(analogRead(Y_PIN)); */
-#endif // DEBUG
-
-  if (!digitalRead(BUTTON_PIN)) {
-    middleButtonPressed = true;
-  } else if (analogRead(X_PIN) > (AD_MAX / 2) + AD_THRESH) {
-    rightButtonPressed = true;
-  } else if (analogRead(X_PIN) < (AD_MAX / 2) - AD_THRESH) {
-    leftButtonPressed = true;
-  } else if (analogRead(Y_PIN) < (AD_MAX / 2) - AD_THRESH) {
-    upButtonPressed = true;
-  } else if (analogRead(Y_PIN) > (AD_MAX / 2) + AD_THRESH) {
-    downButtonPressed = true;
-  }
+Sys &Sys::getInstance() {
+  static Sys instance;
+  return instance;
 }
 
-Sys::BUTTON Sys::getPressedButton() {
-  BUTTON retVal;
-  if (middleButtonPressed) {
-    retVal = BUTTON::MIDDLE;
-  } else if (rightButtonPressed) {
-    retVal = BUTTON::RIGHT;
-  } else if (leftButtonPressed) {
-    retVal = BUTTON::LEFT;
-  } else if (upButtonPressed) {
-    retVal = BUTTON::UP;
-  } else if (downButtonPressed) {
-    retVal = BUTTON::DOWN;
-  } else {
-    retVal = BUTTON::NONE;
-  }
-  if (retVal != BUTTON::NONE) {
+void Sys::run() {
+  if (joystickConsumed) {
+
     middleButtonPressed = false;
     rightButtonPressed = false;
     leftButtonPressed = false;
     upButtonPressed = false;
     downButtonPressed = false;
+
+    if (!digitalRead(BUTTON_PIN)) {
+      middleButtonPressed = true;
+      joystickConsumed = false;
+    } else if (analogRead(X_PIN) > (AD_MAX / 2) + AD_THRESH) {
+      rightButtonPressed = true;
+      joystickConsumed = false;
+    } else if (analogRead(X_PIN) < (AD_MAX / 2) - AD_THRESH) {
+      leftButtonPressed = true;
+      joystickConsumed = false;
+    } else if (analogRead(Y_PIN) < (AD_MAX / 2) - AD_THRESH) {
+      upButtonPressed = true;
+      joystickConsumed = false;
+    } else if (analogRead(Y_PIN) > (AD_MAX / 2) + AD_THRESH) {
+      downButtonPressed = true;
+      joystickConsumed = false;
+    }
   }
+  // TODO: Replace delay
+  delay(20);
+}
+
+Sys::BUTTON Sys::getPressedButton() {
+  BUTTON retVal = BUTTON::NONE;
+
+  if (!joystickConsumed) {
+    if (middleButtonPressed) {
+      retVal = BUTTON::MIDDLE;
+    } else if (rightButtonPressed) {
+      retVal = BUTTON::RIGHT;
+    } else if (leftButtonPressed) {
+      retVal = BUTTON::LEFT;
+    } else if (upButtonPressed) {
+      retVal = BUTTON::UP;
+    } else if (downButtonPressed) {
+      retVal = BUTTON::DOWN;
+    }
+  }
+  joystickConsumed = true;
 
   return retVal;
 }
 
-void Sys::printi2cdevices() {
+void Sys::consumeJoystick() {
+  joystickConsumed = true;
+}
+
+void Sys::printI2Cdevices() {
 #define WIRE Wire
 
   Wire.begin();

@@ -30,13 +30,14 @@ bool Oled::printSerialized(const String &message) {
   static uint16_t i = 0;
   static unsigned long lastTime = 0;
 
-  /* Serial.print(i); */
+  Serial.print(i);
 
   if (i == 0) {
     display.clearDisplay();
     display.setCursor(0, 0);
     display.setTextColor(WHITE);
     display.setTextSize(2);
+    display.display();
   }
 
   if (millis() - lastTime >= CHARDELAY) {
@@ -54,18 +55,17 @@ bool Oled::printSerialized(const String &message) {
   return false;
 }
 
-/* void Oled::printMenu(const char *menuItems, const uint8_t itemCount, */
-/*                      const uint8_t selectedItem) { */
-  void Oled::printMenu(const String menuItems[], const uint8_t size, const uint8_t selectedItem) {
+void Oled::printMenu(const String menuItems[], const uint8_t menuItemsCount,
+                     const uint8_t selectedItem) {
   display.clearDisplay();
   display.setCursor(0, 0);
   display.setTextSize(2);
 
-  for (uint8_t i = 0; i < size; i++) {
+  for (uint8_t i = 0; i < menuItemsCount; i++) {
     if (i == selectedItem) {
-      display.setTextColor(WHITE, BLACK);
-    } else {
       display.setTextColor(BLACK, WHITE);
+    } else {
+      display.setTextColor(WHITE, BLACK);
     }
     display.println(menuItems[i]);
   }
