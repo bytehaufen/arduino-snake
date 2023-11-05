@@ -13,7 +13,8 @@ STATE StateMachine::getState() { return currentState; }
 void StateMachine::run() {
   const unsigned long DELAY = 1000;
   const unsigned long DELAY_INIT = 1000;
-  const unsigned long DELAY_TO_MENU = 3000;
+  // TODO: change back to 3000
+  const unsigned long DELAY_TO_MENU = 1;
   static unsigned long initLastMillis = millis();
   static unsigned long introLastMillis = millis();
   static unsigned long gameLastMillis = millis();

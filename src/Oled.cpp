@@ -24,7 +24,8 @@ Oled &Oled::getInstance() {
  * @param message the message to be printed
  * @return true if all chars are printed
  */
-const unsigned long CHARDELAY = 200;
+// TODO: change back to 200
+const unsigned long CHARDELAY = 1;
 bool Oled::printSerialized(const String &message) {
   static uint16_t i = 0;
   static unsigned long lastTime = 0;
