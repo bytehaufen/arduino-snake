@@ -2,11 +2,12 @@
 #define OLED_H
 
 #include <Adafruit_GFX.h>
-#include <Adafruit_SH1106.h>
+/* #include <Adafruit_SH1106.h> */
+#include <Adafruit_ST7789.h>
 
 class Oled {
 private:
-  Adafruit_SH1106 display;
+  Adafruit_ST7789 display;
   Oled();
 
 public:

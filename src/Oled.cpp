@@ -1,14 +1,22 @@
 #include "Oled.h"
+#include "Adafruit_ST77xx.h"
 #include "HardwareSerial.h"
+#include "SPI.h"
 #include "WString.h"
 
-#define SCREEN_WIDTH 128 // OLED display width,  in pixels
-#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+#define SCREEN_WIDTH 240
+#define SCREEN_HEIGHT 280
 
-Oled::Oled() : display(4) {
-  display.begin(SH1106_SWITCHCAPVCC, 0x3C);
-  display.clearDisplay();
-  display.display();
+#define TFT_CS 10
+#define TFT_DC 8
+#define TFT_RST 9
+#define TFT_MOSI 11
+#define TFT_SCLK 13
+
+Oled::Oled() : display( TFT_CS, TFT_DC, TFT_RST) {
+  display.init(SCREEN_WIDTH, SCREEN_HEIGHT);
+  display.setRotation(1);
+  display.fillScreen(ST77XX_BLACK);
 }
 
 Oled &Oled::getInstance() {
@@ -33,16 +41,16 @@ bool Oled::printSerialized(const String &message) {
   Serial.print(i);
 
   if (i == 0) {
-    display.clearDisplay();
-    display.setCursor(0, 0);
-    display.setTextColor(WHITE);
+    display.fillScreen(ST77XX_BLACK);
+    display.setCursor(30, 100);
+    display.setTextColor(ST77XX_WHITE);
     display.setTextSize(2);
-    display.display();
+    /* display.display(); */
   }
 
   if (millis() - lastTime >= CHARDELAY) {
     display.print(message[i]);
-    display.display();
+    /* display.display(); */
     lastTime = millis();
 
     if (i == message.length() - 1) {
@@ -57,17 +65,25 @@ bool Oled::printSerialized(const String &message) {
 
 void Oled::printMenu(const String menuItems[], const uint8_t menuItemsCount,
                      const uint8_t selectedItem) {
-  display.clearDisplay();
-  display.setCursor(0, 0);
+  const uint16_t X_OFFSET = 30;
+  const uint16_t Y_OFFSET = 100;
+  const uint16_t Y_SPACE = 20;
+
+  /* display.fillScreen(ST77XX_BLACK); */
+  display.fillRect(X_OFFSET, Y_OFFSET, X_OFFSET + 200, Y_OFFSET + 200, ST77XX_BLACK);
+  display.setCursor(30, 50);
   display.setTextSize(2);
 
   for (uint8_t i = 0; i < menuItemsCount; i++) {
+    display.setCursor(X_OFFSET, Y_OFFSET + i * Y_SPACE);
     if (i == selectedItem) {
-      display.setTextColor(BLACK, WHITE);
+      display.print("->  ");
+      /* display.setTextColor(ST77XX_BLACK, ST77XX_WHITE); */
     } else {
-      display.setTextColor(WHITE, BLACK);
+      display.print("   ");
+      /* display.setTextColor(ST77XX_WHITE, ST77XX_BLACK); */
     }
     display.println(menuItems[i]);
   }
-  display.display();
+  /* display.display(); */
 }
