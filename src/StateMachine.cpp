@@ -6,8 +6,6 @@
 
 enum class MENU_ITEM { START = 0, SCORE = 1 };
 
-
-
 StateMachine::StateMachine()
     : currentState(STATE::INIT), MENU_ITEMS{F("Start"), F("Score")} {}
 
