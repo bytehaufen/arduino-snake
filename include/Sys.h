@@ -5,10 +5,13 @@
 
 class Sys {
 private:
-  const uint8_t RIGHT_PIN = 10;
-  const uint8_t UP_PIN = 11;
-  const uint8_t LEFT_PIN = 12;
-  const uint8_t DOWN_PIN = 13;
+  const uint8_t X_PIN = A2;
+  const uint8_t Y_PIN = A1;
+  const uint8_t BUTTON_PIN = 14;
+
+  const uint16_t AD_THRESH = 200;
+  const uint16_t AD_MAX = 1023;
+
   bool middleButtonPressed;
   bool rightButtonPressed;
   bool upButtonPressed;

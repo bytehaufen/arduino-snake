@@ -2,12 +2,7 @@
 #include "Arduino.h"
 #include <Wire.h>
 
-const uint8_t X_PIN = A1;
-const uint8_t Y_PIN = A0;
-const uint8_t BUTTON_PIN = 2;
 
-const uint16_t AD_THRESH = 200;
-const uint16_t AD_MAX = 1023;
 
 Sys::Sys() : joystickConsumed(true) { pinMode(BUTTON_PIN, INPUT_PULLUP); }
 

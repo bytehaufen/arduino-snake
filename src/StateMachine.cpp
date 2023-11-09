@@ -6,6 +6,8 @@
 
 enum class MENU_ITEM { START = 0, SCORE = 1 };
 
+
+
 StateMachine::StateMachine()
     : currentState(STATE::INIT), MENU_ITEMS{F("Start"), F("Score")} {}
 
@@ -38,6 +40,7 @@ void StateMachine::run() {
     }
     if (introFinished && millis() - introLastMillis >= DELAY_TO_MENU) {
       currentState = STATE::MENU;
+      Oled::getInstance().clear();
     }
     break;
 
@@ -47,6 +50,8 @@ void StateMachine::run() {
 
     Sys::BUTTON pressedButton;
     pressedButton = Sys::getInstance().getPressedButton();
+    Serial.println("pressed button: " + String((int)pressedButton));
+    Serial.println("selected item: " + String((int)selectedItem));
 
     if (firstCall || (pressedButton != Sys::BUTTON::NONE)) {
       if (pressedButton == Sys::BUTTON::UP) {

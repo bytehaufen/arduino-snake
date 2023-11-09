@@ -1,8 +1,9 @@
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 
-#include <Arduino.h>
 #include "Oled.h"
+#include "Sys.h"
+#include <Arduino.h>
 
 enum class STATE { INIT, INTRO, MENU, GAME, SCORE };
 
@@ -17,6 +18,9 @@ private:
 
   static const uint8_t MENU_ITEMS_COUNT = 2;
   const String MENU_ITEMS[MENU_ITEMS_COUNT];
+
+  /* Oled &oled = Oled::getInstance(); */
+  /* Sys &sys = Sys::getInstance(); */
 
 public:
   StateMachine();
