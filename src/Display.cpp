@@ -1,8 +1,4 @@
 #include "Display.h"
-#include "Adafruit_ST77xx.h"
-#include "HardwareSerial.h"
-#include "SPI.h"
-#include "WString.h"
 
 // Initialize display
 Display::Display() : display(TFT_CS, TFT_DC, TFT_RST) {
