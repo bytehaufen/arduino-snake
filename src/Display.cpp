@@ -1,17 +1,17 @@
-#include "Oled.h"
+#include "Display.h"
 #include "Adafruit_ST77xx.h"
 #include "HardwareSerial.h"
 #include "SPI.h"
 #include "WString.h"
 
-Oled::Oled() : display(TFT_CS, TFT_DC, TFT_RST) {
+Display::Display() : display(TFT_CS, TFT_DC, TFT_RST) {
   display.init(SCREEN_WIDTH, SCREEN_HEIGHT);
   display.setRotation(1);
   display.fillScreen(ST77XX_BLACK);
 }
 
-Oled &Oled::getInstance() {
-  static Oled instance;
+Display &Display::getInstance() {
+  static Display instance;
   return instance;
 }
 
@@ -24,7 +24,7 @@ Oled &Oled::getInstance() {
  * @return true if all chars are printed
  */
 const unsigned long CHARDELAY = 200;
-bool Oled::printSerialized(const String &message) {
+bool Display::printSerialized(const String &message) {
   static uint16_t i = 0;
   static unsigned long lastTime = 0;
 
@@ -51,7 +51,7 @@ bool Oled::printSerialized(const String &message) {
   return false;
 }
 
-void Oled::printMenu(const String menuItems[], const uint8_t menuItemsCount,
+void Display::printMenu(const String menuItems[], const uint8_t menuItemsCount,
                      const uint8_t selectedItem) {
   const uint16_t X_OFFSET = 100;
   const uint16_t Y_OFFSET = 130;
@@ -72,4 +72,4 @@ void Oled::printMenu(const String menuItems[], const uint8_t menuItemsCount,
   }
 }
 
-void Oled::clear() { display.fillScreen(ST77XX_BLACK); }
+void Display::clear() { display.fillScreen(ST77XX_BLACK); }

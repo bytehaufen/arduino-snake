@@ -228,22 +228,22 @@
         "output": ".pio/build/uno/lib27e/Adafruit ST7735 and ST7789 Library/Adafruit_ST77xx.cpp.o"
     },
     {
-        "command": "/home/rico/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/uno/src/Oled.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60111 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/uno/Adafruit ST7735 and ST7789 Library\" \"-I.pio/libdeps/uno/Adafruit GFX Library\" \"-I.pio/libdeps/uno/Adafruit BusIO\" -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard src/Oled.cpp",
+        "command": "/home/rico/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/uno/src/Display.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60111 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/uno/Adafruit ST7735 and ST7789 Library\" \"-I.pio/libdeps/uno/Adafruit GFX Library\" \"-I.pio/libdeps/uno/Adafruit BusIO\" -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard src/Display.cpp",
         "directory": "/home/rico/Projects/arduino/arduino-snake",
-        "file": "src/Oled.cpp",
-        "output": ".pio/build/uno/src/Oled.cpp.o"
+        "file": "src/Display.cpp",
+        "output": ".pio/build/uno/src/Display.cpp.o"
+    },
+    {
+        "command": "/home/rico/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/uno/src/Input.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60111 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/uno/Adafruit ST7735 and ST7789 Library\" \"-I.pio/libdeps/uno/Adafruit GFX Library\" \"-I.pio/libdeps/uno/Adafruit BusIO\" -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard src/Input.cpp",
+        "directory": "/home/rico/Projects/arduino/arduino-snake",
+        "file": "src/Input.cpp",
+        "output": ".pio/build/uno/src/Input.cpp.o"
     },
     {
         "command": "/home/rico/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/uno/src/StateMachine.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60111 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/uno/Adafruit ST7735 and ST7789 Library\" \"-I.pio/libdeps/uno/Adafruit GFX Library\" \"-I.pio/libdeps/uno/Adafruit BusIO\" -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard src/StateMachine.cpp",
         "directory": "/home/rico/Projects/arduino/arduino-snake",
         "file": "src/StateMachine.cpp",
         "output": ".pio/build/uno/src/StateMachine.cpp.o"
-    },
-    {
-        "command": "/home/rico/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/uno/src/Sys.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60111 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/uno/Adafruit ST7735 and ST7789 Library\" \"-I.pio/libdeps/uno/Adafruit GFX Library\" \"-I.pio/libdeps/uno/Adafruit BusIO\" -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard src/Sys.cpp",
-        "directory": "/home/rico/Projects/arduino/arduino-snake",
-        "file": "src/Sys.cpp",
-        "output": ".pio/build/uno/src/Sys.cpp.o"
     },
     {
         "command": "/home/rico/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/uno/src/main.ino.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega328p -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60111 -DARDUINO_AVR_UNO -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc \"-I.pio/libdeps/uno/Adafruit ST7735 and ST7789 Library\" \"-I.pio/libdeps/uno/Adafruit GFX Library\" \"-I.pio/libdeps/uno/Adafruit BusIO\" -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard src/main.ino.cpp",

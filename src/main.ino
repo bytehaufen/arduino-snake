@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 #include "StateMachine.h"
-#include "Sys.h"
+#include "Input.h"
 
 #define DEBUG
 
@@ -13,11 +13,11 @@ void setup() {
 
 void loop() {
   stateMachine.run();
-  Sys::getInstance().run();
+  Input::getInstance().run();
 
   // TODO rm DEBUG
 #ifdef DEBUG
-  // Sys::printi2cdevices();
+  // Input::printi2cdevices();
 #endif // DEBUG
 
 // TODO rm delay and make unblocking

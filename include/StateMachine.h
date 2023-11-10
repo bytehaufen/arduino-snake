@@ -1,8 +1,8 @@
 #ifndef STATEMACHINE_H
 #define STATEMACHINE_H
 
-#include "Oled.h"
-#include "Sys.h"
+#include "Display.h"
+#include "Input.h"
 #include <Arduino.h>
 
 enum class STATE { INIT, INTRO, MENU, GAME, SCORE };

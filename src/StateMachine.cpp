@@ -1,7 +1,7 @@
 #include "StateMachine.h"
 #include "Arduino.h"
-#include "Oled.h"
-#include "Sys.h"
+#include "Display.h"
+#include "Input.h"
 #include "WString.h"
 
 enum class MENU_ITEM { START = 0, SCORE = 1 };
@@ -22,7 +22,7 @@ void StateMachine::run() {
 
   switch (currentState) {
   case STATE::INIT:
-    Oled::getInstance();
+    Display::getInstance();
     if (millis() - initLastMillis >= DELAY_INIT) {
       currentState = STATE::INTRO;
     }
@@ -33,13 +33,13 @@ void StateMachine::run() {
     static bool introFinished = false;
 
     if (!introFinished &&
-        Oled::getInstance().printSerialized(F("Welcome to   Snake!"))) {
+        Display::getInstance().printSerialized(F("Welcome to   Snake!"))) {
       introFinished = true;
     }
     if (introFinished && millis() - introLastMillis >= DELAY_TO_MENU) {
       currentState = STATE::MENU;
       // TODO: clear intro before menu?
-      /* Oled::getInstance().clear(); */
+      /* Display::getInstance().clear(); */
     }
     break;
 
@@ -47,35 +47,35 @@ void StateMachine::run() {
     static MENU_ITEM selectedItem = MENU_ITEM::START;
     static bool firstCall = true;
 
-    Sys::BUTTON pressedButton;
-    pressedButton = Sys::getInstance().getPressedButton();
+    Input::BUTTON pressedButton;
+    pressedButton = Input::getInstance().getPressedButton();
     Serial.println("pressed button: " + String((int)pressedButton));
     Serial.println("selected item: " + String((int)selectedItem));
 
-    if (firstCall || (pressedButton != Sys::BUTTON::NONE)) {
-      if (pressedButton == Sys::BUTTON::UP) {
+    if (firstCall || (pressedButton != Input::BUTTON::NONE)) {
+      if (pressedButton == Input::BUTTON::UP) {
         selectPrevMenuItem(selectedItem);
-      } else if (pressedButton == Sys::BUTTON::DOWN) {
+      } else if (pressedButton == Input::BUTTON::DOWN) {
         selectNextMenuItem(selectedItem);
-      } else if (pressedButton == Sys::BUTTON::MIDDLE) {
+      } else if (pressedButton == Input::BUTTON::MIDDLE) {
         switch (selectedItem) {
         case MENU_ITEM::START:
           currentState = STATE::GAME;
           // TODO:change delay
           delay(100);
-          Sys::getInstance().consumeJoystick();
+          Input::getInstance().consumeJoystick();
           break;
         case MENU_ITEM::SCORE:
           currentState = STATE::SCORE;
           // TODO:change delay
           delay(100);
-          Sys::getInstance().consumeJoystick();
+          Input::getInstance().consumeJoystick();
           break;
         }
         firstCall = true;
         break;
       }
-      Oled::getInstance().printMenu(MENU_ITEMS, MENU_ITEMS_COUNT,
+      Display::getInstance().printMenu(MENU_ITEMS, MENU_ITEMS_COUNT,
                                     static_cast<uint8_t>(selectedItem));
 
       firstCall = false;
@@ -84,7 +84,7 @@ void StateMachine::run() {
 
   case STATE::GAME:
     // TODO Implement
-    if (Oled::getInstance().printSerialized(F("Game!"))) {
+    if (Display::getInstance().printSerialized(F("Game!"))) {
       currentState = STATE::SCORE;
     }
 
@@ -93,7 +93,7 @@ void StateMachine::run() {
   case STATE::SCORE:
     // TODO Implement
 
-    if (Oled::getInstance().printSerialized(F("Score!"))) {
+    if (Display::getInstance().printSerialized(F("Score!"))) {
       currentState = STATE::INTRO;
     }
     break;

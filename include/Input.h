@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 
-class Sys {
+class Input {
 private:
   const uint8_t X_PIN = A2;
   const uint8_t Y_PIN = A1;
@@ -18,12 +18,12 @@ private:
   bool downButtonPressed;
   bool leftButtonPressed;
   bool joystickConsumed;
-  Sys();
+  Input();
 
 public:
   enum class BUTTON { UP, DOWN, LEFT, RIGHT, MIDDLE, NONE };
 
-  static Sys &getInstance();
+  static Input &getInstance();
   void run();
   BUTTON getPressedButton();
   void consumeJoystick();

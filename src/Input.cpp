@@ -1,17 +1,17 @@
-#include "Sys.h"
+#include "Input.h"
 #include "Arduino.h"
 #include <Wire.h>
 
 
 
-Sys::Sys() : joystickConsumed(true) { pinMode(BUTTON_PIN, INPUT_PULLUP); }
+Input::Input() : joystickConsumed(true) { pinMode(BUTTON_PIN, INPUT_PULLUP); }
 
-Sys &Sys::getInstance() {
-  static Sys instance;
+Input &Input::getInstance() {
+  static Input instance;
   return instance;
 }
 
-void Sys::run() {
+void Input::run() {
   if (joystickConsumed) {
 
     middleButtonPressed = false;
@@ -41,7 +41,7 @@ void Sys::run() {
   delay(20);
 }
 
-Sys::BUTTON Sys::getPressedButton() {
+Input::BUTTON Input::getPressedButton() {
   BUTTON retVal = BUTTON::NONE;
 
   if (!joystickConsumed) {
@@ -62,11 +62,11 @@ Sys::BUTTON Sys::getPressedButton() {
   return retVal;
 }
 
-void Sys::consumeJoystick() {
+void Input::consumeJoystick() {
   joystickConsumed = true;
 }
 
-void Sys::printI2Cdevices() {
+void Input::printI2Cdevices() {
 #define WIRE Wire
 
   Wire.begin();
