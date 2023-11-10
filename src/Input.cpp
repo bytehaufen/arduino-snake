@@ -1,6 +1,5 @@
 #include "Input.h"
 #include "Arduino.h"
-#include <cstdint>
 
 Input::Input() : joystickConsumed(true) {
   // Set middle button as INPUT_PULLUP
@@ -26,19 +25,23 @@ void Input::run() {
       middleButtonPressed = true;
       joystickConsumed = false;
       // If joystick moved right
-    } else if (static_cast<uint8_t>(analogRead(X_PIN)) > (AD_MAX / 2) + AD_THRESH) {
+    } else if (static_cast<uint16_t>(analogRead(X_PIN)) >
+               (AD_MAX / 2) + AD_THRESH) {
       rightButtonPressed = true;
       joystickConsumed = false;
       // If joystick moved left
-    } else if (analogRead(X_PIN) < (AD_MAX / 2) - AD_THRESH) {
+    } else if (static_cast<uint16_t>(analogRead(X_PIN)) <
+               (AD_MAX / 2) - AD_THRESH) {
       leftButtonPressed = true;
       joystickConsumed = false;
       // If joystick moved up
-    } else if (analogRead(Y_PIN) < (AD_MAX / 2) - AD_THRESH) {
+    } else if (static_cast<uint16_t>(analogRead(Y_PIN)) <
+               (AD_MAX / 2) - AD_THRESH) {
       upButtonPressed = true;
       joystickConsumed = false;
       // If joystick moved down
-    } else if (analogRead(Y_PIN) > (AD_MAX / 2) + AD_THRESH) {
+    } else if (static_cast<uint16_t>(analogRead(Y_PIN)) >
+               (AD_MAX / 2) + AD_THRESH) {
       downButtonPressed = true;
       joystickConsumed = false;
     }
