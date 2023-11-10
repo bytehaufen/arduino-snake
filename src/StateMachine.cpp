@@ -1,28 +1,21 @@
 #include "StateMachine.h"
-#include "Arduino.h"
-#include "Display.h"
-#include "Input.h"
-#include "WString.h"
 
-enum class MENU_ITEM { START = 0, SCORE = 1 };
 
 StateMachine::StateMachine()
     : currentState(STATE::INIT), MENU_ITEMS{F("Start"), F("Score")} {}
 
 void StateMachine::setState(STATE newState) { currentState = newState; }
 
-STATE StateMachine::getState() { return currentState; }
+StateMachine::STATE StateMachine::getState() { return currentState; }
 
 void StateMachine::run() {
   static unsigned long initLastMillis = millis();
   static unsigned long introLastMillis = millis();
 
-  void selectPrevMenuItem(MENU_ITEM & item);
-  void selectNextMenuItem(MENU_ITEM & item);
-
   switch (currentState) {
   case STATE::INIT:
     Display::getInstance();
+    // Async delay
     if (millis() - initLastMillis >= DELAY_INIT) {
       currentState = STATE::INTRO;
     }
@@ -74,7 +67,7 @@ void StateMachine::run() {
         break;
       }
       Display::getInstance().printMenu(MENU_ITEMS, MENU_ITEMS_COUNT,
-                                    static_cast<uint8_t>(selectedItem));
+                                       static_cast<uint8_t>(selectedItem));
 
       firstCall = false;
     }
@@ -98,7 +91,7 @@ void StateMachine::run() {
   }
 };
 
-void selectPrevMenuItem(MENU_ITEM &item) {
+void StateMachine::selectPrevMenuItem(MENU_ITEM &item) {
   switch (item) {
   case MENU_ITEM::START:
     break;
@@ -107,7 +100,7 @@ void selectPrevMenuItem(MENU_ITEM &item) {
     break;
   }
 }
-void selectNextMenuItem(MENU_ITEM &item) {
+void StateMachine::selectNextMenuItem(MENU_ITEM &item) {
   switch (item) {
   case MENU_ITEM::START:
     item = MENU_ITEM::SCORE;
