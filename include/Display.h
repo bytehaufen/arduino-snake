@@ -14,9 +14,6 @@
  */
 class Display {
 private:
-  // Display constraints
-  const uint16_t SCREEN_WIDTH = 240;
-  const uint16_t SCREEN_HEIGHT = 280;
   // Display pins
   const uint8_t TFT_CS = 10;
   const uint8_t TFT_DC = 8;
@@ -40,6 +37,9 @@ private:
   Adafruit_ST7789 display;
 
 public:
+  // Display constraints
+  static const uint16_t SCREEN_WIDTH = 280;
+  static const uint16_t SCREEN_HEIGHT = 240;
   /**
    * @brief Get the singleton instance of Display.
    * @return The singleton instance of Display.
@@ -64,6 +64,17 @@ public:
    * @brief Clear the display.
    */
   void clear();
+
+  /**
+     @brief    Draw a line
+     @param    x0  Start point x coordinate
+     @param    y0  Start point y coordinate
+     @param    x1  End point x coordinate
+     @param    x2  End point y coordinate
+     @param    color 16-bit 5-6-5 Color to draw with
+  */
+  void drawGameBorder(const uint16_t x0, const uint16_t y0, const uint16_t x1,
+                      const uint16_t y1);
 };
 
 #endif // OLED_H

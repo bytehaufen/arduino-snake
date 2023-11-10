@@ -6,6 +6,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "Display.h"
 #include <Arduino.h>
 
 /**
@@ -14,6 +15,10 @@
  */
 class Game {
 private:
+  // Offsets for game area
+  const uint16_t X_OFFSET = 20;
+  const uint16_t Y_OFFSET = 20;
+
   // NOTE: Variable to demonstrate save of state in class for continuously
   // called method (bool run())
   // FIX: Remove

@@ -1,8 +1,10 @@
 #include "Display.h"
+#include "Adafruit_ST77xx.h"
 
 // Initialize display
 Display::Display() : display(TFT_CS, TFT_DC, TFT_RST) {
-  display.init(SCREEN_WIDTH, SCREEN_HEIGHT);
+  display.init(SCREEN_HEIGHT,
+               SCREEN_WIDTH); // height, width -> cause of rotation
   display.setRotation(1);
   display.fillScreen(ST77XX_BLACK);
 }
@@ -58,3 +60,9 @@ void Display::printMenu(const String menuItems[], const uint8_t menuItemsCount,
 }
 
 void Display::clear() { display.fillScreen(ST77XX_BLACK); }
+
+void Display::drawGameBorder(const uint16_t x0, const uint16_t y0,
+                             const uint16_t x1, const uint16_t y1) {
+  const uint16_t COLOR = ST77XX_ORANGE;
+  display.drawRect(x0, y0, x1, y1, COLOR);
+}
