@@ -1,11 +1,20 @@
+/**
+ * @file Display.h
+ * @brief Class to interact with Oled Display.
+ */
+
 #ifndef OLED_H
 #define OLED_H
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7789.h>
 
+/**
+ * @brief Singleton class to interact with Oled Display.
+ */
 class Display {
 private:
+  // Display constraints
   const uint16_t SCREEN_WIDTH = 240;
   const uint16_t SCREEN_HEIGHT = 280;
   // Display pins
@@ -14,16 +23,46 @@ private:
   const uint8_t TFT_RST = 9;
   const uint8_t TFT_MOSI = 11;
   const uint8_t TFT_SCLK = 13;
+  // Delay for Display::printSerialized()
+  const unsigned long CHARDELAY = 200;
+  // Constants for Display::printMenu()
+  const uint16_t MENU_X_OFFSET = 100;
+  const uint16_t MENU_Y_OFFSET = 130;
+  const uint16_t MENU_Y_SPACE = 35;
+  const uint8_t MENU_TEXT_SIZE = 3;
 
-  Adafruit_ST7789 display;
+  /**
+   * @brief Private constructor.
+   */
   Display();
 
+  // Display object
+  Adafruit_ST7789 display;
+
 public:
+  /**
+   * @brief Get the singleton instance of Display.
+   * @return The singleton instance of Display.
+   */
   static Display &getInstance();
 
+  /**
+   * @brief Print a message char by char on the display.
+   * @param message The message to print.
+   * @return True if the message is done printing, false otherwise.
+   */
   bool printSerialized(const String &message);
+  /**
+   * @brief Print a menu on the display.
+   * @param menuItems Menu items to be printed.
+   * @param menuItemsCount Number of menu items.
+   * @param selectedItem Selected menu item.
+   */
   void printMenu(const String menuItems[], const uint8_t menuItemsCount,
                  const uint8_t selectedItem);
+  /**
+   * @brief Clear the display.
+   */
   void clear();
 };
 

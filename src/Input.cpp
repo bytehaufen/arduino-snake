@@ -1,10 +1,11 @@
 #include "Input.h"
 #include "Arduino.h"
-#include <Wire.h>
+#include <cstdint>
 
-
-
-Input::Input() : joystickConsumed(true) { pinMode(BUTTON_PIN, INPUT_PULLUP); }
+Input::Input() : joystickConsumed(true) {
+  // Set middle button as INPUT_PULLUP
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+}
 
 Input &Input::getInstance() {
   static Input instance;
@@ -12,26 +13,31 @@ Input &Input::getInstance() {
 }
 
 void Input::run() {
+  // Reset all pressed buttons if joystick is consumed
   if (joystickConsumed) {
-
     middleButtonPressed = false;
     rightButtonPressed = false;
     leftButtonPressed = false;
     upButtonPressed = false;
     downButtonPressed = false;
 
+    // If middle button is pressed
     if (!digitalRead(BUTTON_PIN)) {
       middleButtonPressed = true;
       joystickConsumed = false;
-    } else if (analogRead(X_PIN) > (AD_MAX / 2) + AD_THRESH) {
+      // If joystick moved right
+    } else if (static_cast<uint8_t>(analogRead(X_PIN)) > (AD_MAX / 2) + AD_THRESH) {
       rightButtonPressed = true;
       joystickConsumed = false;
+      // If joystick moved left
     } else if (analogRead(X_PIN) < (AD_MAX / 2) - AD_THRESH) {
       leftButtonPressed = true;
       joystickConsumed = false;
+      // If joystick moved up
     } else if (analogRead(Y_PIN) < (AD_MAX / 2) - AD_THRESH) {
       upButtonPressed = true;
       joystickConsumed = false;
+      // If joystick moved down
     } else if (analogRead(Y_PIN) > (AD_MAX / 2) + AD_THRESH) {
       downButtonPressed = true;
       joystickConsumed = false;
@@ -44,6 +50,7 @@ void Input::run() {
 Input::BUTTON Input::getPressedButton() {
   BUTTON retVal = BUTTON::NONE;
 
+  // If joystick is not consumed (not handled input)
   if (!joystickConsumed) {
     if (middleButtonPressed) {
       retVal = BUTTON::MIDDLE;
@@ -62,47 +69,4 @@ Input::BUTTON Input::getPressedButton() {
   return retVal;
 }
 
-void Input::consumeJoystick() {
-  joystickConsumed = true;
-}
-
-void Input::printI2Cdevices() {
-#define WIRE Wire
-
-  Wire.begin();
-
-  while (!Serial)
-    delay(10);
-  Serial.println("\nI2C Scanner");
-  byte error, address;
-  int nDevices;
-
-  Serial.println("Scanning...");
-
-  nDevices = 0;
-  for (address = 1; address < 127; address++) {
-    WIRE.beginTransmission(address);
-    error = WIRE.endTransmission();
-
-    if (error == 0) {
-      Serial.print("I2C device found at address 0x");
-      if (address < 16)
-        Serial.print("0");
-      Serial.print(address, HEX);
-      Serial.println("  !");
-
-      nDevices++;
-    } else if (error == 4) {
-      Serial.print("Unknown error at address 0x");
-      if (address < 16)
-        Serial.print("0");
-      Serial.println(address, HEX);
-    }
-  }
-  if (nDevices == 0)
-    Serial.println("No I2C devices found\n");
-  else
-    Serial.println("done\n");
-
-  delay(5000); // wait 5 seconds for next scan
-}
+void Input::consumeJoystick() { joystickConsumed = true; }
