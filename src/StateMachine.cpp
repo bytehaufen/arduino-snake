@@ -49,8 +49,6 @@ void StateMachine::run() {
 
     Input::BUTTON pressedButton;
     pressedButton = Input::getInstance().getPressedButton();
-    Serial.println("pressed button: " + String((int)pressedButton));
-    Serial.println("selected item: " + String((int)selectedItem));
 
     if (firstCall || (pressedButton != Input::BUTTON::NONE)) {
       if (pressedButton == Input::BUTTON::UP) {
