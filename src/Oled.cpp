@@ -28,13 +28,11 @@ bool Oled::printSerialized(const String &message) {
   static uint16_t i = 0;
   static unsigned long lastTime = 0;
 
-  Serial.print(i);
-
   if (i == 0) {
     display.fillScreen(ST77XX_BLACK);
-    display.setCursor(30, 100);
+    display.setCursor(20, 20);
     display.setTextColor(ST77XX_WHITE);
-    display.setTextSize(2);
+    display.setTextSize(4);
     /* display.display(); */
   }
 
@@ -56,12 +54,11 @@ bool Oled::printSerialized(const String &message) {
 void Oled::printMenu(const String menuItems[], const uint8_t menuItemsCount,
                      const uint8_t selectedItem) {
   const uint16_t X_OFFSET = 100;
-  const uint16_t Y_OFFSET = 100;
-  const uint16_t Y_SPACE = 20;
+  const uint16_t Y_OFFSET = 130;
+  const uint16_t Y_SPACE = 30;
 
   display.fillRect(X_OFFSET, Y_OFFSET, X_OFFSET + 200, Y_OFFSET + 200,
                    ST77XX_BLACK);
-  display.setCursor(30, 50);
   display.setTextSize(3);
 
   for (uint8_t i = 0; i < menuItemsCount; i++) {

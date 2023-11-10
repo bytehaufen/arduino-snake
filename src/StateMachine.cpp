@@ -33,12 +33,13 @@ void StateMachine::run() {
     static bool introFinished = false;
 
     if (!introFinished &&
-        Oled::getInstance().printSerialized(F("Welcome to Snake!"))) {
+        Oled::getInstance().printSerialized(F("Welcome to   Snake!"))) {
       introFinished = true;
     }
     if (introFinished && millis() - introLastMillis >= DELAY_TO_MENU) {
       currentState = STATE::MENU;
-      Oled::getInstance().clear();
+      // TODO: clear intro before menu?
+      /* Oled::getInstance().clear(); */
     }
     break;
 
@@ -93,7 +94,7 @@ void StateMachine::run() {
     // TODO Implement
 
     if (Oled::getInstance().printSerialized(F("Score!"))) {
-      currentState = STATE::MENU;
+      currentState = STATE::INTRO;
     }
     break;
   }
