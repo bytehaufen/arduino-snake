@@ -30,6 +30,7 @@ void StateMachine::run() {
     }
     if (introFinished && millis() - introLastMillis >= DELAY_TO_MENU) {
       currentState = STATE::MENU;
+      introFinished = false;
       // TODO: clear intro before menu?
       /* Display::getInstance().clear(); */
     }
@@ -77,7 +78,6 @@ void StateMachine::run() {
     static bool init = true;
     if (init) {
       init = false;
-      Serial.println("init");
       game = new Game();
     }
     // Done with game
@@ -94,6 +94,7 @@ void StateMachine::run() {
 
     if (Display::getInstance().printSerialized(F("Score!"))) {
       currentState = STATE::INTRO;
+      Display::getInstance().clear();
     }
     break;
   }
