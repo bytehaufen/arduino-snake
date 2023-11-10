@@ -50,7 +50,8 @@ public:
    */
   static Input &getInstance();
   /**
-   * @brief Run method to periodically check for input
+   * @brief Run method to periodically check for input, needs to be called in
+   * main loop.
    */
   void run();
   /**
