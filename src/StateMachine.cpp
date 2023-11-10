@@ -1,6 +1,5 @@
 #include "StateMachine.h"
 
-
 StateMachine::StateMachine()
     : currentState(STATE::INIT), MENU_ITEMS{F("Start"), F("Score")} {}
 
@@ -75,7 +74,16 @@ void StateMachine::run() {
 
   case STATE::GAME:
     // TODO Implement
-    if (Display::getInstance().printSerialized(F("Game!"))) {
+    static bool init = true;
+    if (init) {
+      init = false;
+      Serial.println("init");
+      game = new Game();
+    }
+    // Done with game
+    if (!game->run()) {
+      delete game;
+      init = true;
       currentState = STATE::SCORE;
     }
 

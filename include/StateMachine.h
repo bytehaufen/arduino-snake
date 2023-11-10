@@ -7,6 +7,7 @@
 #define STATEMACHINE_H
 
 #include "Display.h"
+#include "Game.h"
 #include "Input.h"
 #include <Arduino.h>
 
@@ -36,6 +37,8 @@ private:
   // Menu items
   static const uint8_t MENU_ITEMS_COUNT = 2;
   const String MENU_ITEMS[MENU_ITEMS_COUNT];
+  // Pointer to game
+  Game *game;
 
   /**
    * @brief Sets the state of the game.
