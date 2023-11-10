@@ -2,7 +2,9 @@
 
 Input::Input() : joystickConsumed(true) {
   // Set middle button as INPUT_PULLUP
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  /* pinMode(BUTTON_PIN, INPUT_PULLUP); */
+  DDRC &= ~(1 << BUTTON_PIN);
+  PORTC |= (1 << BUTTON_PIN);
 }
 
 Input &Input::getInstance() {
@@ -20,7 +22,7 @@ void Input::run() {
     downButtonPressed = false;
 
     // If middle button is pressed
-    if (!digitalRead(BUTTON_PIN)) {
+    if (!(PINC & (1 << BUTTON_PIN))) {
       middleButtonPressed = true;
       joystickConsumed = false;
       // If joystick moved right

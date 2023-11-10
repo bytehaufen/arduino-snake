@@ -6,7 +6,10 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+// TODO: RM
 #include <Arduino.h>
+#include <avr/io.h>
+#include <stdint.h>
 
 /**
  * @class Input
@@ -18,7 +21,10 @@ private:
   // Pins definitions
   const uint8_t X_PIN = A2;
   const uint8_t Y_PIN = A1;
-  const uint8_t BUTTON_PIN = 14;
+  // TODO: RM
+  /* const uint8_t BUTTON_PIN = 14; */
+  // Arduino pin A0 as digital input
+  const uint8_t BUTTON_PIN = PC0;
 
   // Threshold for ADC
   const uint16_t AD_THRESH = 200;
