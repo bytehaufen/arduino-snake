@@ -7,7 +7,6 @@
 #define GAME_H
 
 #include "Display.h"
-#include <Arduino.h>
 
 /**
  * @class Game

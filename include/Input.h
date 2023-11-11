@@ -6,8 +6,6 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-// TODO: RM
-/* #include <Arduino.h> */
 #include <avr/io.h>
 #include <stdint.h>
 

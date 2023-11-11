@@ -9,7 +9,6 @@
 #include "Display.h"
 #include "Game.h"
 #include "Input.h"
-#include <Arduino.h>
 
 /**
  * @class StateMachine

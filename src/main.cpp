@@ -1,15 +1,13 @@
-#include <Arduino.h>
-
-#include "StateMachine.h"
 #include "Input.h"
+#include "StateMachine.h"
+
+#include "util/delay.h"
 
 #define DEBUG
 
 StateMachine stateMachine;
 
-void setup() {
-  Serial.begin(115200);
-}
+void setup() { Serial.begin(115200); }
 
 void loop() {
   stateMachine.run();
@@ -20,6 +18,6 @@ void loop() {
   // Input::printi2cdevices();
 #endif // DEBUG
 
-// TODO rm delay and make unblocking
-  delay(100);
+  // TODO rm delay and make unblocking
+  _delay_ms(100);
 }
