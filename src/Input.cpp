@@ -9,16 +9,18 @@ Input::Input() : joystickConsumed(true) {
 
   // Set internal reference voltage for ADC
   ADMUX |= (1 << REFS0);
-  // Set ADC prescaler to 128 (0b1110) (for 16 MHz clock, this results in 125
+  // Set ADC prescaler to 128 (0b111) (for 16 MHz clock, this results in 125
   // kHz ADC clock) => 16 MHz uC clock / 128 = 125 kHz Value have to be 50 kHz
   // to 200 kHz (datasheet)
   ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
   // Enable ADC
   ADCSRA |= (1 << ADEN);
-  // Dummy read to start ADC
+  // Dummy read to warmup ADC
   ADCSRA |= (1 << ADSC);
   while (ADCSRA & (1 << ADSC)) {
   }
+  (void)ADCL;
+  (void)ADCH;
 }
 
 Input &Input::getInstance() {
@@ -40,29 +42,30 @@ void Input::run() {
       middleButtonPressed = true;
       joystickConsumed = false;
       // If joystick moved right
-    } else if (static_cast<uint16_t>(adcRead(X_PIN)) >
-               (AD_MAX / 2) + AD_THRESH) {
-      rightButtonPressed = true;
-      joystickConsumed = false;
-      // If joystick moved left
-    } else if (static_cast<uint16_t>(adcRead(X_PIN)) <
-               (AD_MAX / 2) - AD_THRESH) {
-      leftButtonPressed = true;
-      joystickConsumed = false;
-      // If joystick moved up
-    } else if (static_cast<uint16_t>(adcRead(Y_PIN)) <
-               (AD_MAX / 2) - AD_THRESH) {
-      upButtonPressed = true;
-      joystickConsumed = false;
-      // If joystick moved down
-    } else if (static_cast<uint16_t>(adcRead(Y_PIN)) >
-               (AD_MAX / 2) + AD_THRESH) {
-      downButtonPressed = true;
-      joystickConsumed = false;
+    } else {
+      uint16_t xValue = adcRead(X_PIN);
+      uint16_t yValue = adcRead(Y_PIN);
+      Serial.println("x: " + String(xValue) + " y: " + String(yValue));
+
+      if (xValue > (AD_MAX / 2) + AD_THRESH) {
+        rightButtonPressed = true;
+        joystickConsumed = false;
+        // If joystick moved left
+      } else if (xValue < (AD_MAX / 2) - AD_THRESH) {
+        leftButtonPressed = true;
+        joystickConsumed = false;
+        // If joystick moved up
+      } else if (yValue < (AD_MAX / 2) - AD_THRESH) {
+        upButtonPressed = true;
+        joystickConsumed = false;
+        // If joystick moved down
+      } else if (yValue > (AD_MAX / 2) + AD_THRESH) {
+        downButtonPressed = true;
+        joystickConsumed = false;
+      }
     }
   }
   // TODO: Replace delay
-  /* delay(20); */
 }
 
 Input::BUTTON Input::getPressedButton() {
@@ -90,17 +93,16 @@ Input::BUTTON Input::getPressedButton() {
 void Input::consumeJoystick() { joystickConsumed = true; }
 
 uint16_t Input::adcRead(uint8_t pin) {
-  // Select ADC channel
-  ADMUX = (pin & 0x07);
+  // Select ADC channel (bit 7, 6, 5 have to save their value)
+  ADMUX = (ADMUX & ~(0x1F)) | pin;
   // Start conversion
   ADCSRA |= (1 << ADSC);
   // Wait for conversion
   while (ADCSRA & (1 << ADSC)) {
   }
-  /* Serial.println("ADC value: " + String(ADC)); */
-  /* Display::getInstance().clear(); */
-  /* Display::getInstance().printSimpleText("ADC value: " + String(ADC)); */
-  // Return ADC value
-  return ADC;
-}
 
+  uint16_t value = ADCL;
+  value |= (ADCH << 8);
+  // Return ADC value
+  return value;
+}
