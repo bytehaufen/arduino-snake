@@ -66,3 +66,10 @@ void Display::drawGameBorder(const uint16_t x0, const uint16_t y0,
   const uint16_t COLOR = ST77XX_ORANGE;
   display.drawRect(x0, y0, x1, y1, COLOR);
 }
+
+void Display::printSimpleText(const String &message) {
+  display.setCursor(20, 20);
+  display.setTextColor(ST77XX_WHITE);
+  display.setTextSize(4);
+  display.println(message);
+}

@@ -75,6 +75,11 @@ public:
   */
   void drawGameBorder(const uint16_t x0, const uint16_t y0, const uint16_t x1,
                       const uint16_t y1);
+  /**
+   * @brief Print a simple text on the display.
+   * @param message The message to print.
+   */
+  void printSimpleText(const String &message);
 };
 
 #endif // OLED_H
