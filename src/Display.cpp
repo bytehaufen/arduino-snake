@@ -73,3 +73,11 @@ void Display::printSimpleText(const String &message) {
   display.setTextSize(4);
   display.println(message);
 }
+
+void Display::drawSegment(const int16_t x, const int16_t y, bool c) {
+  if (c) {
+    display.fillRect(x, y, SEGMENT_SIZE, SEGMENT_SIZE, 0xFFFFU);
+  } else {
+    display.fillRect(x, y, SEGMENT_SIZE, SEGMENT_SIZE, 0);
+  }
+}
