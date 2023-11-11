@@ -15,6 +15,7 @@
 class Display {
 private:
   // Display pins
+  // TODO: rm arduino behavior
   const uint8_t TFT_CS = 10;
   const uint8_t TFT_DC = 8;
   const uint8_t TFT_RST = 9;
