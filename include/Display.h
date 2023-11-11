@@ -28,7 +28,7 @@ private:
   const uint16_t MENU_Y_OFFSET = 130;
   const uint16_t MENU_Y_SPACE = 35;
   const uint8_t MENU_TEXT_SIZE = 3;
-
+  const uint8_t SEGMENT_SIZE = 16;
   /**
    * @brief Private constructor.
    */
@@ -53,6 +53,13 @@ public:
    * @return True if the message is done printing, false otherwise.
    */
   bool printSerialized(const String &message);
+  /**
+   * @brief Draws a segment at given coordinates with given color.
+   * @param x X coordinate of rectangle.
+   * @param y Y coordinate of rectangle.
+   * @param c Bool value representing the color of the segment to draw; either black (0) or white (1).
+   */
+  void drawSegment(const int16_t x, const int16_t y, bool c);
   /**
    * @brief Print a menu on the display.
    * @param menuItems Menu items to be printed.
