@@ -21,8 +21,8 @@ private:
   const uint8_t TFT_RST = 9;
   const uint8_t TFT_MOSI = 11;
   const uint8_t TFT_SCLK = 13;
-  // Delay for Display::printSerialized()
-  const unsigned long CHARDELAY = 200;
+  // Delay for Display::printSerialized() -> divider for game clock
+  const uint8_t CLK_DIVIDER = 2;
   // Constants for Display::printMenu()
   const uint16_t MENU_X_OFFSET = 100;
   const uint16_t MENU_Y_OFFSET = 130;
@@ -41,6 +41,7 @@ public:
   // Display constraints
   static const uint16_t SCREEN_WIDTH = 280;
   static const uint16_t SCREEN_HEIGHT = 240;
+
   /**
    * @brief Get the singleton instance of Display.
    * @return The singleton instance of Display.
@@ -53,13 +54,16 @@ public:
    * @return True if the message is done printing, false otherwise.
    */
   bool printSerialized(const String &message);
+
   /**
    * @brief Draws a segment at given coordinates with given color.
    * @param x X coordinate of rectangle.
    * @param y Y coordinate of rectangle.
-   * @param c Bool value representing the color of the segment to draw; either black (0) or white (1).
+   * @param c Bool value representing the color of the segment to draw; either
+   * black (0) or white (1).
    */
   void drawSegment(const int16_t x, const int16_t y, bool c);
+
   /**
    * @brief Print a menu on the display.
    * @param menuItems Menu items to be printed.
@@ -68,6 +72,7 @@ public:
    */
   void printMenu(const String menuItems[], const uint8_t menuItemsCount,
                  const uint8_t selectedItem);
+
   /**
    * @brief Clear the display.
    */
@@ -83,6 +88,7 @@ public:
   */
   void drawGameBorder(const uint16_t x0, const uint16_t y0, const uint16_t x1,
                       const uint16_t y1);
+
   /**
    * @brief Print a simple text on the display.
    * @param message The message to print.

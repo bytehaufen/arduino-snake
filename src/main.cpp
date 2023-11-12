@@ -9,7 +9,7 @@ Timer timer;
 
 void setup() {
   // Initialize Display
-  Display::getInstance();
+  Display::getInstance().clear();
 
   // TODO: rm
   Serial.begin(115200);

@@ -16,7 +16,7 @@ Display &Display::getInstance() {
 
 bool Display::printSerialized(const String &message) {
   static uint16_t i = 0;
-  static unsigned long lastTime = 0;
+  static uint8_t clockCounter = 0;
 
   // If first iteration
   if (i == 0) {
@@ -26,19 +26,17 @@ bool Display::printSerialized(const String &message) {
     display.setTextSize(4);
   }
 
-  // If time has passed
-  if (millis() - lastTime >= CHARDELAY) {
-    display.print(message[i]);
-    lastTime = millis();
-
-    // If last character is printed return true
-    if (i == message.length() - 1) {
-      i = 0;
-      return true;
-    }
-    i++;
+  // Reduce clock for slower printing
+  if (clockCounter++ % CLK_DIVIDER == 0) {
+    // Print next character and increment index
+    display.print(message[i++]);
   }
-
+  // If last character is printed return true
+  if (i == message.length()) {
+    i = 0;
+    clockCounter = 0;
+    return true;
+  }
   return false;
 }
 
