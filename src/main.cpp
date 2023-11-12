@@ -7,7 +7,13 @@
 StateMachine stateMachine;
 Timer timer;
 
-void setup() { Serial.begin(115200); }
+void setup() {
+  // Initialize Display
+  Display::getInstance();
+
+  // TODO: rm
+  Serial.begin(115200);
+}
 
 void loop() {
   // Run Input

@@ -1,22 +1,29 @@
 #include "StateMachine.h"
 
 StateMachine::StateMachine()
-    : currentState(STATE::INIT), MENU_ITEMS{F("Start"), F("Score")} {}
+    : currentState(STATE::INIT), MENU_ITEMS{"Start", "Score"} {}
 
 void StateMachine::setState(STATE newState) { currentState = newState; }
 
 StateMachine::STATE StateMachine::getState() { return currentState; }
 
 void StateMachine::run() {
-  static unsigned long initLastMillis = millis();
-  static unsigned long introLastMillis = millis();
+  static bool isFirstCall = true;
+  static uint8_t clockCounter;
 
   switch (currentState) {
   case STATE::INIT:
-    Display::getInstance();
-    // Async delay
-    if (millis() - initLastMillis >= DELAY_INIT) {
+
+    if (isFirstCall) {
+      clockCounter = 0;
+      isFirstCall = false;
+    }
+
+    // Wait for 1 second
+    if (clockCounter++ > 10) {
       currentState = STATE::INTRO;
+      clockCounter = 0;
+      isFirstCall = true;
     }
 
     break;
@@ -24,13 +31,24 @@ void StateMachine::run() {
   case STATE::INTRO:
     static bool introFinished = false;
 
+    if (isFirstCall) {
+      clockCounter = 0;
+      isFirstCall = false;
+      Display::getInstance().clear();
+    }
+
     if (!introFinished &&
-        Display::getInstance().printSerialized(F("Welcome to   Snake!"))) {
+        Display::getInstance().printSerialized("Welcome to   Snake!")) {
       introFinished = true;
     }
-    if (introFinished && millis() - introLastMillis >= DELAY_TO_MENU) {
+    // Wait for 1 second IF intro is finished
+    if (introFinished && clockCounter++ > 10) {
       currentState = STATE::MENU;
       introFinished = false;
+      isFirstCall = true;
+      clockCounter = 0;
+      Input::getInstance().consumeJoystick();
+
       // TODO: clear intro before menu?
       /* Display::getInstance().clear(); */
     }
@@ -38,12 +56,12 @@ void StateMachine::run() {
 
   case STATE::MENU:
     static MENU_ITEM selectedItem = MENU_ITEM::START;
-    static bool firstCall = true;
 
     Input::BUTTON pressedButton;
     pressedButton = Input::getInstance().getPressedButton();
 
-    if (firstCall || (pressedButton != Input::BUTTON::NONE)) {
+    if (isFirstCall || (pressedButton != Input::BUTTON::NONE)) {
+      isFirstCall = false;
       if (pressedButton == Input::BUTTON::UP) {
         selectPrevMenuItem(selectedItem);
       } else if (pressedButton == Input::BUTTON::DOWN) {
@@ -61,27 +79,23 @@ void StateMachine::run() {
           Input::getInstance().consumeJoystick();
           break;
         }
-        firstCall = true;
+        isFirstCall = true;
         break;
       }
       Display::getInstance().printMenu(MENU_ITEMS, MENU_ITEMS_COUNT,
                                        static_cast<uint8_t>(selectedItem));
-
-      firstCall = false;
     }
     break;
 
   case STATE::GAME:
-    // TODO Implement
-    static bool init = true;
-    if (init) {
-      init = false;
+    if (isFirstCall) {
+      isFirstCall = false;
       game = new Game();
     }
     // Done with game
     if (!game->run()) {
       delete game;
-      init = true;
+      isFirstCall = true;
       currentState = STATE::SCORE;
     }
 
@@ -90,7 +104,7 @@ void StateMachine::run() {
   case STATE::SCORE:
     // TODO Implement
 
-    if (Display::getInstance().printSerialized(F("Score!"))) {
+    if (Display::getInstance().printSerialized("Score!")) {
       currentState = STATE::INTRO;
       Display::getInstance().clear();
     }

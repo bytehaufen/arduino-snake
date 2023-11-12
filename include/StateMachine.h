@@ -27,12 +27,6 @@ private:
   enum class MENU_ITEM { START = 0, SCORE = 1 };
   // Holds the active state
   STATE currentState;
-  // StateMachine time constants
-  const unsigned long DELAY = 1000;
-  const unsigned long DELAY_INIT = 1000;
-  // TODO: change back to 300
-  const unsigned long DELAY_TO_MENU = 1;
-
   // Menu items
   static const uint8_t MENU_ITEMS_COUNT = 2;
   const String MENU_ITEMS[MENU_ITEMS_COUNT];
