@@ -14,14 +14,23 @@
  */
 class Game {
 private:
+  // TODO: Only for test -> maybe a complete class for the snake
+  struct Headpos {
+    uint16_t x;
+    uint16_t y;
+  };
+
   // Offsets for game area
   const uint16_t X_OFFSET = 20;
   const uint16_t Y_OFFSET = 20;
 
-  // NOTE: Variable to demonstrate save of state in class for continuously
-  // called method (bool run())
-  // FIX: Remove
-  uint8_t testCounter = 0;
+  // Pointer to Display instance for easy access
+  Display *display;
+
+  // Game variables
+  uint32_t snakedItems = 0;
+
+  Headpos headpos;
 
 public:
   Game();

@@ -2,17 +2,21 @@
 #include "Display.h"
 
 Game::Game() {
-  Display::getInstance().drawGameBorder(X_OFFSET, Y_OFFSET,
-                                        Display::SCREEN_WIDTH - 2 * X_OFFSET,
-                                        Display::SCREEN_HEIGHT - 2 * Y_OFFSET);
+  display = &Display::getInstance();
+  display->clear();
+  display->drawGameBorder(X_OFFSET, Y_OFFSET,
+                          Display::SCREEN_WIDTH - 2 * X_OFFSET,
+                          Display::SCREEN_HEIGHT - 2 * Y_OFFSET);
+
+  headpos = {X_OFFSET + 100, Y_OFFSET + 100};
 }
 
 bool Game::run() {
-  // NOTE: @Anton this is executed until testCounter reaches 8
-  // FIX: Remove
-  Serial.println("testCounter: " + String(testCounter));
-  Display::getInstance().printSimpleText("testCounter: " + String(testCounter));
-  Display::getInstance().drawSegment(50, 50, 1);
+  display->printInfo("Score " + String(snakedItems));
 
-  return testCounter++ != 8;
+  display->drawSegment(headpos.x, headpos.y, 1);
+
+  headpos.x += 16;
+
+  return snakedItems++ < uint8_t(-1UL);
 }
