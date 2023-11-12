@@ -94,6 +94,11 @@ public:
    * @param message The message to print.
    */
   void printSimpleText(const String &message);
+
+  /** @brief Print information on the display.
+   * @param message The message to print.
+   */
+  void printInfo(const String &message);
 };
 
 #endif // OLED_H

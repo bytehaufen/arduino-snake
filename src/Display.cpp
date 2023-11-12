@@ -72,6 +72,15 @@ void Display::printSimpleText(const String &message) {
   display.println(message);
 }
 
+void Display::printInfo(const String &message) {
+  String messageToPrint = message + "                     ";
+  display.setTextWrap(false);
+  display.setCursor(30, 2);
+  display.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
+  display.setTextSize(2);
+  display.println(messageToPrint);
+}
+
 void Display::drawSegment(const int16_t x, const int16_t y, bool c) {
   if (c) {
     display.fillRect(x, y, SEGMENT_SIZE, SEGMENT_SIZE, 0xFFFFU);
