@@ -1,17 +1,24 @@
 #include "Input.h"
 #include "StateMachine.h"
-
-#include "util/delay.h"
+#include "Timer.h"
 
 #define DEBUG
 
 StateMachine stateMachine;
+Timer timer;
 
 void setup() { Serial.begin(115200); }
 
 void loop() {
-  stateMachine.run();
+  // Run Input
   Input::getInstance().run();
+
+  static uint32_t lastMillis = 0;
+  // Run StateMachine every 100ms
+  if (timer.milliSeconds() - lastMillis >= 100) {
+    stateMachine.run();
+    lastMillis = timer.milliSeconds();
+  }
 
   // TODO rm DEBUG
 #ifdef DEBUG
@@ -19,5 +26,4 @@ void loop() {
 #endif // DEBUG
 
   // TODO rm delay and make unblocking
-  _delay_ms(100);
 }

@@ -45,7 +45,6 @@ void Input::run() {
     } else {
       uint16_t xValue = adcRead(X_PIN);
       uint16_t yValue = adcRead(Y_PIN);
-      Serial.println("x: " + String(xValue) + " y: " + String(yValue));
 
       if (xValue > (AD_MAX / 2) + AD_THRESH) {
         rightButtonPressed = true;
