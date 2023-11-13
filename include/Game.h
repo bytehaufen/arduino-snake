@@ -38,11 +38,11 @@ private:
   /**
    * @brief current horizontal position of the snake head
   */
-  int8_t xPos = 0;
+  int8_t xHead = 0;
   /**
    * @brief current vertical position of the snake head
   */
-  int8_t yPos = 1;
+  int8_t yHead = 1;
   /**
    * @brief Pointer to Display instance for easy access
   */

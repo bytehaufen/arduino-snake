@@ -9,15 +9,15 @@ Game::Game() {
       segment[i][j] = 0;
     }
   }
-  xPos = (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE/2;
-  yPos = (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE/2;
-  segment[xPos][yPos] = 1;
+  xHead = (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE/2;
+  yHead = (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE/2;
+  segment[xHead][yHead] = 1;
   display = &Display::getInstance();
   display->clear();
   display->drawGameBorder(Display::X_OFFSET, Display::Y_OFFSET,
                           Display::SCREEN_WIDTH - 2 * Display::X_OFFSET,
                           Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET);
-  display->drawSegment(xPos, yPos, 1);
+  display->drawSegment(xHead, yHead, 1);
   headpos = {Display::X_OFFSET + 100, Display::Y_OFFSET + 100};
 }
 
@@ -54,9 +54,9 @@ bool Game::run() {
       break;
     }
   }
-  xPos += xDirec;
-  yPos += yDirec;
-  display->drawSegment(xPos, yPos, 1);
+  xHead += xDirec;
+  yHead += yDirec;
+  display->drawSegment(xHead, yHead, 1);
 
   return true;
 }
