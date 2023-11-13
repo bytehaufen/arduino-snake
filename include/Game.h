@@ -42,7 +42,15 @@ private:
   /**
    * @brief current vertical position of the snake head
   */
-  int8_t yHead = 1;
+  int8_t yHead = 0;
+  /**
+   * @brief current horizontal position of the snake tail
+  */
+  int8_t xTail = 0;
+  /**
+   * @brief current vertical position of the snake tail
+  */
+  int8_t yTail = 0;
   /**
    * @brief Pointer to Display instance for easy access
   */
