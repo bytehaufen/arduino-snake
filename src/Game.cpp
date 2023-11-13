@@ -1,22 +1,62 @@
 #include "Game.h"
 #include "Display.h"
+#include "Input.h"
+#include "Timer.h"
 
 Game::Game() {
+  for (int i = 0; i<(uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE; i++) {
+    for (int j = 0; j < (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE; j++) {
+      segment[i][j] = 0;
+    }
+  }
+  xPos = (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE/2;
+  yPos = (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE/2;
+  segment[xPos][yPos] = 1;
   display = &Display::getInstance();
   display->clear();
-  display->drawGameBorder(X_OFFSET, Y_OFFSET,
-                          Display::SCREEN_WIDTH - 2 * X_OFFSET,
-                          Display::SCREEN_HEIGHT - 2 * Y_OFFSET);
-
-  headpos = {X_OFFSET + 100, Y_OFFSET + 100};
+  display->drawGameBorder(Display::X_OFFSET, Display::Y_OFFSET,
+                          Display::SCREEN_WIDTH - 2 * Display::X_OFFSET,
+                          Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET);
+  display->drawSegment(xPos, yPos, 1);
+  headpos = {Display::X_OFFSET + 100, Display::Y_OFFSET + 100};
 }
 
 bool Game::run() {
   display->printInfo("Score " + String(snakedItems));
+  Input::BUTTON bAction;
+  uint8_t clk = 0;
+  while (clk++ < 10) {
+    bAction = Input::getInstance().getPressedButton();
+    switch (bAction) {
+    case Input::BUTTON::UP:
+      xDirec = 0;
+      yDirec = -1;
+      break;
+    case Input::BUTTON::DOWN:
+      xDirec = 0;
+      yDirec = 1;
+      break;
+    case Input::BUTTON::LEFT:
+      xDirec = -1;
+      yDirec = 0;
+      break;
+    case Input::BUTTON::RIGHT:
+      xDirec = 1;
+      yDirec = 0;
+      break;
+    case Input::BUTTON::MIDDLE:
+      return false;
+      break;
+    case Input::BUTTON::NONE:
+      break;
+    default:
+      return false;
+      break;
+    }
+  }
+  xPos += xDirec;
+  yPos += yDirec;
+  display->drawSegment(xPos, yPos, 1);
 
-  display->drawSegment(headpos.x, headpos.y, 1);
-
-  headpos.x += 16;
-
-  return snakedItems++ < uint8_t(-1UL);
+  return true;
 }
