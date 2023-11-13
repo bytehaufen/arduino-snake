@@ -28,7 +28,7 @@ private:
   const uint16_t MENU_Y_OFFSET = 130;
   const uint16_t MENU_Y_SPACE = 35;
   const uint8_t MENU_TEXT_SIZE = 3;
-  const uint8_t SEGMENT_SIZE = 16;
+
   /**
    * @brief Private constructor.
    */
@@ -39,8 +39,26 @@ private:
 
 public:
   // Display constraints
+  /**
+   * @brief width of the screen 
+  */
   static const uint16_t SCREEN_WIDTH = 280;
+  /**
+   * @brief height of the screen
+  */
   static const uint16_t SCREEN_HEIGHT = 240;
+  /**
+   * @brief heigt and width of a snake segment
+  */
+  static const uint8_t SEGMENT_SIZE = 16;
+  /**
+   * @brief horizontal offset of the game area
+  */
+  static const uint16_t X_OFFSET = 20;
+  /**
+   * @brief vertical offset of the game area
+  */
+  static const uint16_t Y_OFFSET = 20;
 
   /**
    * @brief Get the singleton instance of Display.
@@ -62,7 +80,7 @@ public:
    * @param c Bool value representing the color of the segment to draw; either
    * black (0) or white (1).
    */
-  void drawSegment(const int16_t x, const int16_t y, bool c);
+  void drawSegment(const int8_t x, const int8_t y, bool c);
 
   /**
    * @brief Print a menu on the display.

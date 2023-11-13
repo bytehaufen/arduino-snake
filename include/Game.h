@@ -20,16 +20,43 @@ private:
     uint16_t y;
   };
 
-  // Offsets for game area
-  const uint16_t X_OFFSET = 20;
-  const uint16_t Y_OFFSET = 20;
+  /**
+   * @brief two-dimensional array holding snake segments
+  */
+  uint8_t segment[(uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE][(uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE];
 
-  // Pointer to Display instance for easy access
+  // direction values; starting downwards
+  /**
+   * @brief current step size along the horizontal axis
+  */
+  int8_t xDirec = 0;
+  /**
+   * @brief current step size along the vertical axis
+  */
+  int8_t yDirec = 1;
+  // current position values
+  /**
+   * @brief current horizontal position of the snake head
+  */
+  int8_t xPos = 0;
+  /**
+   * @brief current vertical position of the snake head
+  */
+  int8_t yPos = 1;
+  /**
+   * @brief Pointer to Display instance for easy access
+  */
   Display *display;
 
   // Game variables
+  /**
+   * length of snake
+  */
   uint32_t snakedItems = 0;
 
+  /**
+   * @brief start position of snake; just for testing purposes -> delete later
+  */
   Headpos headpos;
 
 public:
