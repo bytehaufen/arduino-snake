@@ -11,6 +11,8 @@ Game::Game() {
   }
   xHead = (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE/2;
   yHead = (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE/2;
+  xTail = xHead;
+  yTail = yHead;
   segment[xHead][yHead] = 1;
   display = &Display::getInstance();
   display->clear();
@@ -57,6 +59,9 @@ bool Game::run() {
   xHead += xDirec;
   yHead += yDirec;
   display->drawSegment(xHead, yHead, 1);
+  display->drawSegment(xTail, yTail, 0);
+  xTail = xHead;
+  yTail = yHead;
 
   return true;
 }
