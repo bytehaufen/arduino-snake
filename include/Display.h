@@ -115,8 +115,9 @@ public:
 
   /** @brief Print information on the display.
    * @param message The message to print.
+   * @param init True if the message is the first to be printed, false otherwise.
    */
-  void printInfo(const String &message);
+  void printScore(const String &score, const bool init = false);
 };
 
 #endif // OLED_H

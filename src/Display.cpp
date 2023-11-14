@@ -72,19 +72,39 @@ void Display::printSimpleText(const String &message) {
   display.println(message);
 }
 
-void Display::printInfo(const String &message) {
-  String messageToPrint = message + "                     ";
+void Display::printScore(const String &score, const bool init) {
+  static String lastScore = "";
+
+  if (lastScore == score) {
+    return;
+  }
+
+  if (init) {
+    display.setTextWrap(false);
+    display.setCursor(30, 2);
+    display.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
+    display.setTextSize(2);
+    display.print("Score: ");
+  }
+
   display.setTextWrap(false);
-  display.setCursor(30, 2);
+  display.setCursor(105, 2);
   display.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
   display.setTextSize(2);
-  display.println(messageToPrint);
+
+  display.print(score);
+
+  lastScore = score;
 }
 
 void Display::drawSegment(const int8_t x, const int8_t y, bool c) {
   if (c) {
-    display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE, Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE, SEGMENT_SIZE, 0xFFFFU);
+    display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
+                     Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE,
+                     SEGMENT_SIZE, 0xFFFFU);
   } else {
-    display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE, Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE, SEGMENT_SIZE, 0);
+    display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
+                     Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE,
+                     SEGMENT_SIZE, 0);
   }
 }
