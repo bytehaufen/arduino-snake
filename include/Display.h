@@ -62,7 +62,7 @@ public:
    * @param c Bool value representing the color of the segment to draw; either
    * black (0) or white (1).
    */
-  void drawSegment(const int16_t x, const int16_t y, bool c);
+  void drawSegment(const int16_t x, const int16_t y, bool color);
 
   /**
    * @brief Print a menu on the display.

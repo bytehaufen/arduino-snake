@@ -1,0 +1,6 @@
+# Sequenzdiagramm
+
+```mermaid
+  sequenceDiagram
+
+```
