@@ -44,8 +44,6 @@ uint32_t Timer::milliSeconds() {
 }
 
 // ISR for timer
-ISR(TIMER1_COMPA_vect) {
-  timerCount++;
-}
+ISR(TIMER1_COMPA_vect) { timerCount++; }
 
 // namespace Timer

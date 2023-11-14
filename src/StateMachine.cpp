@@ -71,12 +71,10 @@ void StateMachine::run() {
         switch (selectedItem) {
         case MENU_ITEM::START:
           currentState = STATE::GAME;
-          // TODO:change delay
           Input::getInstance().consumeJoystick();
           break;
         case MENU_ITEM::SCORE:
           currentState = STATE::SCORE;
-          // TODO:change delay
           Input::getInstance().consumeJoystick();
           break;
         }

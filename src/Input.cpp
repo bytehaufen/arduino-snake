@@ -62,7 +62,6 @@ void Input::run() {
       }
     }
   }
-  // TODO: Replace delay
 }
 
 Input::BUTTON Input::getPressedButton() {
