@@ -19,21 +19,23 @@ private:
     uint16_t x;
     uint16_t y;
   };
+  static const uint8_t rows = (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE;
+  static const uint8_t cols = (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE;
 
   /**
    * @brief two-dimensional array holding snake segments
   */
-  uint8_t segment[(uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE][(uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE];
+  uint8_t segment[rows][cols];
 
-  // direction values; starting downwards
   /**
-   * @brief current step size along the horizontal axis
+   * @brief direction value;
+   * @brief right: 128;
+   * @brief up: 64;
+   * @brief left: 32;
+   * @brief down: 16;
+   * @brief starting downwards
   */
-  int8_t xDirec = 0;
-  /**
-   * @brief current step size along the vertical axis
-  */
-  int8_t yDirec = 1;
+  uint8_t direc = 16;
   // current position values
   /**
    * @brief current horizontal position of the snake head
