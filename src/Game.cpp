@@ -15,7 +15,7 @@ Game::Game() {
   yHead = (uint8_t)rows / 2;
   xTail = xHead;
   yTail = yHead;
-  segment[xHead][yHead] = 1 | 16;
+  segment[yHead][xHead] = 1 | 16;
   // set up display
   display = &Display::getInstance();
   display->clear();
@@ -37,9 +37,6 @@ bool Game::run() {
     return true;
   }
   clk = 0;
-
-  display->printScore((String)segment[12][2]);
-  display->printScore(String(snakedItems));
 
   bAction = Input::getInstance().getPressedButton();
   switch (bAction) {
@@ -65,7 +62,7 @@ bool Game::run() {
     break;
   }
   // positions and draws new head
-  segment[xHead][yHead] |= direc;
+  segment[yHead][xHead] |= direc;
   switch (direc) {
   case 128:
     xHead += 1;
@@ -84,45 +81,37 @@ bool Game::run() {
     break;
   }
   // check ...
-  if (((segment[xHead][yHead] > 0) &&             // if snake hits itself
+  if (((segment[yHead][xHead] > 0) &&             // if snake hits itself
        ((xHead != xTail) || (yHead != yTail))) || // if the snake hits its tail
       (xHead >= cols) || // if the head is right of border
       (xHead < 0) ||     // if the head is left of border
       (yHead >= rows) || // if the head is under border
-      (yHead < 0))
-    return false; // if the head is above border
+      (yHead < 0))  // if the head is above border
+    return false; 
   // erase tail first, then draw new head
-  switch (segment[xTail][yTail] & 240) {
+  display->drawSegment(xTail, yTail, 0);
+  switch (segment[yTail][xTail] & 240) {
   case 128:
-    display->drawSegment(xTail, yTail,
-                         0); // write as xTail++ to remove next line?
-    xTail += 1;
-    segment[xTail - 1][yTail] = 0;
+    segment[yTail][xTail++] = 0;
     break;
   case 64:
-    display->drawSegment(xTail, yTail, 0);
-    yTail -= 1;
-    segment[xTail][yTail + 1] = 0;
+    segment[yTail--][xTail] = 0;
     break;
   case 32:
-    display->drawSegment(xTail, yTail, 0);
-    xTail -= 1;
-    segment[xTail + 1][yTail] = 0;
+    segment[yTail][xTail--] = 0;
     break;
   case 16:
-    display->drawSegment(xTail, yTail, 0);
-    yTail += 1;
-    segment[xTail][yTail - 1] = 0;
+    segment[yTail++][xTail] = 0;
     break;
   default:
-    display->printScore(String(segment[xTail][yTail] & 240) +
-                        "DUDUDUUMM"); // debug :)
+    display->printScore(String(segment[yTail][xTail] & 240) + "DUDUDUUMM"); // debug :)
     return false;
     break;
   }
-  segment[xHead][yHead] =
-      1; // set value of new head to 1 -> no direction at that point
+  segment[yHead][xHead] = 1; // set value of new head to 1 -> no direction at that point
   display->drawSegment(xHead, yHead, 1); // draw new head
+
+  display->printScore(String(++snakedItems));
 
   return true;
 }
