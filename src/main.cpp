@@ -20,8 +20,9 @@ void loop() {
   Input::getInstance().run();
 
   static uint32_t lastMillis = 0;
-  // Run StateMachine every 100ms = 10 Hz
-  if (timer.milliSeconds() - lastMillis >= 100) {
+
+  // Run StateMachine every 10ms = 100 Hz
+  if (timer.milliSeconds() - lastMillis >= 10) {
     stateMachine.run();
     lastMillis = timer.milliSeconds();
   }
@@ -30,6 +31,4 @@ void loop() {
 #ifdef DEBUG
   // Input::printi2cdevices();
 #endif // DEBUG
-
-  // TODO rm delay and make unblocking
 }

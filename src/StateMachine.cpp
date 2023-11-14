@@ -37,12 +37,13 @@ void StateMachine::run() {
       Display::getInstance().clear();
     }
 
-    if (!introFinished &&
+    if (!introFinished && clockCounter++ % 10 == 0 &&
         Display::getInstance().printSerialized("Welcome to   Snake!")) {
       introFinished = true;
+      clockCounter = 0;
     }
     // Wait for 1 second IF intro is finished
-    if (introFinished && clockCounter++ > 10) {
+    if (introFinished && clockCounter++ > 100) {
       currentState = STATE::MENU;
       introFinished = false;
       isFirstCall = true;
@@ -70,12 +71,10 @@ void StateMachine::run() {
         switch (selectedItem) {
         case MENU_ITEM::START:
           currentState = STATE::GAME;
-          // TODO:change delay
           Input::getInstance().consumeJoystick();
           break;
         case MENU_ITEM::SCORE:
           currentState = STATE::SCORE;
-          // TODO:change delay
           Input::getInstance().consumeJoystick();
           break;
         }
@@ -91,6 +90,7 @@ void StateMachine::run() {
     if (isFirstCall) {
       isFirstCall = false;
       game = new Game();
+      Input::getInstance().consumeJoystick();
     }
     // Done with game
     if (!game->run()) {
