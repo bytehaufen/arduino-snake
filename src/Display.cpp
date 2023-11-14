@@ -81,10 +81,10 @@ void Display::printInfo(const String &message) {
   display.println(messageToPrint);
 }
 
-void Display::drawSegment(const int16_t x, const int16_t y, bool c) {
+void Display::drawSegment(const int8_t x, const int8_t y, bool c) {
   if (c) {
-    display.fillRect(x, y, SEGMENT_SIZE, SEGMENT_SIZE, 0xFFFFU);
+    display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE, Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE, SEGMENT_SIZE, 0xFFFFU);
   } else {
-    display.fillRect(x, y, SEGMENT_SIZE, SEGMENT_SIZE, 0);
+    display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE, Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE, SEGMENT_SIZE, 0);
   }
 }

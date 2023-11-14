@@ -91,6 +91,7 @@ void StateMachine::run() {
     if (isFirstCall) {
       isFirstCall = false;
       game = new Game();
+      Input::getInstance().consumeJoystick();
     }
     // Done with game
     if (!game->run()) {
