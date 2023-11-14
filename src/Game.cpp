@@ -11,11 +11,11 @@ Game::Game() {
     }
   }
   // initialize snake head and tail position
-  xHead = (uint8_t)cols/2;
-  yHead = (uint8_t)rows/2;
+  xHead = (uint8_t)cols / 2;
+  yHead = (uint8_t)rows / 2;
   xTail = xHead;
   yTail = yHead;
-  segment[xHead][yHead] = 1|16;
+  segment[xHead][yHead] = 1 | 16;
   // set up display
   display = &Display::getInstance();
   display->clear();
@@ -33,30 +33,32 @@ bool Game::run() {
   Input::BUTTON bAction;
   uint8_t clk = 0;
   // waits one-tenth of a second (?)
-  while (clk++ < 10) {
-    bAction = Input::getInstance().getPressedButton();
-    switch (bAction) {
-    case Input::BUTTON::UP:
-      direc = 64;
-      break;
-    case Input::BUTTON::DOWN:
-      direc = 16;
-      break;
-    case Input::BUTTON::LEFT:
-      direc = 32;
-      break;
-    case Input::BUTTON::RIGHT:
-      direc = 128;
-      break;
-    case Input::BUTTON::MIDDLE:
-      return false;
-      break;
-    case Input::BUTTON::NONE:
-      break;
-    default:
-      return false;
-      break;
-    }
+  if (clk++ % 100) {
+    return true;
+  }
+
+  bAction = Input::getInstance().getPressedButton();
+  switch (bAction) {
+  case Input::BUTTON::UP:
+    direc = 64;
+    break;
+  case Input::BUTTON::DOWN:
+    direc = 16;
+    break;
+  case Input::BUTTON::LEFT:
+    direc = 32;
+    break;
+  case Input::BUTTON::RIGHT:
+    direc = 128;
+    break;
+  case Input::BUTTON::MIDDLE:
+    return false;
+    break;
+  case Input::BUTTON::NONE:
+    break;
+  default:
+    return false;
+    break;
   }
   // positions and draws new head
   segment[xHead][yHead] |= direc;
@@ -72,22 +74,24 @@ bool Game::run() {
     break;
   case 16:
     yHead += 1;
-    break;  
+    break;
   default:
     return false;
     break;
   }
   // check ...
   if (((segment[xHead][yHead] > 0) &&             // if snake hits itself
-      ((xHead != xTail) || (yHead != yTail))) ||  // if the snake hits its tail
-      (xHead >= cols ) ||                         // if the head is right of border
-      (xHead < 0) ||                              // if the head is left of border
-      (yHead >= rows) ||                          // if the head is under border
-      (yHead < 0)) return false;                  // if the head is above border
-  //erase tail first, then draw new head
-  switch (segment[xTail][yTail]&240) {
+       ((xHead != xTail) || (yHead != yTail))) || // if the snake hits its tail
+      (xHead >= cols) || // if the head is right of border
+      (xHead < 0) ||     // if the head is left of border
+      (yHead >= rows) || // if the head is under border
+      (yHead < 0))
+    return false; // if the head is above border
+  // erase tail first, then draw new head
+  switch (segment[xTail][yTail] & 240) {
   case 128:
-    display->drawSegment(xTail, yTail, 0);  //write as xTail++ to remove next line?
+    display->drawSegment(xTail, yTail,
+                         0); // write as xTail++ to remove next line?
     xTail += 1;
     segment[xTail - 1][yTail] = 0;
     break;
@@ -107,14 +111,15 @@ bool Game::run() {
     segment[xTail][yTail - 1] = 0;
     break;
   default:
-    display->printInfo(String(segment[xTail][yTail]&240) + "DUDUDUUMM");  // debug :)
+    display->printInfo(String(segment[xTail][yTail] & 240) +
+                       "DUDUDUUMM"); // debug :)
     delay(3000);
     return false;
     break;
   }
-  segment[xHead][yHead] = 1;  // set value of new head to 1 -> no direction at that point
-  display->drawSegment(xHead, yHead, 1);  //draw new head
-
+  segment[xHead][yHead] =
+      1; // set value of new head to 1 -> no direction at that point
+  display->drawSegment(xHead, yHead, 1); // draw new head
 
   return true;
 }
