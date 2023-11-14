@@ -1,6 +1,4 @@
 #include "Input.h"
-#include "Arduino.h"
-#include "Display.h"
 
 Input::Input() : joystickConsumed(true) {
   // Set middle button as INPUT_PULLUP
