@@ -24,18 +24,22 @@ Game::Game() {
                           Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET);
   display->drawSegment(xHead, yHead, 1);
   headpos = {Display::X_OFFSET + 100, Display::Y_OFFSET + 100};
+
+  display->printScore("0", true);
 }
 
 bool Game::run() {
-  display->printInfo((String)segment[12][2]);
-  delay(1000);
-  display->printInfo("Score " + String(snakedItems));
   Input::BUTTON bAction;
-  uint8_t clk = 0;
-  // waits one-tenth of a second (?)
-  if (clk++ % 100) {
+  static uint8_t clk = 0;
+
+  // Skip 100 clk cycles -> execute every 1s
+  if (clk++ < 100) {
     return true;
   }
+  clk = 0;
+
+  display->printScore((String)segment[12][2]);
+  display->printScore(String(snakedItems));
 
   bAction = Input::getInstance().getPressedButton();
   switch (bAction) {
@@ -111,9 +115,8 @@ bool Game::run() {
     segment[xTail][yTail - 1] = 0;
     break;
   default:
-    display->printInfo(String(segment[xTail][yTail] & 240) +
-                       "DUDUDUUMM"); // debug :)
-    delay(3000);
+    display->printScore(String(segment[xTail][yTail] & 240) +
+                        "DUDUDUUMM"); // debug :)
     return false;
     break;
   }
