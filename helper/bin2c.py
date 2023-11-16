@@ -7,9 +7,10 @@
 import argparse
 from PIL import Image
 
+
 def convert_image_to_adafruit_array(input_file, output_file):
     namespaceName: str = output_file
-    namespaceName = namespaceName[namespaceName.rfind('/') + 1:].replace('.h', '')
+    namespaceName = namespaceName[namespaceName.rfind("/") + 1 :].replace(".h", "")
 
     img = Image.open(input_file)
     img = img.convert("RGB")
@@ -25,7 +26,7 @@ def convert_image_to_adafruit_array(input_file, output_file):
             color = ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3)
             output.append(color)
 
-    with open(output_file, 'w') as f:
+    with open(output_file, "w") as f:
         f.write(f"#ifndef {namespaceName.upper()}_H\n")
         f.write(f"#define {namespaceName.upper()}_H\n\n")
         f.write(f"namespace {namespaceName} {{\n")
@@ -34,19 +35,22 @@ def convert_image_to_adafruit_array(input_file, output_file):
             f.write(f"  0x{color:04X}")
             if i != len(output) - 1:
                 f.write(",")
-            f.write("\n")
+            if (i + 1) % width == 0:
+                f.write("\n")
         f.write(f"}};\n")
         f.write(f"const int image_width = {width};\n")
         f.write(f"const int image_height = {height};\n")
         f.write(f"}} // namespace {namespaceName}\n\n")
         f.write(f"#endif // {namespaceName.upper()}_H\n")
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Convert image to Adafruit-compatible uint16_t array')
-    parser.add_argument('input', help='Input image file name')
-    parser.add_argument('output', help='Output array file name')
+    parser = argparse.ArgumentParser(
+        description="Convert image to Adafruit-compatible uint16_t array"
+    )
+    parser.add_argument("input", help="Input image file name")
+    parser.add_argument("output", help="Output array file name")
 
     args = parser.parse_args()
 
     convert_image_to_adafruit_array(args.input, args.output)
-

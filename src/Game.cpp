@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Display.h"
 #include "Input.h"
+#include "Snakehead.h"
 #include "Timer.h"
 #include "images/Ba.h"
 #include "images/Strawberry.h"
@@ -67,6 +68,8 @@ bool Game::run() {
   display->drawFood(30, 30, Strawberry::image_data, Strawberry::image_width,
                     Strawberry::image_height);
   display->drawFood(80, 80, Ba::image_data, Ba::image_width, Ba::image_height);
+  /* display->drawFood(200, 200, Snakehead::image_data, Snakehead::image_width, */
+  /*                   Snakehead::image_height); */
 
   // positions and draws new head
   segment[yHead][xHead] |= direc;
