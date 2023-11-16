@@ -1,7 +1,7 @@
 #include "StateMachine.h"
 
-StateMachine::StateMachine()
-    : currentState(STATE::INIT), MENU_ITEMS{"Start", "Score"} {}
+StateMachine::StateMachine(Timer &t)
+    : currentState(STATE::INIT), MENU_ITEMS{"Start", "Score"}, timer(&t) {}
 
 void StateMachine::setState(STATE newState) { currentState = newState; }
 
@@ -89,6 +89,7 @@ void StateMachine::run() {
   case STATE::GAME:
     if (isFirstCall) {
       isFirstCall = false;
+      srand(timer->milliSeconds());
       game = new Game();
       Input::getInstance().consumeJoystick();
     }

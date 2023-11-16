@@ -9,6 +9,7 @@
 #include "Display.h"
 #include "Game.h"
 #include "Input.h"
+#include "Timer.h"
 
 /**
  * @class StateMachine
@@ -32,6 +33,7 @@ private:
   const String MENU_ITEMS[MENU_ITEMS_COUNT];
   // Pointer to game
   Game *game;
+  Timer *timer;
 
   /**
    * @brief Sets the state of the game.
@@ -58,8 +60,9 @@ private:
 public:
   /**
    * @brief Constructor for the StateMachine.
+   * @param timer Timer object.
    */
-  StateMachine();
+  StateMachine(Timer &timer);
 
   /**
    * @brief Runs the state machine. Needs to be called in the main loop.

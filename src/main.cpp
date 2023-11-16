@@ -4,8 +4,8 @@
 
 #define DEBUG
 
-StateMachine stateMachine;
 Timer timer;
+StateMachine stateMachine(timer);
 
 void setup() {
   // Initialize Display
