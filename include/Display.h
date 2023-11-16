@@ -40,24 +40,24 @@ private:
 public:
   // Display constraints
   /**
-   * @brief width of the screen 
-  */
+   * @brief width of the screen
+   */
   static const uint16_t SCREEN_WIDTH = 280;
   /**
    * @brief height of the screen
-  */
+   */
   static const uint16_t SCREEN_HEIGHT = 240;
   /**
    * @brief heigt and width of a snake segment
-  */
+   */
   static const uint8_t SEGMENT_SIZE = 16;
   /**
    * @brief horizontal offset of the game area
-  */
+   */
   static const uint16_t X_OFFSET = 20;
   /**
    * @brief vertical offset of the game area
-  */
+   */
   static const uint16_t Y_OFFSET = 20;
 
   /**
@@ -115,9 +115,21 @@ public:
 
   /** @brief Print information on the display.
    * @param message The message to print.
-   * @param init True if the message is the first to be printed, false otherwise.
+   * @param init True if the message is the first to be printed, false
+   * otherwise.
    */
   void printScore(const String &score, const bool init = false);
+
+  /**
+   * @brief Draw an image on the display.
+   * @param x X coordinate of rectangle.
+   * @param y Y coordinate of rectangle.
+   * @param image_data Pointer to image data.
+   * @param w Image width.
+   * @param h Image height.
+   */
+  void drawFood(const int16_t x, const int16_t y, const uint16_t *image_data,
+                const uint16_t w, const uint16_t h);
 };
 
 #endif // OLED_H
