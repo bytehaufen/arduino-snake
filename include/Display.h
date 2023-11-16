@@ -135,13 +135,13 @@ public:
 
   /**
    * @brief Draw an image on the display.
-   * @param x X coordinate of rectangle.
-   * @param y Y coordinate of rectangle.
+   * @param x X field point.
+   * @param y Y field point.
    * @param image_data Pointer to image data.
    * @param w Image width.
    * @param h Image height.
    */
-  void drawFood(const int16_t x, const int16_t y, const uint16_t *image_data,
+  void drawFood(const uint8_t x, const uint8_t y, const uint16_t *image_data,
                 const uint16_t w, const uint16_t h);
 };
 

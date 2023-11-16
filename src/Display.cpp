@@ -109,8 +109,10 @@ void Display::drawSegment(const int8_t x, const int8_t y, bool c) {
   }
 }
 
-void Display::drawFood(const int16_t x, const int16_t y,
+void Display::drawFood(const uint8_t x, const uint8_t y,
                        const uint16_t *image_data, const uint16_t w,
                        const uint16_t h) {
-  display.drawRGBBitmap(x, y, image_data, 16, 16);
+  display.drawRGBBitmap(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
+                        Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, image_data,
+                        16, 16);
 }
