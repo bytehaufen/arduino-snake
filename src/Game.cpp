@@ -26,7 +26,6 @@ Game::Game() {
                           Display::SCREEN_WIDTH - 2 * Display::X_OFFSET,
                           Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET);
   display->drawSegment(xHead, yHead, 1);
-  headpos = {Display::X_OFFSET + 100, Display::Y_OFFSET + 100};
 
   display->printScore("0", true);
 }
