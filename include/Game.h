@@ -14,13 +14,6 @@
  */
 class Game {
 private:
-  static const uint8_t rows =
-      (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4) /
-      Display::SEGMENT_SIZE;
-  static const uint8_t cols =
-      (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4) /
-      Display::SEGMENT_SIZE;
-
   /**
    * @brief two-dimensional array holding snake segments
    */

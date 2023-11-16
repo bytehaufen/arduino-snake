@@ -61,6 +61,19 @@ public:
   static const uint16_t Y_OFFSET = 20;
 
   /**
+   * @brief number of rows
+   */
+  static constexpr uint8_t ROWS =
+      (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4) /
+      Display::SEGMENT_SIZE;
+
+  /**
+   * @brief number of columns
+   */
+  static constexpr uint8_t COLS =
+      (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4) /
+      Display::SEGMENT_SIZE;
+  /**
    * @brief Get the singleton instance of Display.
    * @return The singleton instance of Display.
    */
