@@ -43,16 +43,16 @@ bool Game::run() {
   bAction = Input::getInstance().getPressedButton();
   switch (bAction) {
   case Input::BUTTON::UP:
-    direc = 64;
+    direc = Direction::UP;
     break;
   case Input::BUTTON::DOWN:
-    direc = 16;
+    direc = Direction::DOWN;
     break;
   case Input::BUTTON::LEFT:
-    direc = 32;
+    direc = Direction::LEFT;
     break;
   case Input::BUTTON::RIGHT:
-    direc = 128;
+    direc = Direction::RIGHT;
     break;
   case Input::BUTTON::MIDDLE:
     return false;
@@ -72,18 +72,18 @@ bool Game::run() {
                     Snakehead::image_width, Snakehead::image_height);
 
   // positions and draws new head
-  segment[yHead][xHead] |= direc;
+  segment[yHead][xHead] |= static_cast<uint8_t>(direc);
   switch (direc) {
-  case 128:
+  case Direction::RIGHT:
     xHead += 1;
     break;
-  case 64:
+  case Direction::UP:
     yHead -= 1;
     break;
-  case 32:
+  case Direction::LEFT:
     xHead -= 1;
     break;
-  case 16:
+  case Direction::DOWN:
     yHead += 1;
     break;
   default:

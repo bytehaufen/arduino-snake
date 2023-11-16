@@ -19,6 +19,12 @@ private:
    */
   uint8_t segment[Display::ROWS][Display::COLS];
 
+  enum class Direction {
+    RIGHT = 128,
+    UP = 64,
+    LEFT = 32,
+    DOWN = 16,
+  };
   /**
    * @brief direction value;
    * @brief right: 128;
@@ -27,7 +33,8 @@ private:
    * @brief down: 16;
    * @brief starting downwards
    */
-  uint8_t direc = 16;
+  Direction direc = Direction::DOWN;
+
   // current position values
   /**
    * @brief current horizontal position of the snake head
