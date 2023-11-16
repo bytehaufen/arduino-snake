@@ -8,14 +8,14 @@
 
 Game::Game() {
   // initialize snake segment array
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
+  for (int i = 0; i < Display::ROWS; i++) {
+    for (int j = 0; j < Display::COLS; j++) {
       segment[i][j] = 0;
     }
   }
   // initialize snake head and tail position
-  xHead = (uint8_t)cols / 2;
-  yHead = (uint8_t)rows / 2;
+  xHead = (uint8_t)Display::COLS / 2;
+  yHead = (uint8_t)Display::ROWS / 2;
   xTail = xHead;
   yTail = yHead;
   segment[yHead][xHead] = 1 | 16;
@@ -64,12 +64,12 @@ bool Game::run() {
     break;
   }
   // NOTE: test to display bitmap
-  display->drawFood(30, 30, Strawberry::image_data, Strawberry::image_width,
-                    Strawberry::image_height);
-  display->drawFood(80, 80, Ba::image_data, Ba::image_width, Ba::image_height);
-  /* display->drawFood(200, 200, Snakehead::image_data, Snakehead::image_width,
-   */
-  /*                   Snakehead::image_height); */
+  display->drawFood(randomXcoord(), randomYcoord(), Strawberry::image_data,
+                    Strawberry::image_width, Strawberry::image_height);
+  display->drawFood(randomXcoord(), randomYcoord(), Ba::image_data,
+                    Ba::image_width, Ba::image_height);
+  display->drawFood(randomXcoord(), randomYcoord(), Snakehead::image_data,
+                    Snakehead::image_width, Snakehead::image_height);
 
   // positions and draws new head
   segment[yHead][xHead] |= direc;
@@ -93,10 +93,10 @@ bool Game::run() {
   // check ...
   if (((segment[yHead][xHead] > 0) &&             // if snake hits itself
        ((xHead != xTail) || (yHead != yTail))) || // if the snake hits its tail
-      (xHead >= cols) || // if the head is right of border
-      (xHead < 0) ||     // if the head is left of border
-      (yHead >= rows) || // if the head is under border
-      (yHead < 0))       // if the head is above border
+      (xHead >= Display::COLS) || // if the head is right of border
+      (xHead < 0) ||              // if the head is left of border
+      (yHead >= Display::ROWS) || // if the head is under border
+      (yHead < 0))                // if the head is above border
     return false;
   // erase tail first, then draw new head
   display->drawSegment(xTail, yTail, 0);
@@ -127,3 +127,7 @@ bool Game::run() {
 
   return true;
 }
+
+const uint16_t Game::randomXcoord() { return rand() % Display::COLS; }
+
+const uint16_t Game::randomYcoord() { return rand() % Display::ROWS; }

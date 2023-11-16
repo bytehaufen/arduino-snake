@@ -17,7 +17,7 @@ private:
   /**
    * @brief two-dimensional array holding snake segments
    */
-  uint8_t segment[rows][cols];
+  uint8_t segment[Display::ROWS][Display::COLS];
 
   /**
    * @brief direction value;
@@ -63,6 +63,16 @@ public:
    * @return True if game is running, false otherwise
    */
   bool run();
+  /**
+   * @brief Creates a random X coordinate.
+   * @return The random X coordinate.
+   */
+  const uint16_t randomXcoord();
+  /**
+   * @brief Creates a random Y coordinate.
+   * @return The random Y coordinate.
+   */
+  const uint16_t randomYcoord();
 };
 
 #endif // GAME_H
