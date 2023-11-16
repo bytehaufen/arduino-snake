@@ -2,6 +2,8 @@
 #include "Display.h"
 #include "Input.h"
 #include "Timer.h"
+#include "images/Ba.h"
+#include "images/Strawberry.h"
 
 Game::Game() {
   // initialize snake segment array
@@ -61,6 +63,11 @@ bool Game::run() {
     return false;
     break;
   }
+  // NOTE: test to display bitmap
+  display->drawFood(30, 30, Strawberry::image_data, Strawberry::image_width,
+                    Strawberry::image_height);
+  display->drawFood(80, 80, Ba::image_data, Ba::image_width, Ba::image_height);
+
   // positions and draws new head
   segment[yHead][xHead] |= direc;
   switch (direc) {
@@ -86,8 +93,8 @@ bool Game::run() {
       (xHead >= cols) || // if the head is right of border
       (xHead < 0) ||     // if the head is left of border
       (yHead >= rows) || // if the head is under border
-      (yHead < 0))  // if the head is above border
-    return false; 
+      (yHead < 0))       // if the head is above border
+    return false;
   // erase tail first, then draw new head
   display->drawSegment(xTail, yTail, 0);
   switch (segment[yTail][xTail] & 240) {
@@ -104,11 +111,13 @@ bool Game::run() {
     segment[yTail++][xTail] = 0;
     break;
   default:
-    display->printScore(String(segment[yTail][xTail] & 240) + "DUDUDUUMM"); // debug :)
+    display->printScore(String(segment[yTail][xTail] & 240) +
+                        "DUDUDUUMM"); // debug :)
     return false;
     break;
   }
-  segment[yHead][xHead] = 1; // set value of new head to 1 -> no direction at that point
+  segment[yHead][xHead] =
+      1; // set value of new head to 1 -> no direction at that point
   display->drawSegment(xHead, yHead, 1); // draw new head
 
   display->printScore(String(++snakedItems));
