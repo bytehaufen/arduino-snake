@@ -43,15 +43,27 @@ bool Game::run() {
   bAction = Input::getInstance().getPressedButton();
   switch (bAction) {
   case Input::BUTTON::UP:
+    if (direc == Direction::DOWN) {
+      break;
+    }
     direc = Direction::UP;
     break;
   case Input::BUTTON::DOWN:
+    if (direc == Direction::UP) {
+      break;
+    }
     direc = Direction::DOWN;
     break;
   case Input::BUTTON::LEFT:
+    if (direc == Direction::RIGHT) {
+      break;
+    }
     direc = Direction::LEFT;
     break;
   case Input::BUTTON::RIGHT:
+    if (direc == Direction::LEFT) {
+      break;
+    }
     direc = Direction::RIGHT;
     break;
   case Input::BUTTON::MIDDLE:
