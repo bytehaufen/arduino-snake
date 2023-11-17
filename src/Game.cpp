@@ -144,9 +144,8 @@ bool Game::run() {
     return false;
     break;
   }
-  // TODO: Check anton
-  /* segment[yHead][xHead] = */
-  /*     1; // set value of new head to 1 -> no direction at that point */
+
+  // Set new head
   segment[yHead][xHead] = direc | Element::HEAD;
 
   display->drawSegment(xHead, yHead, 1); // draw new head
