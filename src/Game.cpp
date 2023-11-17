@@ -68,7 +68,6 @@ bool Game::run() {
     direc = Direction::RIGHT;
     break;
   case Input::BUTTON::MIDDLE:
-    return false;
     break;
   case Input::BUTTON::NONE:
     break;
@@ -85,9 +84,12 @@ bool Game::run() {
                     Snakehead::image_width, Snakehead::image_height);
 
   // Delete old head from array
-  segment[yHead][xHead] &= ~Element::HEAD;
   // Set direction of last segment to point to new head
-  segment[yHead][xHead] |= direc;
+  if (xTail == xHead && yTail == yHead) {
+    segment[yTail][xTail] = Element::TAIL | Element::BODY | direc;
+  } else {
+    segment[yTail][xTail] = Element::BODY | direc;
+  }
   // Set position for new head
   switch (direc) {
   case Direction::RIGHT:
@@ -124,8 +126,9 @@ bool Game::run() {
 
   // Erase tail
   display->drawSegment(xTail, yTail, 0);
-
   // Filter direction and delete tail element from array
+  Serial.println("directions: " + String (Direction::RIGHT | Direction::UP | Direction::LEFT | Direction::DOWN));
+  Serial.println("segment: " + String (segment[yTail][xTail]));
   switch (segment[yTail][xTail] & (Direction::RIGHT | Direction::UP |
                                    Direction::LEFT | Direction::DOWN)) {
   case Direction::RIGHT:
@@ -141,6 +144,9 @@ bool Game::run() {
     segment[yTail++][xTail] = 0;
     break;
   default:
+    Serial.println(
+        "Unknown direction " + String(segment[yTail][xTail] &
+        (Direction::RIGHT | Direction::UP | Direction::LEFT | Direction::DOWN)));
     return false;
     break;
   }
