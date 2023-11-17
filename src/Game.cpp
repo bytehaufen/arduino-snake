@@ -10,7 +10,7 @@ Game::Game() {
   // initialize snake segment array
   for (int i = 0; i < Display::ROWS; i++) {
     for (int j = 0; j < Display::COLS; j++) {
-      segment[i][j] = 0;
+      segment[i][j] = Element::NONE;
     }
   }
   // initialize snake head and tail position
@@ -18,7 +18,7 @@ Game::Game() {
   yHead = (uint8_t)Display::ROWS / 2;
   xTail = xHead;
   yTail = yHead;
-  segment[yHead][xHead] = 1 | 16;
+  segment[yHead][xHead] = Element::HEAD | Element::TAIL | Direction::DOWN;
   // set up display
   display = &Display::getInstance();
   display->clear();
@@ -40,6 +40,7 @@ bool Game::run() {
   }
   clk = 0;
 
+  // Read input and set direction
   bAction = Input::getInstance().getPressedButton();
   switch (bAction) {
   case Input::BUTTON::UP:
@@ -83,8 +84,11 @@ bool Game::run() {
   display->drawFood(randomXcoord(), randomYcoord(), Snakehead::image_data,
                     Snakehead::image_width, Snakehead::image_height);
 
-  // positions and draws new head
-  segment[yHead][xHead] |= static_cast<uint8_t>(direc);
+  // Delete old head from array
+  segment[yHead][xHead] &= ~Element::HEAD;
+  // Set direction of last segment to point to new head
+  segment[yHead][xHead] |= direc;
+  // Set position for new head
   switch (direc) {
   case Direction::RIGHT:
     xHead += 1;
@@ -102,37 +106,49 @@ bool Game::run() {
     return false;
     break;
   }
-  // check ...
-  if (((segment[yHead][xHead] > 0) &&             // if snake hits itself
-       ((xHead != xTail) || (yHead != yTail))) || // if the snake hits its tail
+
+  // Check snake dies
+  if (((segment[yHead][xHead] & Element::BODY) ||
+       (segment[yHead][xHead] & Element::HEAD)) || // if snake hits itself
+                                                   // TODO: remove outcommented?
+      /* ((xHead != xTail) || (yHead != yTail)) || // if the snake hits its tail
+       */
       (xHead >= Display::COLS) || // if the head is right of border
       (xHead < 0) ||              // if the head is left of border
       (yHead >= Display::ROWS) || // if the head is under border
-      (yHead < 0))                // if the head is above border
+      (yHead < 0)) {              // if the head is above border
+
+    // TODO: Implement Game finished
     return false;
-  // erase tail first, then draw new head
+  }
+
+  // Erase tail
   display->drawSegment(xTail, yTail, 0);
-  switch (segment[yTail][xTail] & 240) {
-  case 128:
+
+  // Filter direction and delete tail element from array
+  switch (segment[yTail][xTail] & (Direction::RIGHT | Direction::UP |
+                                   Direction::LEFT | Direction::DOWN)) {
+  case Direction::RIGHT:
     segment[yTail][xTail++] = 0;
     break;
-  case 64:
+  case Direction::UP:
     segment[yTail--][xTail] = 0;
     break;
-  case 32:
+  case Direction::LEFT:
     segment[yTail][xTail--] = 0;
     break;
-  case 16:
+  case Direction::DOWN:
     segment[yTail++][xTail] = 0;
     break;
   default:
-    display->printScore(String(segment[yTail][xTail] & 240) +
-                        "DUDUDUUMM"); // debug :)
     return false;
     break;
   }
-  segment[yHead][xHead] =
-      1; // set value of new head to 1 -> no direction at that point
+  // TODO: Check anton
+  /* segment[yHead][xHead] = */
+  /*     1; // set value of new head to 1 -> no direction at that point */
+  segment[yHead][xHead] = direc | Element::HEAD;
+
   display->drawSegment(xHead, yHead, 1); // draw new head
 
   display->printScore(String(++snakedItems));

@@ -19,7 +19,9 @@ private:
    */
   uint8_t segment[Display::ROWS][Display::COLS];
 
-  enum class Direction {
+  enum Element : uint8_t { NONE = 0, BODY = 1, HEAD = 2, TAIL = 4, FOOD = 8 };
+
+  enum Direction : uint8_t {
     RIGHT = 128,
     UP = 64,
     LEFT = 32,
