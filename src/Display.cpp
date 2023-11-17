@@ -98,15 +98,9 @@ void Display::printScore(const String &score, const bool init) {
 }
 
 void Display::drawSegment(const int8_t x, const int8_t y, bool c) {
-  if (c) {
-    display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
-                     Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE,
-                     SEGMENT_SIZE, 0xFFFFU);
-  } else {
-    display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
-                     Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE,
-                     SEGMENT_SIZE, 0);
-  }
+  display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
+                   Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE,
+                   SEGMENT_SIZE, c ? 0xFFFFU : 0x0000U);
 }
 
 void Display::drawFood(const uint8_t x, const uint8_t y,
