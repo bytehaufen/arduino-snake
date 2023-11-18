@@ -7,19 +7,20 @@
 #include "images/Strawberry.h"
 
 Game::Game() {
-  // initialize snake segment array
+  // Initialize snake segment array
   for (int i = 0; i < Display::ROWS; i++) {
     for (int j = 0; j < Display::COLS; j++) {
       segment[i][j] = Element::NONE;
     }
   }
-  // initialize snake head and tail position
+  // Initialize snake head and tail position
   xHead = (uint8_t)Display::COLS / 2;
   yHead = (uint8_t)Display::ROWS / 2;
   xTail = xHead;
   yTail = yHead;
-  segment[yHead][xHead] = Element::HEAD | Element::TAIL | Direction::DOWN;
-  // set up display
+  segment[yHead][xHead] = Element::BODY | Direction::DOWN;
+  emptyFields = Display::COLS * Display::ROWS - 1;
+  // Set up display
   display = &Display::getInstance();
   display->clear();
   display->drawGameBorder(Display::X_OFFSET, Display::Y_OFFSET,
@@ -33,6 +34,25 @@ Game::Game() {
 bool Game::run() {
   Input::BUTTON bAction;
   static uint8_t clk = 0;
+
+  if (!isFruitSpawned) {
+    isFruitSpawned = true;
+
+    uint16_t freeRandomfield = rand() % emptyFields;
+    for (int i = 0; i < Display::ROWS; i++) {
+      for (int j = 0; j < Display::COLS; j++) {
+        if (segment[i][j] == Element::NONE && freeRandomfield-- == 0) {
+          isFruitSpawned = false;
+          segment[i][j] = Element::FOOD;
+          placeRandomFood(j, i);
+          emptyFields--;
+          break;
+        }
+      }
+    }
+
+    isFruitSpawned = true;
+  }
 
   // Skip 100 clk cycles -> execute every 1s
   if (clk++ < 100) {
@@ -72,24 +92,13 @@ bool Game::run() {
   case Input::BUTTON::NONE:
     break;
   default:
-    return false;
     break;
   }
-  // NOTE: test to display bitmap
-  display->drawFood(randomXcoord(), randomYcoord(), Strawberry::image_data,
-                    Strawberry::image_width, Strawberry::image_height);
-  display->drawFood(randomXcoord(), randomYcoord(), Ba::image_data,
-                    Ba::image_width, Ba::image_height);
-  display->drawFood(randomXcoord(), randomYcoord(), Snakehead::image_data,
-                    Snakehead::image_width, Snakehead::image_height);
 
   // Delete old head from array
-  // Set direction of last segment to point to new head
-  if (xTail == xHead && yTail == yHead) {
-    segment[yTail][xTail] = Element::TAIL | Element::BODY | direc;
-  } else {
-    segment[yTail][xTail] = Element::BODY | direc;
-  }
+  // Set direction of last head segment to point to new head
+  segment[yHead][xHead] = Element::BODY | direc;
+
   // Set position for new head
   switch (direc) {
   case Direction::RIGHT:
@@ -105,62 +114,73 @@ bool Game::run() {
     yHead += 1;
     break;
   default:
-    return false;
     break;
   }
 
+  // Collision detection
   // Check snake dies
-  if (((segment[yHead][xHead] & Element::BODY) ||
-       (segment[yHead][xHead] & Element::HEAD)) || // if snake hits itself
-                                                   // TODO: remove outcommented?
-      /* ((xHead != xTail) || (yHead != yTail)) || // if the snake hits its tail
-       */
+  if (((segment[yHead][xHead] &
+        Element::BODY) && // if snake hits itself but not tail
+       !(xHead == xTail && yHead == yTail)) ||
       (xHead >= Display::COLS) || // if the head is right of border
       (xHead < 0) ||              // if the head is left of border
       (yHead >= Display::ROWS) || // if the head is under border
       (yHead < 0)) {              // if the head is above border
-
     // TODO: Implement Game finished
     return false;
   }
+  // Check head hits food
+  if (segment[yHead][xHead] & Element::FOOD) {
+    segment[yHead][xHead] &= ~Element::FOOD;
+    display->printScore(String(++snakedItems));
+    isFruitSpawned = false;
+  } else {
+    // Erase tail otherwise if its not the head
+    if (!(xHead == xTail && yHead == yTail)) {
+      display->drawSegment(xTail, yTail, 0);
+    }
 
-  // Erase tail
-  display->drawSegment(xTail, yTail, 0);
-  // Filter direction and delete tail element from array
-  Serial.println("directions: " + String (Direction::RIGHT | Direction::UP | Direction::LEFT | Direction::DOWN));
-  Serial.println("segment: " + String (segment[yTail][xTail]));
-  switch (segment[yTail][xTail] & (Direction::RIGHT | Direction::UP |
-                                   Direction::LEFT | Direction::DOWN)) {
-  case Direction::RIGHT:
-    segment[yTail][xTail++] = 0;
-    break;
-  case Direction::UP:
-    segment[yTail--][xTail] = 0;
-    break;
-  case Direction::LEFT:
-    segment[yTail][xTail--] = 0;
-    break;
-  case Direction::DOWN:
-    segment[yTail++][xTail] = 0;
-    break;
-  default:
-    Serial.println(
-        "Unknown direction " + String(segment[yTail][xTail] &
-        (Direction::RIGHT | Direction::UP | Direction::LEFT | Direction::DOWN)));
-    return false;
-    break;
+    // Filter direction and set new Tail
+    switch (segment[yTail][xTail] & (Direction::RIGHT | Direction::UP |
+                                     Direction::LEFT | Direction::DOWN)) {
+    case Direction::RIGHT:
+      segment[yTail][xTail] = 0;
+      segment[yTail][++xTail] |= Element::BODY;
+      break;
+    case Direction::UP:
+      segment[yTail][xTail] = 0;
+      segment[--yTail][xTail] |= Element::BODY;
+      break;
+    case Direction::LEFT:
+      segment[yTail][xTail] = 0;
+      segment[yTail][--xTail] |= Element::BODY;
+      break;
+    case Direction::DOWN:
+      segment[yTail][xTail] = 0;
+      segment[++yTail][xTail] |= Element::BODY;
+      break;
+    default:
+      break;
+    }
   }
 
   // Set new head
-  segment[yHead][xHead] = direc | Element::HEAD;
-
-  display->drawSegment(xHead, yHead, 1); // draw new head
-
-  display->printScore(String(++snakedItems));
+  segment[yHead][xHead] = direc | Element::BODY;
+  // Draw new head
+  display->drawSegment(xHead, yHead, 1);
 
   return true;
 }
 
-const uint16_t Game::randomXcoord() { return rand() % Display::COLS; }
-
-const uint16_t Game::randomYcoord() { return rand() % Display::ROWS; }
+void Game::placeRandomFood(const uint8_t x, const uint8_t y) {
+  const uint8_t FOOD_COUNT = 2;
+  switch (rand() % FOOD_COUNT) {
+  case 0:
+    display->drawFood(x, y, Strawberry::image_data, Strawberry::image_width,
+                      Strawberry::image_height);
+    break;
+  case 1:
+    display->drawFood(x, y, Ba::image_data, Ba::image_width, Ba::image_height);
+    break;
+  }
+}

@@ -19,7 +19,7 @@ private:
    */
   uint8_t segment[Display::ROWS][Display::COLS];
 
-  enum Element : uint8_t { NONE = 0, BODY = 1, HEAD = 2, TAIL = 4, FOOD = 8 };
+  enum Element : uint8_t { NONE = 0, BODY = 1, FOOD = 8 };
 
   enum Direction : uint8_t {
     RIGHT = 128,
@@ -58,12 +58,21 @@ private:
    * @brief Pointer to Display instance for easy access
    */
   Display *display;
+  /**
+   * @brief Draw random food.
+   * NOTE: All added foods have to be in this method.
+   * @param x horizontal position
+   * @param y vertical position
+   */
+  void placeRandomFood(uint8_t x, uint8_t y);
 
   // Game variables
   /**
    * length of snake
    */
   uint32_t snakedItems = 0;
+  bool isFruitSpawned = false;
+  uint16_t emptyFields = 0;
 
 public:
   Game();
@@ -72,16 +81,6 @@ public:
    * @return True if game is running, false otherwise
    */
   bool run();
-  /**
-   * @brief Creates a random X coordinate.
-   * @return The random X coordinate.
-   */
-  const uint16_t randomXcoord();
-  /**
-   * @brief Creates a random Y coordinate.
-   * @return The random Y coordinate.
-   */
-  const uint16_t randomYcoord();
 };
 
 #endif // GAME_H
