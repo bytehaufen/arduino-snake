@@ -17,7 +17,7 @@ void setup() {
 
 void loop() {
   // Run Input
-  Input::getInstance().run();
+  Input::getInstance().run(&timer);
 
   static uint32_t lastMillis = 0;
   static uint32_t benchMarkmillis = timer.milliSeconds();

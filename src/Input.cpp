@@ -26,39 +26,48 @@ Input &Input::getInstance() {
   return instance;
 }
 
-void Input::run() {
-  // Reset all pressed buttons if joystick is consumed
-  if (joystickConsumed) {
-    middleButtonPressed = false;
-    rightButtonPressed = false;
-    leftButtonPressed = false;
-    upButtonPressed = false;
-    downButtonPressed = false;
+void Input::run(Timer *timer) {
+  static uint32_t lastMillis = 0;
 
-    // If middle button is pressed
-    if (!(PINC & (1 << BUTTON_PIN))) {
-      middleButtonPressed = true;
-      joystickConsumed = false;
-      // If joystick moved right
-    } else {
-      uint16_t xValue = adcRead(X_PIN);
-      uint16_t yValue = adcRead(Y_PIN);
+  // If middle button is pressed
+  if (timer->milliSeconds() - lastMillis >= DEBOUNCE_TIME) {
+    lastMillis = timer->milliSeconds();
+    // Reset all pressed buttons if joystick is consumed
+    if (joystickConsumed) {
+      middleButtonPressed = false;
+      rightButtonPressed = false;
+      leftButtonPressed = false;
+      upButtonPressed = false;
+      downButtonPressed = false;
 
-      if (xValue > (AD_MAX / 2) + AD_THRESH) {
-        rightButtonPressed = true;
-        joystickConsumed = false;
-        // If joystick moved left
-      } else if (xValue < (AD_MAX / 2) - AD_THRESH) {
-        leftButtonPressed = true;
-        joystickConsumed = false;
-        // If joystick moved up
-      } else if (yValue < (AD_MAX / 2) - AD_THRESH) {
-        upButtonPressed = true;
-        joystickConsumed = false;
-        // If joystick moved down
-      } else if (yValue > (AD_MAX / 2) + AD_THRESH) {
-        downButtonPressed = true;
-        joystickConsumed = false;
+      if (!(PINC & (1 << BUTTON_PIN))) {
+        if (!lastMiddleButtonPressed) {
+          lastMiddleButtonPressed = true;
+          middleButtonPressed = true;
+          joystickConsumed = false;
+        }
+      } else {
+        lastMiddleButtonPressed = false;
+        uint16_t xValue = adcRead(X_PIN);
+        uint16_t yValue = adcRead(Y_PIN);
+
+        // If joystick moved right
+        if (xValue > (AD_MAX / 2) + AD_THRESH) {
+          rightButtonPressed = true;
+          joystickConsumed = false;
+          // If joystick moved left
+        } else if (xValue < (AD_MAX / 2) - AD_THRESH) {
+          leftButtonPressed = true;
+          joystickConsumed = false;
+          // If joystick moved up
+        } else if (yValue < (AD_MAX / 2) - AD_THRESH) {
+          upButtonPressed = true;
+          joystickConsumed = false;
+          // If joystick moved down
+        } else if (yValue > (AD_MAX / 2) + AD_THRESH) {
+          downButtonPressed = true;
+          joystickConsumed = false;
+        }
       }
     }
   }

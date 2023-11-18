@@ -6,6 +6,7 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include "Timer.h"
 #include <avr/io.h>
 #include <stdint.h>
 
@@ -26,9 +27,12 @@ private:
   const uint16_t AD_THRESH = 200;
   // Max ADC value
   const uint16_t AD_MAX = 1023;
+  // Debounce time
+  const uint8_t DEBOUNCE_TIME = 20;
 
   // Helper variables to check if button is pressed
   bool middleButtonPressed;
+  bool lastMiddleButtonPressed = false;
   bool rightButtonPressed;
   bool upButtonPressed;
   bool downButtonPressed;
@@ -63,7 +67,7 @@ public:
    * @brief Run method to periodically check for input, needs to be called in
    * main loop.
    */
-  void run();
+  void run(Timer *timer);
   /**
    * @brief Get the pressed button.
    * @return The pressed button as BUTTON enum
