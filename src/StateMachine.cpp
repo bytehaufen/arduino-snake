@@ -3,8 +3,8 @@
 #include "Display.h"
 
 StateMachine::StateMachine(Timer &t)
-    : currentState(STATE::INIT), MENU_ITEMS{"Start", "Score", "Difficulty"}, DIFFICULTY_ITEMS{"Easy", "Medium", "Hard"},
-      timer(&t) {}
+    : currentState(STATE::INIT), MENU_ITEMS{"Start", "Difficulty"},
+      DIFFICULTY_ITEMS{"Easy", "Medium", "Hard"}, timer(&t) {}
 
 void StateMachine::setState(STATE newState) { currentState = newState; }
 
@@ -75,10 +75,6 @@ void StateMachine::run() {
           currentState = STATE::GAME;
           Input::getInstance().consumeJoystick();
           break;
-        case MENU_ITEM::SCORE:
-          currentState = STATE::SCORE_VIEW;
-          Input::getInstance().consumeJoystick();
-          break;
         case MENU_ITEM::DIFFICULTY:
           currentState = STATE::DIFFICULTY;
           Input::getInstance().consumeJoystick();
@@ -126,11 +122,6 @@ void StateMachine::run() {
     }
 
     break;
-  case STATE::SCORE_VIEW:
-    // TODO: Implement
-    // Really needed?
-
-    break;
   case STATE::DIFFICULTY:
     pressedButton = Input::getInstance().getPressedButton();
 
@@ -156,7 +147,6 @@ void StateMachine::run() {
 void StateMachine::selectPrevMenuItem(MENU_ITEM &item) {
   switch (item) {
   case MENU_ITEM::DIFFICULTY:
-  case MENU_ITEM::SCORE:
     item = static_cast<MENU_ITEM>(static_cast<uint8_t>(item) - 1);
     break;
   default:
@@ -166,7 +156,6 @@ void StateMachine::selectPrevMenuItem(MENU_ITEM &item) {
 void StateMachine::selectNextMenuItem(MENU_ITEM &item) {
   switch (item) {
   case MENU_ITEM::START:
-  case MENU_ITEM::SCORE:
     item = static_cast<MENU_ITEM>(static_cast<uint8_t>(item) + 1);
     break;
   default:

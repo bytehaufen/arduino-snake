@@ -21,19 +21,11 @@ private:
   /**
    * @brief Enum for the different states of the game.
    */
-  enum class STATE {
-    INIT,
-    INTRO,
-    MENU,
-    GAME,
-    SCORE_POPUP,
-    SCORE_VIEW,
-    DIFFICULTY
-  };
+  enum class STATE { INIT, INTRO, MENU, GAME, SCORE_POPUP, DIFFICULTY };
   /**
    * @brief Enum for the different menu items.
    */
-  enum class MENU_ITEM { START = 0, SCORE = 1, DIFFICULTY = 2 };
+  enum class MENU_ITEM { START = 0, DIFFICULTY = 1 };
   /**
    * @brief Enum for the different difficulties.
    */
@@ -41,7 +33,7 @@ private:
   // Holds the active state
   STATE currentState;
   // Menu items
-  static const uint8_t MENU_ITEMS_COUNT = 3;
+  static const uint8_t MENU_ITEMS_COUNT = 2;
   const String MENU_ITEMS[MENU_ITEMS_COUNT];
   // Menu items
   static const uint8_t DIFFICULTY_ITEMS_COUNT = 3;
