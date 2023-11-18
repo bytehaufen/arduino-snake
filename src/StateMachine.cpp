@@ -94,7 +94,7 @@ void StateMachine::run() {
       Input::getInstance().consumeJoystick();
     }
     // Run game
-    lastScore = game->run(); 
+    lastScore = game->run();
     if (lastScore != Game::GAME_RUNNING) {
       delete game;
       isFirstCall = true;
@@ -120,7 +120,8 @@ void StateMachine::run() {
 
     break;
   case STATE::SCORE_VIEW:
-    // TODO Implement
+    // TODO: Implement
+    // Really needed?
 
     break;
   }
