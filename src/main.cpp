@@ -20,15 +20,15 @@ void loop() {
   Input::getInstance().run();
 
   static uint32_t lastMillis = 0;
+  static uint32_t benchMarkmillis = timer.milliSeconds();
 
   // Run StateMachine every 10ms = 100 Hz
   if (timer.milliSeconds() - lastMillis >= 10) {
     stateMachine.run();
     lastMillis = timer.milliSeconds();
   }
+  // TODO: Rm DEBUG
+  Serial.println(timer.milliSeconds() - benchMarkmillis);
+  benchMarkmillis = timer.milliSeconds();
 
-  // TODO rm DEBUG
-#ifdef DEBUG
-  // Input::printi2cdevices();
-#endif // DEBUG
 }
