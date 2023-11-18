@@ -4,6 +4,7 @@
 #include "images/SnakeheadNorth.h"
 #include "images/SnakeheadSouth.h"
 #include "images/SnakeheadWest.h"
+#include "images/Snakebody.h"
 
 // Initialize display
 Display::Display() : display(TFT_CS, TFT_DC, TFT_RST) {
@@ -122,7 +123,9 @@ void Display::drawSegment(const int8_t x, const int8_t y,
 
   switch (segment) {
   case Display::Segments::BODY:
-    display.fillRect(xPixel, yPixel, SEGMENT_SIZE, SEGMENT_SIZE, ST77XX_WHITE);
+    display.drawRGBBitmap(xPixel, yPixel, Snakebody::image_data,
+                          Snakebody::image_width,
+                          Snakebody::image_height);
     break;
   case Display::Segments::NONE:
     display.fillRect(xPixel, yPixel, SEGMENT_SIZE, SEGMENT_SIZE, ST77XX_BLACK);
