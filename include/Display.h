@@ -136,12 +136,19 @@ public:
    */
   void printSimpleText(const String &message);
 
-  /** @brief Print information on the display.
+  /**
+   * @brief Print information on the display.
    * @param message The message to print.
    * @param init True if the message is the first to be printed, false
    * otherwise.
    */
   void printScore(const String &score, const bool init = false);
+
+  /**
+   * @brief Print score centered on the display.
+   * @param score The score to print.
+   */
+  void printScorePopup(const String &score);
 
   /**
    * @brief Draw an image on the display.

@@ -30,7 +30,7 @@ Game::Game() {
   display->printScore("0", true);
 }
 
-bool Game::run() {
+uint16_t Game::run() {
   Input::BUTTON bAction;
   static uint8_t clk = 0;
 
@@ -55,7 +55,7 @@ bool Game::run() {
 
   // Skip 100 clk cycles -> execute every 1s
   if (clk++ < 100) {
-    return true;
+    return GAME_RUNNING;
   }
   clk = 0;
 
@@ -128,7 +128,7 @@ bool Game::run() {
       (yHead >= Display::ROWS) || // if the head is under border
       (yHead < 0)) {              // if the head is above border
     // TODO: Implement Game finished
-    return false;
+    return snakedItems;
   }
   // Check head hits food
   if (segment[yHead][xHead] & Element::FOOD) {
@@ -175,7 +175,7 @@ bool Game::run() {
                            ? Display::Segments::HEAD_WEST
                            : Display::Segments::HEAD_SOUTH);
 
-  return true;
+  return GAME_RUNNING;
 }
 
 void Game::placeRandomFood(const uint8_t x, const uint8_t y) {

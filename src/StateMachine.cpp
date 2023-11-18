@@ -9,7 +9,7 @@ StateMachine::STATE StateMachine::getState() { return currentState; }
 
 void StateMachine::run() {
   static bool isFirstCall = true;
-  static uint8_t clockCounter;
+  static uint16_t clockCounter;
 
   switch (currentState) {
   case STATE::INIT:
@@ -19,7 +19,7 @@ void StateMachine::run() {
       isFirstCall = false;
     }
 
-    // Wait for 1 second
+    // Wait for for 10 cycles
     if (clockCounter++ > 10) {
       currentState = STATE::INTRO;
       clockCounter = 0;
@@ -74,7 +74,7 @@ void StateMachine::run() {
           Input::getInstance().consumeJoystick();
           break;
         case MENU_ITEM::SCORE:
-          currentState = STATE::SCORE;
+          currentState = STATE::SCORE_VIEW;
           Input::getInstance().consumeJoystick();
           break;
         }
@@ -93,22 +93,35 @@ void StateMachine::run() {
       game = new Game();
       Input::getInstance().consumeJoystick();
     }
-    // Done with game
-    if (!game->run()) {
+    // Run game
+    lastScore = game->run(); 
+    if (lastScore != Game::GAME_RUNNING) {
       delete game;
       isFirstCall = true;
-      currentState = STATE::SCORE;
+      currentState = STATE::SCORE_POPUP;
     }
 
     break;
 
-  case STATE::SCORE:
+  case STATE::SCORE_POPUP:
+    // TODO Implement
+    if (isFirstCall) {
+      clockCounter = 0;
+      isFirstCall = false;
+      Display::getInstance().printScorePopup(String(lastScore));
+    }
+
+    // Wait for 300 cycles
+    if (clockCounter++ > 300) {
+      currentState = STATE::INIT;
+      clockCounter = 0;
+      isFirstCall = true;
+    }
+
+    break;
+  case STATE::SCORE_VIEW:
     // TODO Implement
 
-    if (Display::getInstance().printSerialized("Score!")) {
-      currentState = STATE::INTRO;
-      Display::getInstance().clear();
-    }
     break;
   }
 };

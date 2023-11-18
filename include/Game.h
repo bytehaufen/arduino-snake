@@ -75,12 +75,14 @@ private:
   uint16_t emptyFields = 0;
 
 public:
+  static const uint8_t GAME_RUNNING = -1;
   Game();
   /**
    * @brief Progress one step of the game.
-   * @return True if game is running, false otherwise
+   * @return Returns GAME_RUNNING if game is still running, otherwise returns
+   * the reached score.
    */
-  bool run();
+  uint16_t run();
 };
 
 #endif // GAME_H

@@ -101,6 +101,20 @@ void Display::printScore(const String &score, const bool init) {
   lastScore = score;
 }
 
+// TODO: @HadesTeufel refactor!
+void Display::printScorePopup(const String &score) {
+  const uint8_t MARGIN = 5;
+  const uint8_t PADDING = 5;
+  display.fillRoundRect(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 3,
+                        SCREEN_HEIGHT / 4, 10, ST77XX_BLUE);
+  display.drawRoundRect(SCREEN_WIDTH / 3 + MARGIN, SCREEN_HEIGHT / 4 + MARGIN,
+                        SCREEN_WIDTH / 3 - 2 * MARGIN,
+                        SCREEN_HEIGHT / 4 - 2 * MARGIN, 10, ST77XX_WHITE);
+  display.setCursor(SCREEN_WIDTH / 3 + PADDING + MARGIN, SCREEN_HEIGHT / 2);
+  display.setTextColor(ST77XX_WHITE);
+  display.println("Your Score: " + score);
+}
+
 void Display::drawSegment(const int8_t x, const int8_t y,
                           Display::Segments segment) {
   uint16_t xPixel = Display::X_OFFSET + 2 + x * SEGMENT_SIZE;

@@ -21,7 +21,7 @@ private:
   /**
    * @brief Enum for the different states of the game.
    */
-  enum class STATE { INIT, INTRO, MENU, GAME, SCORE };
+  enum class STATE { INIT, INTRO, MENU, GAME, SCORE_POPUP, SCORE_VIEW };
   /**
    * @brief Enum for the different menu items.
    */
@@ -56,6 +56,11 @@ private:
    * @param item The Menu item object.
    */
   void selectNextMenuItem(MENU_ITEM &item);
+
+  /**
+   * @brief Holds the last score.
+   */
+  uint16_t lastScore = 0;
 
 public:
   /**
