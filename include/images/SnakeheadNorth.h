@@ -1,7 +1,7 @@
-#ifndef SNAKEHEAD_H
-#define SNAKEHEAD_H
+#ifndef SNAKEHEADNORTH_H
+#define SNAKEHEADNORTH_H
 
-namespace Snakehead {
+namespace SnakeheadNorth {
 const uint16_t image_data[] PROGMEM = {
   0x0000,  0x0000,  0x0000,  0x0000,  0x0000,  0xA514,  0xFFFF,  0xF800,  0xF800,  0xFFFF,  0x8C51,  0x0000,  0x0000,  0x0000,  0x0000,  0x0000,
   0x0000,  0x0000,  0x0000,  0x0000,  0xAD55,  0xFFFF,  0x0000,  0x0000,  0x0000,  0x0000,  0xFFFF,  0xAD55,  0x0000,  0x0000,  0x0000,  0x0000,
@@ -22,6 +22,6 @@ const uint16_t image_data[] PROGMEM = {
 };
 const int image_width = 16;
 const int image_height = 16;
-} // namespace Snakehead
+} // namespace SnakeheadNorth
 
-#endif // SNAKEHEAD_H
+#endif // SNAKEHEADNORTH_H
