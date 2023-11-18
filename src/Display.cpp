@@ -1,5 +1,9 @@
 #include "Display.h"
 #include "Adafruit_ST77xx.h"
+#include "images/SnakeheadEast.h"
+#include "images/SnakeheadNorth.h"
+#include "images/SnakeheadSouth.h"
+#include "images/SnakeheadWest.h"
 
 // Initialize display
 Display::Display() : display(TFT_CS, TFT_DC, TFT_RST) {
@@ -97,10 +101,39 @@ void Display::printScore(const String &score, const bool init) {
   lastScore = score;
 }
 
-void Display::drawSegment(const int8_t x, const int8_t y, bool c) {
-  display.fillRect(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
-                   Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, SEGMENT_SIZE,
-                   SEGMENT_SIZE, c ? 0xFFFFU : 0x0000U);
+void Display::drawSegment(const int8_t x, const int8_t y,
+                          Display::Segments segment) {
+  uint16_t xPixel = Display::X_OFFSET + 2 + x * SEGMENT_SIZE;
+  uint16_t yPixel = Display::Y_OFFSET + 2 + y * SEGMENT_SIZE;
+
+  switch (segment) {
+  case Display::Segments::BODY:
+    display.fillRect(xPixel, yPixel, SEGMENT_SIZE, SEGMENT_SIZE, ST77XX_WHITE);
+    break;
+  case Display::Segments::NONE:
+    display.fillRect(xPixel, yPixel, SEGMENT_SIZE, SEGMENT_SIZE, ST77XX_BLACK);
+    break;
+  case Display::Segments::HEAD_EAST:
+    display.drawRGBBitmap(xPixel, yPixel, SnakeheadEast::image_data,
+                          SnakeheadEast::image_width,
+                          SnakeheadEast::image_height);
+    break;
+  case Segments::HEAD_NORTH:
+    display.drawRGBBitmap(xPixel, yPixel, SnakeheadNorth::image_data,
+                          SnakeheadNorth::image_width,
+                          SnakeheadNorth::image_height);
+    break;
+  case Segments::HEAD_SOUTH:
+    display.drawRGBBitmap(xPixel, yPixel, SnakeheadSouth::image_data,
+                          SnakeheadSouth::image_width,
+                          SnakeheadSouth::image_height);
+    break;
+  case Segments::HEAD_WEST:
+    display.drawRGBBitmap(xPixel, yPixel, SnakeheadWest::image_data,
+                          SnakeheadWest::image_width,
+                          SnakeheadWest::image_height);
+    break;
+  }
 }
 
 void Display::drawFood(const uint8_t x, const uint8_t y,

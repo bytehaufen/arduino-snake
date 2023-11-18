@@ -87,13 +87,23 @@ public:
   bool printSerialized(const String &message);
 
   /**
+   * @brief Enum for drawSegment()
+   */
+  enum class Segments {
+    NONE, // Clear
+    BODY,
+    HEAD_NORTH,
+    HEAD_SOUTH,
+    HEAD_EAST,
+    HEAD_WEST,
+  };
+  /**
    * @brief Draws a segment at given coordinates with given color.
    * @param x X coordinate of rectangle.
    * @param y Y coordinate of rectangle.
-   * @param c Bool value representing the color of the segment to draw; either
-   * black (0) or white (1).
+   * @param segment Segment to draw. Type of enum Segments.
    */
-  void drawSegment(const int8_t x, const int8_t y, bool color);
+  void drawSegment(const int8_t x, const int8_t y, Segments segment);
 
   /**
    * @brief Print a menu on the display.

@@ -3,7 +3,6 @@
 #include "Input.h"
 #include "Timer.h"
 #include "images/Ba.h"
-#include "images/Snakehead.h"
 #include "images/Strawberry.h"
 
 Game::Game() {
@@ -26,7 +25,7 @@ Game::Game() {
   display->drawGameBorder(Display::X_OFFSET, Display::Y_OFFSET,
                           Display::SCREEN_WIDTH - 2 * Display::X_OFFSET,
                           Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET);
-  display->drawSegment(xHead, yHead, 1);
+  display->drawSegment(xHead, yHead, Display::Segments::HEAD_SOUTH);
 
   display->printScore("0", true);
 }
@@ -95,6 +94,8 @@ bool Game::run() {
     break;
   }
 
+  // Overwrite last head with body
+  display->drawSegment(xHead, yHead, Display::Segments::BODY);
   // Delete old head from array
   // Set direction of last head segment to point to new head
   segment[yHead][xHead] = Element::BODY | direc;
@@ -137,7 +138,7 @@ bool Game::run() {
   } else {
     // Erase tail otherwise if its not the head
     if (!(xHead == xTail && yHead == yTail)) {
-      display->drawSegment(xTail, yTail, 0);
+      display->drawSegment(xTail, yTail, Display::Segments::NONE);
     }
 
     // Filter direction and set new Tail
@@ -167,7 +168,12 @@ bool Game::run() {
   // Set new head
   segment[yHead][xHead] = direc | Element::BODY;
   // Draw new head
-  display->drawSegment(xHead, yHead, 1);
+  display->drawSegment(xHead, yHead,
+                       direc == Direction::RIGHT ? Display::Segments::HEAD_EAST
+                       : direc == Direction::UP  ? Display::Segments::HEAD_NORTH
+                       : direc == Direction::LEFT
+                           ? Display::Segments::HEAD_WEST
+                           : Display::Segments::HEAD_SOUTH);
 
   return true;
 }
