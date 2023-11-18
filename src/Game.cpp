@@ -27,7 +27,7 @@ Game::Game() {
                           Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET);
   display->drawSegment(xHead, yHead, Display::Segments::HEAD_SOUTH);
 
-  display->printScore("0", true);
+  display->printScoreInfo("0", true);
 }
 
 uint16_t Game::run() {
@@ -133,7 +133,7 @@ uint16_t Game::run() {
   // Check head hits food
   if (segment[yHead][xHead] & Element::FOOD) {
     segment[yHead][xHead] &= ~Element::FOOD;
-    display->printScore(String(++snakedItems));
+    display->printScoreInfo(String(++snakedItems));
     isFruitSpawned = false;
   } else {
     // Erase tail otherwise if its not the head

@@ -76,7 +76,7 @@ void Display::printSimpleText(const String &message) {
   display.println(message);
 }
 
-void Display::printScore(const String &score, const bool init) {
+void Display::printScoreInfo(const String &score, const bool init) {
   static String lastScore = "";
 
   if (lastScore == score) {

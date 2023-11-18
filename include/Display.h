@@ -142,7 +142,7 @@ public:
    * @param init True if the message is the first to be printed, false
    * otherwise.
    */
-  void printScore(const String &score, const bool init = false);
+  void printScoreInfo(const String &score, const bool init = false);
 
   /**
    * @brief Print score centered on the display.
