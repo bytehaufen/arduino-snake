@@ -1,7 +1,10 @@
 #include "StateMachine.h"
+#include "Arduino.h"
+#include "Display.h"
 
 StateMachine::StateMachine(Timer &t)
-    : currentState(STATE::INIT), MENU_ITEMS{"Start", "Score"}, timer(&t) {}
+    : currentState(STATE::INIT), MENU_ITEMS{"Start", "Score", "Difficulty"}, DIFFICULTY_ITEMS{"Easy", "Medium", "Hard"},
+      timer(&t) {}
 
 void StateMachine::setState(STATE newState) { currentState = newState; }
 
@@ -58,7 +61,6 @@ void StateMachine::run() {
   case STATE::MENU:
     static MENU_ITEM selectedItem = MENU_ITEM::START;
 
-    Input::BUTTON pressedButton;
     pressedButton = Input::getInstance().getPressedButton();
 
     if (isFirstCall || (pressedButton != Input::BUTTON::NONE)) {
@@ -77,7 +79,12 @@ void StateMachine::run() {
           currentState = STATE::SCORE_VIEW;
           Input::getInstance().consumeJoystick();
           break;
+        case MENU_ITEM::DIFFICULTY:
+          currentState = STATE::DIFFICULTY;
+          Input::getInstance().consumeJoystick();
+          break;
         }
+
         isFirstCall = true;
         break;
       }
@@ -124,24 +131,65 @@ void StateMachine::run() {
     // Really needed?
 
     break;
+  case STATE::DIFFICULTY:
+    pressedButton = Input::getInstance().getPressedButton();
+
+    if (isFirstCall || (pressedButton != Input::BUTTON::NONE)) {
+      isFirstCall = false;
+      if (pressedButton == Input::BUTTON::UP) {
+        selectPrevDifficulty(selectedDifficulty);
+      } else if (pressedButton == Input::BUTTON::DOWN) {
+        selectNextDifficulty(selectedDifficulty);
+      } else if (pressedButton == Input::BUTTON::MIDDLE) {
+        currentState = STATE::INIT;
+        clockCounter = 0;
+        isFirstCall = true;
+      }
+      Display::getInstance().printMenu(
+          DIFFICULTY_ITEMS, DIFFICULTY_ITEMS_COUNT,
+          static_cast<uint8_t>(selectedDifficulty));
+    }
+    break;
   }
 };
 
 void StateMachine::selectPrevMenuItem(MENU_ITEM &item) {
   switch (item) {
-  case MENU_ITEM::START:
-    break;
+  case MENU_ITEM::DIFFICULTY:
   case MENU_ITEM::SCORE:
-    item = MENU_ITEM::START;
+    item = static_cast<MENU_ITEM>(static_cast<uint8_t>(item) - 1);
+    break;
+  default:
     break;
   }
 }
 void StateMachine::selectNextMenuItem(MENU_ITEM &item) {
   switch (item) {
   case MENU_ITEM::START:
-    item = MENU_ITEM::SCORE;
-    break;
   case MENU_ITEM::SCORE:
+    item = static_cast<MENU_ITEM>(static_cast<uint8_t>(item) + 1);
+    break;
+  default:
     break;
   }
 };
+void StateMachine::selectPrevDifficulty(DIFFICULTY &item) {
+  switch (item) {
+  case DIFFICULTY::MEDIUM:
+  case DIFFICULTY::HARD:
+    item = static_cast<DIFFICULTY>(static_cast<uint8_t>(item) - 1);
+    break;
+  default:
+    break;
+  }
+}
+void StateMachine::selectNextDifficulty(DIFFICULTY &item) {
+  switch (item) {
+  case DIFFICULTY::EASY:
+  case DIFFICULTY::MEDIUM:
+    item = static_cast<DIFFICULTY>(static_cast<uint8_t>(item) + 1);
+    break;
+  default:
+    break;
+  }
+}

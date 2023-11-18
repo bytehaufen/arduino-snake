@@ -28,7 +28,9 @@ void loop() {
     lastMillis = timer.milliSeconds();
   }
   // TODO: Rm DEBUG
-  Serial.println(timer.milliSeconds() - benchMarkmillis);
+  uint16_t timeElapsed = timer.milliSeconds() - benchMarkmillis;
+  if (timeElapsed) {
+    Serial.println(timer.milliSeconds() - benchMarkmillis);
+  }
   benchMarkmillis = timer.milliSeconds();
-
 }
