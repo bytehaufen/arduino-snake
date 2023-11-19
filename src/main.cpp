@@ -7,6 +7,14 @@
 Timer timer;
 StateMachine stateMachine(timer);
 
+/**
+ * @brief Calculates the free memory by measuring the distance between current
+ * stack pointer and the heap pointers.
+ *  NOTE: No exact value (that's impossible on avr mcu)
+ *  @return free memory
+ */
+int getFreeMemory();
+
 void setup() {
   // Initialize Display
   Display::getInstance().clear();
@@ -31,6 +39,18 @@ void loop() {
   uint16_t timeElapsed = timer.milliSeconds() - benchMarkmillis;
   if (timeElapsed) {
     Serial.println(timer.milliSeconds() - benchMarkmillis);
+    Serial.println(getFreeMemory());
   }
   benchMarkmillis = timer.milliSeconds();
+extern unsigned int __heap_start;
+extern void *__brkval;
+
+int getFreeMemory() {
+  int free_memory;
+  if ((int)__brkval == 0) {
+    free_memory = ((int)&free_memory) - ((int)&__heap_start);
+  } else {
+    free_memory = ((int)&free_memory) - ((int)__brkval);
+  }
+  return free_memory;
 }
