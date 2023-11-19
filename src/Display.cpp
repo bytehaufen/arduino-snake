@@ -19,7 +19,7 @@ Display &Display::getInstance() {
   return instance;
 }
 
-bool Display::printSerialized(const String &message) {
+bool Display::printSerialized(const char *message) {
   static uint16_t i = 0;
   static uint8_t clockCounter = 0;
 
@@ -37,7 +37,7 @@ bool Display::printSerialized(const String &message) {
     display.print(message[i++]);
   }
   // If last character is printed return true
-  if (i == message.length()) {
+  if (message[i] == '\0') {
     i = 0;
     clockCounter = 0;
     return true;
@@ -45,7 +45,7 @@ bool Display::printSerialized(const String &message) {
   return false;
 }
 
-void Display::printMenu(const String &heading, const String menuItems[],
+void Display::printMenu(const char *heading, const char *menuItems[],
                         const uint8_t menuItemsCount,
                         const uint8_t selectedItem) {
   display.setTextColor(ST77XX_YELLOW);
@@ -75,20 +75,20 @@ void Display::drawGameBorder(const uint16_t x0, const uint16_t y0,
   display.drawRect(x0, y0, x1, y1, COLOR);
 }
 
-void Display::printSimpleText(const String &message) {
+void Display::printSimpleText(const char *message) {
   display.setCursor(20, 20);
   display.setTextColor(ST77XX_WHITE);
   display.setTextSize(4);
   display.println(message);
 }
 
-void Display::printScoreInfo(const String &score, const bool init) {
-  static String lastScore = "";
+void Display::printScoreInfo(const uint16_t score, const bool init) {
+  static uint16_t lastScore = 0;
 
   if (init) {
     display.setTextWrap(false);
     display.setCursor(30, 2);
-    display.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
+    display.setTextColor(ST77XX_YELLOW, ST77XX_BLACK);
     display.setTextSize(2);
     display.print("Score: ");
   } else if (lastScore == score) {
@@ -106,7 +106,7 @@ void Display::printScoreInfo(const String &score, const bool init) {
 }
 
 // TODO: @HadesTeufel refactor!
-void Display::printScorePopup(const String &score) {
+void Display::printScorePopup(const uint16_t score) {
   const uint8_t MARGIN = 5;
   const uint8_t PADDING = 5;
   display.fillRoundRect(SCREEN_WIDTH / 3, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 3,
@@ -116,7 +116,8 @@ void Display::printScorePopup(const String &score) {
                         SCREEN_HEIGHT / 4 - 2 * MARGIN, 10, ST77XX_WHITE);
   display.setCursor(SCREEN_WIDTH / 3 + PADDING + MARGIN, SCREEN_HEIGHT / 2);
   display.setTextColor(ST77XX_WHITE);
-  display.println("Your Score: " + score);
+  display.print("Your Score: ");
+  display.println(score);
 }
 
 void Display::drawSegment(const int8_t x, const int8_t y,
