@@ -1,10 +1,13 @@
+all:
+	pio run -t compiledb
+	pio run -t upload
+	pio device monitor
 init: 
 	pio project init --board=uno --ide=vim
 	pio project init --board=uno --ide=vscode
 build:
 	pio run -t compiledb
-	pio run -t upload
-	pio device monitor
+	pio run
 update:
 	pio run -t compiledb
 monitor:

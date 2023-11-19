@@ -5,13 +5,18 @@ clang
 
 -I/home/rico/Projects/arduino/arduino-snake/include
 -I/home/rico/Projects/arduino/arduino-snake/src
+-I/home/rico/Projects/arduino/arduino-snake/.pio/libdeps/uno/Adafruit ST7735 and ST7789 Library
+-I/home/rico/Projects/arduino/arduino-snake/.pio/libdeps/uno/Adafruit GFX Library
+-I/home/rico/Projects/arduino/arduino-snake/.pio/libdeps/uno/Adafruit BusIO
+-I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src
+-I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src
 -I/home/rico/.platformio/packages/framework-arduino-avr/cores/arduino
 -I/home/rico/.platformio/packages/framework-arduino-avr/variants/standard
+-I/home/rico/Projects/arduino/arduino-snake/.pio/libdeps/uno/Adafruit seesaw Library
+-I/home/rico/Projects/arduino/arduino-snake/.pio/libdeps/uno/SD/src
 -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src
 -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/HID/src
--I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SPI/src
 -I/home/rico/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src
--I/home/rico/.platformio/packages/framework-arduino-avr/libraries/Wire/src
 -I/home/rico/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include-fixed
 -I/home/rico/.platformio/packages/toolchain-atmelavr/lib/gcc/avr/7.3.0/include
 -I/home/rico/.platformio/packages/toolchain-atmelavr/avr/include
