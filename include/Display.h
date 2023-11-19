@@ -160,6 +160,12 @@ public:
    */
   void drawFood(const uint8_t x, const uint8_t y, const uint16_t *image_data,
                 const uint16_t w, const uint16_t h);
+  /**
+   * @brief Draw the logo on the display.
+   * @param x Point on the x axis.
+   * @param y Point on the y axis.
+   */
+  void drawLogo(const int16_t x, const int16_t y);
 };
 
 #endif // OLED_H

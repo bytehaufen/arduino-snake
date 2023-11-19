@@ -26,7 +26,7 @@ bool Display::printSerialized(const String &message) {
   // If first iteration
   if (i == 0) {
     display.fillScreen(ST77XX_BLACK);
-    display.setCursor(20, 20);
+    display.setCursor(20, 80);
     display.setTextColor(ST77XX_WHITE);
     display.setTextSize(4);
   }
@@ -158,4 +158,10 @@ void Display::drawFood(const uint8_t x, const uint8_t y,
   display.drawRGBBitmap(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
                         Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, image_data,
                         16, 16);
+}
+
+void Display::drawLogo(const int16_t x, const int16_t y) {
+  display.drawRGBBitmap(x, y, SnakeheadWest::image_data,
+                        SnakeheadWest::image_width,
+                        SnakeheadWest::image_height);
 }

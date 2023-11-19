@@ -42,11 +42,13 @@ void StateMachine::run() {
 
     if (!introFinished && clockCounter++ % 10 == 0 &&
         Display::getInstance().printSerialized("Welcome to   Snake!")) {
+
+      Display::getInstance().drawLogo(220, 120);
       introFinished = true;
       clockCounter = 0;
     }
-    // Wait for 1 second IF intro is finished
-    if (introFinished && clockCounter++ > 100) {
+    // Wait for 2 seconds IF intro is finished
+    if (introFinished && clockCounter++ > 200) {
       currentState = STATE::MENU;
       introFinished = false;
       isFirstCall = true;
@@ -62,6 +64,10 @@ void StateMachine::run() {
     static MENU_ITEM selectedItem = MENU_ITEM::START;
 
     pressedButton = Input::getInstance().getPressedButton();
+
+    if (isFirstCall) {
+      Display::getInstance().clear();
+    }
 
     if (isFirstCall || (pressedButton != Input::BUTTON::NONE)) {
       isFirstCall = false;
