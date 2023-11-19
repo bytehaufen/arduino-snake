@@ -26,8 +26,8 @@ private:
   // Constants for Display::printMenu()
   const uint16_t MENU_X_OFFSET = 50;
   const uint16_t MENU_Y_OFFSET = 80;
-  const uint16_t MENU_Y_SPACE = 35;
-  const uint8_t MENU_TEXT_SIZE = 3;
+  const uint16_t MENU_Y_SPACE = 30;
+  const uint8_t MENU_TEXT_SIZE = 2;
 
   /**
    * @brief Private constructor.
