@@ -101,13 +101,14 @@ void StateMachine::run() {
       srand(timer->milliSeconds());
       game = new Game(selectedDifficulty);
       Input::getInstance().consumeJoystick();
-    }
-    // Run game
-    lastScore = game->run();
-    if (lastScore != Game::GAME_RUNNING) {
-      delete game;
-      isFirstCall = true;
-      currentState = STATE::SCORE_POPUP;
+    } else {
+      // Run game
+      lastScore = game->run();
+      if (lastScore != Game::GAME_RUNNING) {
+        delete game;
+        isFirstCall = true;
+        currentState = STATE::SCORE_POPUP;
+      }
     }
 
     break;

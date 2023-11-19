@@ -84,16 +84,14 @@ void Display::printSimpleText(const String &message) {
 void Display::printScoreInfo(const String &score, const bool init) {
   static String lastScore = "";
 
-  if (lastScore == score) {
-    return;
-  }
-
   if (init) {
     display.setTextWrap(false);
     display.setCursor(30, 2);
     display.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
     display.setTextSize(2);
     display.print("Score: ");
+  } else if (lastScore == score) {
+    return;
   }
 
   display.setTextWrap(false);
