@@ -32,7 +32,7 @@ private:
   static const uint8_t MENU_ITEMS_COUNT = 2;
   const String MENU_ITEMS[MENU_ITEMS_COUNT];
   // Menu items
-  static const uint8_t DIFFICULTY_ITEMS_COUNT = 3;
+  static const uint8_t DIFFICULTY_ITEMS_COUNT = 5;
   const String DIFFICULTY_ITEMS[DIFFICULTY_ITEMS_COUNT];
   // Pointer to game
   Game *game;

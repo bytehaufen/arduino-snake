@@ -17,7 +17,13 @@ public:
   /**
    * @brief Enum for the different difficulties.
    */
-  enum class DIFFICULTY { EASY = 2, MEDIUM = 4, HARD = 8 };
+  enum class DIFFICULTY {
+    EASY = 2,
+    MEDIUM = 4,
+    HARD = 8,
+    HARDEST = 16,
+    IMPOSSIBLE = 32
+  };
 
 private:
   /**
