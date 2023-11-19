@@ -119,7 +119,7 @@ void StateMachine::run() {
     if (isFirstCall) {
       clockCounter = 0;
       isFirstCall = false;
-      Display::getInstance().printScorePopup(String(lastScore));
+      Display::getInstance().printScorePopup(lastScore);
     }
 
     // Wait for 300 cycles

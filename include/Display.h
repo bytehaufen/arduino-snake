@@ -84,7 +84,7 @@ public:
    * @param message The message to print.
    * @return True if the message is done printing, false otherwise.
    */
-  bool printSerialized(const String &message);
+  bool printSerialized(const char *message);
 
   /**
    * @brief Enum for drawSegment()
@@ -111,7 +111,7 @@ public:
    * @param menuItemsCount Number of menu items.
    * @param selectedItem Selected menu item.
    */
-  void printMenu(const String &heading, const String menuItems[],
+  void printMenu(const char *heading, const char *menuItems[],
                  const uint8_t menuItemsCount, const uint8_t selectedItem);
 
   /**
@@ -134,7 +134,7 @@ public:
    * @brief Print a simple text on the display.
    * @param message The message to print.
    */
-  void printSimpleText(const String &message);
+  void printSimpleText(const char *message);
 
   /**
    * @brief Print information on the display.
@@ -142,13 +142,13 @@ public:
    * @param init True if the message is the first to be printed, false
    * otherwise.
    */
-  void printScoreInfo(const String &score, const bool init = false);
+  void printScoreInfo(const uint16_t score, const bool init = false);
 
   /**
    * @brief Print score centered on the display.
    * @param score The score to print.
    */
-  void printScorePopup(const String &score);
+  void printScorePopup(const uint16_t score);
 
   /**
    * @brief Draw an image on the display.
