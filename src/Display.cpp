@@ -45,9 +45,13 @@ bool Display::printSerialized(const String &message) {
   return false;
 }
 
-void Display::printMenu(const String menuItems[], const uint8_t menuItemsCount,
+void Display::printMenu(const String &heading, const String menuItems[],
+                        const uint8_t menuItemsCount,
                         const uint8_t selectedItem) {
   display.setTextSize(MENU_TEXT_SIZE);
+  display.setTextColor(ST77XX_YELLOW);
+  display.setCursor(20, 20);
+  display.println(heading);
 
   for (uint8_t i = 0; i < menuItemsCount; i++) {
     display.setCursor(MENU_X_OFFSET, MENU_Y_OFFSET + i * MENU_Y_SPACE);

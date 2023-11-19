@@ -24,8 +24,8 @@ private:
   // Delay for Display::printSerialized() -> divider for game clock
   const uint8_t CLK_DIVIDER = 2;
   // Constants for Display::printMenu()
-  const uint16_t MENU_X_OFFSET = 100;
-  const uint16_t MENU_Y_OFFSET = 130;
+  const uint16_t MENU_X_OFFSET = 50;
+  const uint16_t MENU_Y_OFFSET = 80;
   const uint16_t MENU_Y_SPACE = 35;
   const uint8_t MENU_TEXT_SIZE = 3;
 
@@ -111,8 +111,8 @@ public:
    * @param menuItemsCount Number of menu items.
    * @param selectedItem Selected menu item.
    */
-  void printMenu(const String menuItems[], const uint8_t menuItemsCount,
-                 const uint8_t selectedItem);
+  void printMenu(const String &heading, const String menuItems[],
+                 const uint8_t menuItemsCount, const uint8_t selectedItem);
 
   /**
    * @brief Clear the display.

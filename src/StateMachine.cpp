@@ -90,7 +90,7 @@ void StateMachine::run() {
         isFirstCall = true;
         break;
       }
-      Display::getInstance().printMenu(MENU_ITEMS, MENU_ITEMS_COUNT,
+      Display::getInstance().printMenu("Menu", MENU_ITEMS, MENU_ITEMS_COUNT,
                                        static_cast<uint8_t>(selectedItem));
     }
     break;
@@ -122,7 +122,7 @@ void StateMachine::run() {
 
     // Wait for 300 cycles
     if (clockCounter++ > 300) {
-      currentState = STATE::INIT;
+      currentState = STATE::MENU;
       clockCounter = 0;
       isFirstCall = true;
     }
@@ -131,6 +131,10 @@ void StateMachine::run() {
   case STATE::DIFFICULTY:
     pressedButton = Input::getInstance().getPressedButton();
 
+    if (isFirstCall) {
+      Display::getInstance().clear();
+    }
+
     if (isFirstCall || (pressedButton != Input::BUTTON::NONE)) {
       isFirstCall = false;
       if (pressedButton == Input::BUTTON::UP) {
@@ -138,12 +142,12 @@ void StateMachine::run() {
       } else if (pressedButton == Input::BUTTON::DOWN) {
         selectNextDifficulty(selectedDifficulty);
       } else if (pressedButton == Input::BUTTON::MIDDLE) {
-        currentState = STATE::INIT;
+        currentState = STATE::MENU;
         clockCounter = 0;
         isFirstCall = true;
       }
       Display::getInstance().printMenu(
-          DIFFICULTY_ITEMS, DIFFICULTY_ITEMS_COUNT,
+          "Difficulty", DIFFICULTY_ITEMS, DIFFICULTY_ITEMS_COUNT,
           selectedDifficulty == Game::DIFFICULTY::HARD     ? 2
           : selectedDifficulty == Game::DIFFICULTY::MEDIUM ? 1
                                                            : 0);
