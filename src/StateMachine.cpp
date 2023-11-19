@@ -138,7 +138,9 @@ void StateMachine::run() {
       }
       Display::getInstance().printMenu(
           DIFFICULTY_ITEMS, DIFFICULTY_ITEMS_COUNT,
-          static_cast<uint8_t>(selectedDifficulty));
+          selectedDifficulty == Game::DIFFICULTY::HARD     ? 2
+          : selectedDifficulty == Game::DIFFICULTY::MEDIUM ? 1
+                                                           : 0);
     }
     break;
   }
@@ -164,10 +166,12 @@ void StateMachine::selectNextMenuItem(MENU_ITEM &item) {
 };
 void StateMachine::selectPrevDifficulty(Game::DIFFICULTY &selectedDifficulty) {
   switch (selectedDifficulty) {
+
   case Game::DIFFICULTY::MEDIUM:
+    selectedDifficulty = Game::DIFFICULTY::EASY;
+    break;
   case Game::DIFFICULTY::HARD:
-    selectedDifficulty = static_cast<Game::DIFFICULTY>(
-        static_cast<uint8_t>(selectedDifficulty) - 1);
+    selectedDifficulty = Game::DIFFICULTY::MEDIUM;
     break;
   default:
     break;
@@ -176,9 +180,10 @@ void StateMachine::selectPrevDifficulty(Game::DIFFICULTY &selectedDifficulty) {
 void StateMachine::selectNextDifficulty(Game::DIFFICULTY &selectedDifficulty) {
   switch (selectedDifficulty) {
   case Game::DIFFICULTY::EASY:
+    selectedDifficulty = Game::DIFFICULTY::MEDIUM;
+    break;
   case Game::DIFFICULTY::MEDIUM:
-    selectedDifficulty = static_cast<Game::DIFFICULTY>(
-        static_cast<uint8_t>(selectedDifficulty) + 1);
+    selectedDifficulty = Game::DIFFICULTY::HARD;
     break;
   default:
     break;

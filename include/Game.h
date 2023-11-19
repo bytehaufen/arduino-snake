@@ -17,7 +17,7 @@ public:
   /**
    * @brief Enum for the different difficulties.
    */
-  enum class DIFFICULTY { EASY = 0, MEDIUM = 1, HARD = 2 };
+  enum class DIFFICULTY { EASY = 2, MEDIUM = 4, HARD = 8 };
 
 private:
   /**
@@ -79,6 +79,7 @@ private:
   uint32_t snakedItems = 0;
   bool isFruitSpawned = false;
   uint16_t emptyFields = 0;
+  DIFFICULTY selectedDifficulty;
 
 public:
   static const uint8_t GAME_RUNNING = -1;

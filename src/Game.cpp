@@ -6,6 +6,7 @@
 #include "images/Strawberry.h"
 
 Game::Game(DIFFICULTY difficulty) {
+  selectedDifficulty = difficulty;
   // Initialize snake segment array
   for (int i = 0; i < Display::ROWS; i++) {
     for (int j = 0; j < Display::COLS; j++) {
@@ -54,7 +55,7 @@ uint16_t Game::run() {
   }
 
   // Skip 100 clk cycles -> execute every 1s
-  if (clk++ < 100) {
+  if (clk++ < (100 / static_cast<uint8_t>(selectedDifficulty))) {
     return GAME_RUNNING;
   }
   clk = 0;
