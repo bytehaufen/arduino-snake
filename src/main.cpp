@@ -2,6 +2,7 @@
 #include "StateMachine.h"
 #include "Timer.h"
 
+// TODO: Remove in production
 #define DEBUG
 
 Timer timer;
@@ -19,8 +20,9 @@ void setup() {
   // Initialize Display
   Display::getInstance().clear();
 
-  // TODO: rm
+#ifdef DEBUG
   Serial.begin(115200);
+#endif
 }
 
 void loop() {
@@ -28,20 +30,25 @@ void loop() {
   Input::getInstance().run(&timer);
 
   static uint32_t lastMillis = 0;
-  static uint32_t benchMarkmillis = timer.milliSeconds();
 
   // Run StateMachine every 10ms = 100 Hz
   if (timer.milliSeconds() - lastMillis >= 10) {
     stateMachine.run();
     lastMillis = timer.milliSeconds();
   }
-  // TODO: Rm DEBUG
+
+#ifdef DEBUG
+  static uint32_t benchMarkmillis = timer.milliSeconds();
   uint16_t timeElapsed = timer.milliSeconds() - benchMarkmillis;
   if (timeElapsed) {
     Serial.println(timer.milliSeconds() - benchMarkmillis);
     Serial.println(getFreeMemory());
   }
   benchMarkmillis = timer.milliSeconds();
+#endif
+}
+
+#ifdef DEBUG
 extern unsigned int __heap_start;
 extern void *__brkval;
 
@@ -54,3 +61,4 @@ int getFreeMemory() {
   }
   return free_memory;
 }
+#endif
