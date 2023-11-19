@@ -93,7 +93,7 @@ void StateMachine::run() {
     if (isFirstCall) {
       isFirstCall = false;
       srand(timer->milliSeconds());
-      game = new Game();
+      game = new Game(selectedDifficulty);
       Input::getInstance().consumeJoystick();
     }
     // Run game
@@ -162,21 +162,23 @@ void StateMachine::selectNextMenuItem(MENU_ITEM &item) {
     break;
   }
 };
-void StateMachine::selectPrevDifficulty(DIFFICULTY &selectedDifficulty) {
+void StateMachine::selectPrevDifficulty(Game::DIFFICULTY &selectedDifficulty) {
   switch (selectedDifficulty) {
-  case DIFFICULTY::MEDIUM:
-  case DIFFICULTY::HARD:
-    selectedDifficulty = static_cast<DIFFICULTY>(static_cast<uint8_t>(selectedDifficulty) - 1);
+  case Game::DIFFICULTY::MEDIUM:
+  case Game::DIFFICULTY::HARD:
+    selectedDifficulty = static_cast<Game::DIFFICULTY>(
+        static_cast<uint8_t>(selectedDifficulty) - 1);
     break;
   default:
     break;
   }
 }
-void StateMachine::selectNextDifficulty(DIFFICULTY &selectedDifficulty) {
+void StateMachine::selectNextDifficulty(Game::DIFFICULTY &selectedDifficulty) {
   switch (selectedDifficulty) {
-  case DIFFICULTY::EASY:
-  case DIFFICULTY::MEDIUM:
-    selectedDifficulty = static_cast<DIFFICULTY>(static_cast<uint8_t>(selectedDifficulty) + 1);
+  case Game::DIFFICULTY::EASY:
+  case Game::DIFFICULTY::MEDIUM:
+    selectedDifficulty = static_cast<Game::DIFFICULTY>(
+        static_cast<uint8_t>(selectedDifficulty) + 1);
     break;
   default:
     break;

@@ -13,6 +13,12 @@
  * @brief Class that holds the game loop.
  */
 class Game {
+public:
+  /**
+   * @brief Enum for the different difficulties.
+   */
+  enum class DIFFICULTY { EASY = 0, MEDIUM = 1, HARD = 2 };
+
 private:
   /**
    * @brief two-dimensional array holding snake segments
@@ -76,7 +82,7 @@ private:
 
 public:
   static const uint8_t GAME_RUNNING = -1;
-  Game();
+  Game(DIFFICULTY difficulty);
   /**
    * @brief Progress one step of the game.
    * @return Returns GAME_RUNNING if game is still running, otherwise returns

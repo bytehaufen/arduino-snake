@@ -26,10 +26,6 @@ private:
    * @brief Enum for the different menu items.
    */
   enum class MENU_ITEM { START = 0, DIFFICULTY = 1 };
-  /**
-   * @brief Enum for the different difficulties.
-   */
-  enum class DIFFICULTY { EASY = 0, MEDIUM = 1, HARD = 2 };
   // Holds the active state
   STATE currentState;
   // Menu items
@@ -44,7 +40,7 @@ private:
   // Stores the pressed button.
   Input::BUTTON pressedButton;
   // Stores the selected difficulty.
-  DIFFICULTY selectedDifficulty = DIFFICULTY::EASY;
+  Game::DIFFICULTY selectedDifficulty = Game::DIFFICULTY::EASY;
   /**
    * @brief Sets the state of the game.
    * @param newState The new state of the game.
@@ -70,12 +66,12 @@ private:
    * @brief Selects the previous difficulty.
    * @param item The Difficulty item object.
    */
-  void selectPrevDifficulty(DIFFICULTY &item);
+  void selectPrevDifficulty(Game::DIFFICULTY &item);
   /**
    * @brief Selects the next difficulty.
    * @param item The Difficulty item object.j
    */
-  void selectNextDifficulty(DIFFICULTY &item);
+  void selectNextDifficulty(Game::DIFFICULTY &item);
 
   /**
    * @brief Holds the last score.

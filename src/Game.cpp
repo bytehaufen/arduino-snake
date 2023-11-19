@@ -5,7 +5,7 @@
 #include "images/Ba.h"
 #include "images/Strawberry.h"
 
-Game::Game() {
+Game::Game(DIFFICULTY difficulty) {
   // Initialize snake segment array
   for (int i = 0; i < Display::ROWS; i++) {
     for (int j = 0; j < Display::COLS; j++) {
