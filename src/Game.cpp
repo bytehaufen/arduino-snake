@@ -145,20 +145,16 @@ uint16_t Game::run() {
     switch (segment[yTail][xTail] & (Direction::RIGHT | Direction::UP |
                                      Direction::LEFT | Direction::DOWN)) {
     case Direction::RIGHT:
-      segment[yTail][xTail] = 0;
-      segment[yTail][++xTail] |= Element::BODY;
+      segment[yTail][xTail++] = 0;
       break;
     case Direction::UP:
-      segment[yTail][xTail] = 0;
-      segment[--yTail][xTail] |= Element::BODY;
+      segment[yTail--][xTail] = 0;
       break;
     case Direction::LEFT:
-      segment[yTail][xTail] = 0;
-      segment[yTail][--xTail] |= Element::BODY;
+      segment[yTail][xTail--] = 0;
       break;
     case Direction::DOWN:
-      segment[yTail][xTail] = 0;
-      segment[++yTail][xTail] |= Element::BODY;
+      segment[yTail++][xTail] = 0;
       break;
     default:
       break;
