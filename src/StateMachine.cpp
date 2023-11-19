@@ -162,21 +162,21 @@ void StateMachine::selectNextMenuItem(MENU_ITEM &item) {
     break;
   }
 };
-void StateMachine::selectPrevDifficulty(DIFFICULTY &item) {
-  switch (item) {
+void StateMachine::selectPrevDifficulty(DIFFICULTY &selectedDifficulty) {
+  switch (selectedDifficulty) {
   case DIFFICULTY::MEDIUM:
   case DIFFICULTY::HARD:
-    item = static_cast<DIFFICULTY>(static_cast<uint8_t>(item) - 1);
+    selectedDifficulty = static_cast<DIFFICULTY>(static_cast<uint8_t>(selectedDifficulty) - 1);
     break;
   default:
     break;
   }
 }
-void StateMachine::selectNextDifficulty(DIFFICULTY &item) {
-  switch (item) {
+void StateMachine::selectNextDifficulty(DIFFICULTY &selectedDifficulty) {
+  switch (selectedDifficulty) {
   case DIFFICULTY::EASY:
   case DIFFICULTY::MEDIUM:
-    item = static_cast<DIFFICULTY>(static_cast<uint8_t>(item) + 1);
+    selectedDifficulty = static_cast<DIFFICULTY>(static_cast<uint8_t>(selectedDifficulty) + 1);
     break;
   default:
     break;
