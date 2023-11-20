@@ -1,12 +1,21 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # TODO
 
 ## Major
 
+||||||| parent of e22cab1 (chore: Update todo.)
+=======
+# TODO
+
+## Major
+
+>>>>>>> e22cab1 (chore: Update todo.)
 - [ ] Remove space between last segment and border in game area on left and bottom. -> HadesTeufel?
 - [ ] Change polling of digital pin to interrupt -> rico-de
 - [ ] Change adc while loop to interrupt -> rico-de
 - [ ] Update class diagram -> rico-de
+<<<<<<< HEAD
 - [ ] Change all colors to orange -> HadesTeufel
 - [ ] Exit score popup with click instead of time -> HadesTeufel
 - [ ] Check all TODO, FIX, FIXME comments -> rico-de
@@ -23,3 +32,13 @@
 - [ ] Change polling of digital pin to interrupt -> rico-de
 - [ ] Change adc while loop to interrupt -> rico-de
 >>>>>>> 3a40062 (doc: Add todo file.)
+||||||| parent of e22cab1 (chore: Update todo.)
+=======
+- [ ] Change all colors to orange -> HadesTeufel
+- [ ] Exit score popup with click instead of time -> HadesTeufel
+- [ ] Check all TODO, FIX, FIXME comments -> rico-de
+
+## Minor
+
+- [ ] Change menu and difficulty selector to SnakeHead_east
+>>>>>>> e22cab1 (chore: Update todo.)
