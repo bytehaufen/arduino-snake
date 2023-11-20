@@ -1,10 +1,24 @@
 #include "Input.h"
 
-Input::Input() : joystickConsumed(true) {
-  // Set middle button as INPUT_PULLUP
-  DDRC &= ~(1 << BUTTON_PIN);
-  PORTC |= (1 << BUTTON_PIN);
+// Variable for middle button in ISR
+volatile bool middleBtn = false;
 
+Input::Input() : joystickConsumed(true) {
+  // Disable all interrupts
+  cli();
+
+  /* Digital input */
+  // Set middle button as INPUT_PULLUP
+  DDRD &= ~(1 << BUTTON_PIN);
+  PORTD |= (1 << BUTTON_PIN);
+  // Set INT0 to trigger on falling edge
+  // Set INT0 to trigger on falling edge
+  EICRA |= (1 << ISC01);
+  EICRA &= ~(1 << ISC00);
+  // Enable external interrupt 0 (INT0)
+  EIMSK |= (1 << INT0);
+
+  /* Analog input */
   // Set internal reference voltage for ADC
   ADMUX |= (1 << REFS0);
   // Set ADC prescaler to 128 (0b111) (for 16 MHz clock, this results in 125
@@ -19,6 +33,9 @@ Input::Input() : joystickConsumed(true) {
   }
   (void)ADCL;
   (void)ADCH;
+
+  // Enable interrupts
+  sei();
 }
 
 Input &Input::getInstance() {
@@ -29,47 +46,47 @@ Input &Input::getInstance() {
 void Input::run(Timer *timer) {
   static uint32_t lastMillis = 0;
 
-  // If middle button is pressed
+  // Reset all pressed buttons if joystick is consumed
+  if (joystickConsumed) {
+    middleButtonPressed = false;
+    rightButtonPressed = false;
+    leftButtonPressed = false;
+    upButtonPressed = false;
+    downButtonPressed = false;
+    joystickConsumed = false;
+  }
+
+  // Debounce middle button
   if (timer->milliSeconds() - lastMillis >= DEBOUNCE_TIME) {
-    lastMillis = timer->milliSeconds();
-    // Reset all pressed buttons if joystick is consumed
-    if (joystickConsumed) {
-      middleButtonPressed = false;
-      rightButtonPressed = false;
-      leftButtonPressed = false;
-      upButtonPressed = false;
-      downButtonPressed = false;
+    if (middleBtn) {
+      lastMillis = timer->milliSeconds();
 
-      if (!(PINC & (1 << BUTTON_PIN))) {
-        if (!lastMiddleButtonPressed) {
-          lastMiddleButtonPressed = true;
-          middleButtonPressed = true;
-          joystickConsumed = false;
-        }
-      } else {
-        lastMiddleButtonPressed = false;
-        uint16_t xValue = adcRead(X_PIN);
-        uint16_t yValue = adcRead(Y_PIN);
-
-        // If joystick moved right
-        if (xValue > (AD_MAX / 2) + AD_THRESH) {
-          rightButtonPressed = true;
-          joystickConsumed = false;
-          // If joystick moved left
-        } else if (xValue < (AD_MAX / 2) - AD_THRESH) {
-          leftButtonPressed = true;
-          joystickConsumed = false;
-          // If joystick moved up
-        } else if (yValue < (AD_MAX / 2) - AD_THRESH) {
-          upButtonPressed = true;
-          joystickConsumed = false;
-          // If joystick moved down
-        } else if (yValue > (AD_MAX / 2) + AD_THRESH) {
-          downButtonPressed = true;
-          joystickConsumed = false;
-        }
-      }
+      middleButtonPressed = true;
     }
+  } else {
+    middleBtn = false;
+  }
+
+  // Read analog
+  uint16_t xValue = adcRead(X_PIN);
+  uint16_t yValue = adcRead(Y_PIN);
+
+  // If joystick moved right
+  if (xValue > (AD_MAX / 2) + AD_THRESH) {
+    rightButtonPressed = true;
+    joystickConsumed = false;
+    // If joystick moved left
+  } else if (xValue < (AD_MAX / 2) - AD_THRESH) {
+    leftButtonPressed = true;
+    joystickConsumed = false;
+    // If joystick moved up
+  } else if (yValue < (AD_MAX / 2) - AD_THRESH) {
+    upButtonPressed = true;
+    joystickConsumed = false;
+    // If joystick moved down
+  } else if (yValue > (AD_MAX / 2) + AD_THRESH) {
+    downButtonPressed = true;
+    joystickConsumed = false;
   }
 }
 
@@ -112,3 +129,8 @@ uint16_t Input::adcRead(uint8_t pin) {
   // Return ADC value
   return value;
 }
+
+/**
+ * @brief Interrupt service routine for Arduino pin 2
+ */
+ISR(INT0_vect) { middleBtn = true; }

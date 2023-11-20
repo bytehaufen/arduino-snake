@@ -7,6 +7,7 @@
 #define SYSTEM_H
 
 #include "Timer.h"
+#include <avr/interrupt.h>
 #include <avr/io.h>
 #include <stdint.h>
 
@@ -18,7 +19,7 @@
 class Input {
 private:
   // Joystick middle button pin
-  const uint8_t BUTTON_PIN = PC0; // Arduino Pin A0
+  const uint8_t BUTTON_PIN = PD2; // Arduino Pin 2
 
   // ADC pins for joystick
   const uint8_t X_PIN = 2; // Arduino Pin A2
@@ -32,7 +33,6 @@ private:
 
   // Helper variables to check if button is pressed
   bool middleButtonPressed;
-  bool lastMiddleButtonPressed = false;
   bool rightButtonPressed;
   bool upButtonPressed;
   bool downButtonPressed;
