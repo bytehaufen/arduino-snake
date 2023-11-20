@@ -115,10 +115,15 @@ void Display::printScorePopup(const uint16_t score) {
                         SCREEN_WIDTH / 2 - 2 * MARGIN,
                         SCREEN_HEIGHT / 3 - 2 * MARGIN, 10, ST77XX_WHITE);
   display.setTextColor(ST77XX_WHITE);
-  display.setCursor(SCREEN_WIDTH / 4 + PADDING + MARGIN, SCREEN_HEIGHT / 3 + MARGIN + PADDING + 5); // +5: add half the corner radius
+  display.setCursor(SCREEN_WIDTH / 4 + PADDING + MARGIN,
+                    SCREEN_HEIGHT / 3 + MARGIN + PADDING +
+                        5); // +5: add half the corner radius
   display.println("You died!");
-  display.setCursor(SCREEN_WIDTH / 4 + PADDING + MARGIN, 2 * (SCREEN_HEIGHT / 3 - MARGIN - PADDING) - 5); // -5: subtract half the corner radius
-  display.println("Score: " + (String)score);
+  display.setCursor(SCREEN_WIDTH / 4 + PADDING + MARGIN,
+                    2 * (SCREEN_HEIGHT / 3 - MARGIN - PADDING) -
+                        5); // -5: subtract half the corner radius
+  display.print("Score: ");
+  display.println(score);
 }
 
 void Display::drawSegment(const int8_t x, const int8_t y,
