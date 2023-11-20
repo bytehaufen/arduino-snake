@@ -41,7 +41,9 @@ void loop() {
   static uint32_t benchMarkmillis = timer.milliSeconds();
   uint16_t timeElapsed = timer.milliSeconds() - benchMarkmillis;
   if (timeElapsed) {
+    Serial.print("Elapsed time for one loop: ");
     Serial.println(timer.milliSeconds() - benchMarkmillis);
+    Serial.print("Free memory: ");
     Serial.println(getFreeMemory());
   }
   benchMarkmillis = timer.milliSeconds();
