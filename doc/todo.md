@@ -12,5 +12,5 @@
 
 ## Minor
 
-- [ ] Change menu and difficulty selector to SnakeHead_east
-- [ ] Update schematic (new digital pin)
+- [x] Change menu and difficulty selector to SnakeHead_east
+- [x] Update schematic (new digital pin)
