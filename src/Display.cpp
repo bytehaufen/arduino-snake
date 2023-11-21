@@ -54,16 +54,21 @@ void Display::printMenu(const char *heading, const char *menuItems[],
   display.setCursor(20, 20);
   display.println(heading);
   display.setTextSize(MENU_TEXT_SIZE);
+  display.setTextColor(ST77XX_WHITE);
 
   for (uint8_t i = 0; i < menuItemsCount; i++) {
-    display.setCursor(MENU_X_OFFSET, MENU_Y_OFFSET + i * MENU_Y_SPACE);
-    // If selected item black text and white background, otherwise white text
-    // and black background
+    const uint16_t MENU_Y = MENU_Y_OFFSET + i * MENU_Y_SPACE;
+
     if (i == selectedItem) {
-      display.setTextColor(ST77XX_BLACK, ST77XX_WHITE);
+      display.drawRGBBitmap(
+          MENU_X_OFFSET, MENU_Y, SnakeheadEast::image_data,
+          SnakeheadEast::image_width, SnakeheadEast::image_height);
+
     } else {
-      display.setTextColor(ST77XX_WHITE, ST77XX_BLACK);
+      display.fillRect(MENU_X_OFFSET, MENU_Y, SnakeheadEast::image_width,
+                       SnakeheadEast::image_height, ST77XX_BLACK);
     }
+    display.setCursor(MENU_X_OFFSET + 30, MENU_Y);
     display.println(menuItems[i]);
   }
 }
@@ -110,7 +115,7 @@ void Display::printScoreInfo(const uint16_t score, const bool init) {
 void Display::printScorePopup(const uint16_t score) {
   const uint8_t MARGIN = 5;
   const uint8_t PADDING = 5;
-  uint16_t textWidth = 0; // used to store the textWidth of the score sentence
+  uint16_t textWidth = 0;  // used to store the textWidth of the score sentence
   uint16_t textHeight = 0; // used to store the general textHeight of texts
   const uint8_t SCORE_TEXT_LENGTH = 5;
   char scoreText[SCORE_TEXT_LENGTH + 1];
@@ -118,24 +123,47 @@ void Display::printScorePopup(const uint16_t score) {
   itoa(score, scoreText, 10);
   strcat(scoreSentence, scoreText);
 
-  display.getTextBounds(scoreSentence, 0, 0, 0, 0, &textWidth, &textHeight); // stores the calculated width and height in textX
+  display.getTextBounds(
+      scoreSentence, 0, 0, 0, 0, &textWidth,
+      &textHeight); // stores the calculated width and height in textX
   printScoreInfo(textWidth, true);
-  display.fillRoundRect(SCREEN_WIDTH / 2 - (PADDING + MARGIN + textWidth / 2), // position in horizontal middle and go (half the textWidth + padding + margin) to the left
-                        (SCREEN_HEIGHT - 2 * PADDING - 2 * MARGIN - 3 * textHeight) / 2, // position in vertical middle and go (3 halfs of the textHeight + padding + margin) up
-                        2 * PADDING + 2 * MARGIN + textWidth, // rect width = textWidth + margin (left and right) + padding (left and right)
-                        3 * textHeight + 2 * MARGIN + 2 * PADDING, // rect height = 3 * textHeight + margin (top and bottom) + padding (top + bottom)
-                        10,
-                        ST77XX_BLUE);
-  display.drawRoundRect(SCREEN_WIDTH / 2 - (MARGIN + textWidth / 2), // position in horizontal middle and go (helf the text + margin) to the left
-                        (SCREEN_HEIGHT - 2 * MARGIN - 3 * textHeight) / 2, // position in vertical middle and go (3 halfs of the textHeight + margin) up
-                        2 * MARGIN + textWidth, // rect width = textWidth + margin (left and right)
-                        3 * textHeight + 2 * MARGIN, // rect height = 3 * textHeight + margin (top and bottom)
-                        10,
-                        ST77XX_WHITE);
+  display.fillRoundRect(
+      SCREEN_WIDTH / 2 -
+          (PADDING + MARGIN +
+           textWidth / 2), // position in horizontal middle and go (half the
+                           // textWidth + padding + margin) to the left
+      (SCREEN_HEIGHT - 2 * PADDING - 2 * MARGIN - 3 * textHeight) /
+          2, // position in vertical middle and go (3 halfs of the textHeight +
+             // padding + margin) up
+      2 * PADDING + 2 * MARGIN +
+          textWidth, // rect width = textWidth + margin (left and right) +
+                     // padding (left and right)
+      3 * textHeight + 2 * MARGIN +
+          2 * PADDING, // rect height = 3 * textHeight + margin (top and bottom)
+                       // + padding (top + bottom)
+      10, ST77XX_BLUE);
+  display.drawRoundRect(
+      SCREEN_WIDTH / 2 -
+          (MARGIN + textWidth / 2), // position in horizontal middle and go
+                                    // (helf the text + margin) to the left
+      (SCREEN_HEIGHT - 2 * MARGIN - 3 * textHeight) /
+          2, // position in vertical middle and go (3 halfs of the textHeight +
+             // margin) up
+      2 * MARGIN +
+          textWidth, // rect width = textWidth + margin (left and right)
+      3 * textHeight +
+          2 * MARGIN, // rect height = 3 * textHeight + margin (top and bottom)
+      10, ST77XX_WHITE);
   display.setTextColor(ST77XX_WHITE);
-  display.setCursor((SCREEN_WIDTH - textWidth) / 2, (SCREEN_HEIGHT - 3 * textHeight) / 2 + 1); // +1 needs to be done in order to correctly include border width
+  display.setCursor(
+      (SCREEN_WIDTH - textWidth) / 2,
+      (SCREEN_HEIGHT - 3 * textHeight) / 2 +
+          1); // +1 needs to be done in order to correctly include border width
   display.println("U died!");
-  display.setCursor((SCREEN_WIDTH - textWidth) / 2, (SCREEN_HEIGHT + textHeight) / 2 + 1); // +1 needs to be done in order to correctly include border width
+  display.setCursor(
+      (SCREEN_WIDTH - textWidth) / 2,
+      (SCREEN_HEIGHT + textHeight) / 2 +
+          1); // +1 needs to be done in order to correctly include border width
   display.print("Score: ");
   display.println(score);
 }
