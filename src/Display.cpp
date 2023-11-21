@@ -1,4 +1,5 @@
 #include "Display.h"
+#include "Adafruit_ST77xx.h"
 
 // Initialize display
 Display::Display() : display(TFT_CS, TFT_DC, TFT_RST) {
@@ -42,7 +43,7 @@ bool Display::printSerialized(const char *message) {
 void Display::printMenu(const char *heading, const char *menuItems[],
                         const uint8_t menuItemsCount,
                         const uint8_t selectedItem) {
-  display.setTextColor(ST77XX_YELLOW);
+  display.setTextColor(ST77XX_ORANGE);
   display.setTextSize(3);
   display.setCursor(20, 20);
   display.println(heading);
@@ -87,7 +88,7 @@ void Display::printScoreInfo(const uint16_t score, const bool init) {
   if (init) {
     display.setTextWrap(false);
     display.setCursor(30, 2);
-    display.setTextColor(ST77XX_YELLOW, ST77XX_BLACK);
+    display.setTextColor(ST77XX_ORANGE, ST77XX_BLACK);
     display.setTextSize(2);
     display.print("Score: ");
   } else if (lastScore == score) {
