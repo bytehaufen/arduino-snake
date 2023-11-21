@@ -1,5 +1,6 @@
 #include "Display.h"
 #include "Adafruit_ST77xx.h"
+#include "HardwareSerial.h"
 #include "images/Snakebody.h"
 #include "images/SnakeheadEast.h"
 #include "images/SnakeheadNorth.h"
@@ -111,7 +112,13 @@ void Display::printScorePopup(const uint16_t score) {
   const uint8_t PADDING = 5;
   uint16_t textWidth = 0; // used to store the textWidth of the score sentence
   uint16_t textHeight = 0; // used to store the general textHeight of texts
-  display.getTextBounds("Score: " + (String)score, 0, 0, 0, 0, &textWidth, &textHeight); // stores the calculated width and height in textX
+  const uint8_t SCORE_TEXT_LENGTH = 5;
+  char scoreText[SCORE_TEXT_LENGTH + 1];
+  char scoreSentence[8 + SCORE_TEXT_LENGTH + 1] = "Score: ";
+  itoa(score, scoreText, 10);
+  strcat(scoreSentence, scoreText);
+
+  display.getTextBounds(scoreSentence, 0, 0, 0, 0, &textWidth, &textHeight); // stores the calculated width and height in textX
   printScoreInfo(textWidth, true);
   display.fillRoundRect(SCREEN_WIDTH / 2 - (PADDING + MARGIN + textWidth / 2), // position in horizontal middle and go (half the textWidth + padding + margin) to the left
                         (SCREEN_HEIGHT - 2 * PADDING - 2 * MARGIN - 3 * textHeight) / 2, // position in vertical middle and go (3 halfs of the textHeight + padding + margin) up
@@ -129,7 +136,8 @@ void Display::printScorePopup(const uint16_t score) {
   display.setCursor((SCREEN_WIDTH - textWidth) / 2, (SCREEN_HEIGHT - 3 * textHeight) / 2 + 1); // +1 needs to be done in order to correctly include border width
   display.println("U died!");
   display.setCursor((SCREEN_WIDTH - textWidth) / 2, (SCREEN_HEIGHT + textHeight) / 2 + 1); // +1 needs to be done in order to correctly include border width
-  display.println("Score: " + (String)score);
+  display.print("Score: ");
+  display.println(score);
 }
 
 void Display::drawSegment(const int8_t x, const int8_t y,
