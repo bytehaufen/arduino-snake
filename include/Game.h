@@ -7,6 +7,10 @@
 #define GAME_H
 
 #include "Display.h"
+#include "Input.h"
+#include "Timer.h"
+#include "images/Ba.h"
+#include "images/Strawberry.h"
 
 /**
  * @class Game
@@ -31,9 +35,9 @@ private:
    */
   uint8_t segment[Display::ROWS][Display::COLS];
 
-  enum Element : uint8_t { NONE = 0, BODY = 1, FOOD = 8 };
+  enum ELEMENT : uint8_t { NONE = 0, BODY = 1, FOOD = 8 };
 
-  enum Direction : uint8_t {
+  enum DIRECTION : uint8_t {
     RIGHT = 128,
     UP = 64,
     LEFT = 32,
@@ -47,7 +51,7 @@ private:
    * @brief down: 16;
    * @brief starting downwards
    */
-  Direction direc = Direction::DOWN;
+  DIRECTION direc = DIRECTION::DOWN;
 
   // current position values
   /**
@@ -88,7 +92,12 @@ private:
   DIFFICULTY selectedDifficulty;
 
 public:
+  // Status as for use as return value
   static const uint8_t GAME_RUNNING = -1;
+  /**
+   * @brief Default constructor.
+   * @param difficulty the difficulty of the game
+   */
   Game(DIFFICULTY difficulty);
   /**
    * @brief Progress one step of the game.

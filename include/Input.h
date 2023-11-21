@@ -19,11 +19,11 @@
 class Input {
 private:
   // Joystick middle button pin
-  const uint8_t BUTTON_PIN = PD2; // Arduino Pin 2
+  const uint8_t BUTTON_PIN = PD2; // Arduino UNO Pin 2
 
   // ADC pins for joystick
-  const uint8_t X_PIN = 2; // Arduino Pin A2
-  const uint8_t Y_PIN = 1; // Arduino Pin A1
+  const uint8_t X_PIN = 2; // Arduino UNO Pin A2
+  const uint8_t Y_PIN = 1; // Arduino UNO Pin A1
   // Threshold for ADC
   const uint16_t AD_THRESH = 200;
   // Max ADC value

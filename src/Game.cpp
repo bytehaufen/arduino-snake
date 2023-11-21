@@ -1,16 +1,11 @@
 #include "Game.h"
-#include "Display.h"
-#include "Input.h"
-#include "Timer.h"
-#include "images/Ba.h"
-#include "images/Strawberry.h"
 
 Game::Game(DIFFICULTY difficulty) {
   selectedDifficulty = difficulty;
   // Initialize snake segment array
   for (int i = 0; i < Display::ROWS; i++) {
     for (int j = 0; j < Display::COLS; j++) {
-      segment[i][j] = Element::NONE;
+      segment[i][j] = ELEMENT::NONE;
     }
   }
   // Initialize snake head and tail position
@@ -18,7 +13,7 @@ Game::Game(DIFFICULTY difficulty) {
   yHead = (uint8_t)Display::ROWS / 2;
   xTail = xHead;
   yTail = yHead;
-  segment[yHead][xHead] = Element::BODY | Direction::DOWN;
+  segment[yHead][xHead] = ELEMENT::BODY | DIRECTION::DOWN;
   emptyFields = Display::COLS * Display::ROWS - 1;
   // Set up display
   display = &Display::getInstance();
@@ -26,7 +21,7 @@ Game::Game(DIFFICULTY difficulty) {
   display->drawGameBorder(Display::X_OFFSET, Display::Y_OFFSET,
                           Display::SCREEN_WIDTH - 2 * Display::X_OFFSET,
                           Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET);
-  display->drawSegment(xHead, yHead, Display::Segments::HEAD_SOUTH);
+  display->drawSegment(xHead, yHead, Display::SEGMENT::HEAD_SOUTH);
 
   display->printScoreInfo(0, true);
 }
@@ -41,9 +36,9 @@ uint16_t Game::run() {
     uint16_t freeRandomfield = rand() % emptyFields;
     for (int i = 0; i < Display::ROWS; i++) {
       for (int j = 0; j < Display::COLS; j++) {
-        if (segment[i][j] == Element::NONE && freeRandomfield-- == 0) {
+        if (segment[i][j] == ELEMENT::NONE && freeRandomfield-- == 0) {
           isFruitSpawned = false;
-          segment[i][j] = Element::FOOD;
+          segment[i][j] = ELEMENT::FOOD;
           placeRandomFood(j, i);
           emptyFields--;
           break;
@@ -64,28 +59,28 @@ uint16_t Game::run() {
   bAction = Input::getInstance().getPressedButton();
   switch (bAction) {
   case Input::BUTTON::UP:
-    if (direc == Direction::DOWN) {
+    if (direc == DIRECTION::DOWN) {
       break;
     }
-    direc = Direction::UP;
+    direc = DIRECTION::UP;
     break;
   case Input::BUTTON::DOWN:
-    if (direc == Direction::UP) {
+    if (direc == DIRECTION::UP) {
       break;
     }
-    direc = Direction::DOWN;
+    direc = DIRECTION::DOWN;
     break;
   case Input::BUTTON::LEFT:
-    if (direc == Direction::RIGHT) {
+    if (direc == DIRECTION::RIGHT) {
       break;
     }
-    direc = Direction::LEFT;
+    direc = DIRECTION::LEFT;
     break;
   case Input::BUTTON::RIGHT:
-    if (direc == Direction::LEFT) {
+    if (direc == DIRECTION::LEFT) {
       break;
     }
-    direc = Direction::RIGHT;
+    direc = DIRECTION::RIGHT;
     break;
   case Input::BUTTON::MIDDLE:
     break;
@@ -96,23 +91,23 @@ uint16_t Game::run() {
   }
 
   // Overwrite last head with body
-  display->drawSegment(xHead, yHead, Display::Segments::BODY);
+  display->drawSegment(xHead, yHead, Display::SEGMENT::BODY);
   // Delete old head from array
   // Set direction of last head segment to point to new head
-  segment[yHead][xHead] = Element::BODY | direc;
+  segment[yHead][xHead] = ELEMENT::BODY | direc;
 
   // Set position for new head
   switch (direc) {
-  case Direction::RIGHT:
+  case DIRECTION::RIGHT:
     xHead += 1;
     break;
-  case Direction::UP:
+  case DIRECTION::UP:
     yHead -= 1;
     break;
-  case Direction::LEFT:
+  case DIRECTION::LEFT:
     xHead -= 1;
     break;
-  case Direction::DOWN:
+  case DIRECTION::DOWN:
     yHead += 1;
     break;
   default:
@@ -122,7 +117,7 @@ uint16_t Game::run() {
   // Collision detection
   // Check snake dies
   if (((segment[yHead][xHead] &
-        Element::BODY) && // if snake hits itself but not tail
+        ELEMENT::BODY) && // if snake hits itself but not tail
        !(xHead == xTail && yHead == yTail)) ||
       (xHead >= Display::COLS) || // if the head is right of border
       (xHead < 0) ||              // if the head is left of border
@@ -132,29 +127,29 @@ uint16_t Game::run() {
     return snakedItems;
   }
   // Check head hits food
-  if (segment[yHead][xHead] & Element::FOOD) {
-    segment[yHead][xHead] &= ~Element::FOOD;
+  if (segment[yHead][xHead] & ELEMENT::FOOD) {
+    segment[yHead][xHead] &= ~ELEMENT::FOOD;
     display->printScoreInfo(++snakedItems);
     isFruitSpawned = false;
   } else {
     // Erase tail otherwise if its not the head
     if (!(xHead == xTail && yHead == yTail)) {
-      display->drawSegment(xTail, yTail, Display::Segments::NONE);
+      display->drawSegment(xTail, yTail, Display::SEGMENT::NONE);
     }
 
     // Filter direction and set new Tail
-    switch (segment[yTail][xTail] & (Direction::RIGHT | Direction::UP |
-                                     Direction::LEFT | Direction::DOWN)) {
-    case Direction::RIGHT:
+    switch (segment[yTail][xTail] & (DIRECTION::RIGHT | DIRECTION::UP |
+                                     DIRECTION::LEFT | DIRECTION::DOWN)) {
+    case DIRECTION::RIGHT:
       segment[yTail][xTail++] = 0;
       break;
-    case Direction::UP:
+    case DIRECTION::UP:
       segment[yTail--][xTail] = 0;
       break;
-    case Direction::LEFT:
+    case DIRECTION::LEFT:
       segment[yTail][xTail--] = 0;
       break;
-    case Direction::DOWN:
+    case DIRECTION::DOWN:
       segment[yTail++][xTail] = 0;
       break;
     default:
@@ -163,14 +158,14 @@ uint16_t Game::run() {
   }
 
   // Set new head
-  segment[yHead][xHead] = direc | Element::BODY;
+  segment[yHead][xHead] = direc | ELEMENT::BODY;
   // Draw new head
   display->drawSegment(xHead, yHead,
-                       direc == Direction::RIGHT ? Display::Segments::HEAD_EAST
-                       : direc == Direction::UP  ? Display::Segments::HEAD_NORTH
-                       : direc == Direction::LEFT
-                           ? Display::Segments::HEAD_WEST
-                           : Display::Segments::HEAD_SOUTH);
+                       direc == DIRECTION::RIGHT ? Display::SEGMENT::HEAD_EAST
+                       : direc == DIRECTION::UP  ? Display::SEGMENT::HEAD_NORTH
+                       : direc == DIRECTION::LEFT
+                           ? Display::SEGMENT::HEAD_WEST
+                           : Display::SEGMENT::HEAD_SOUTH);
 
   return GAME_RUNNING;
 }

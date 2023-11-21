@@ -1,11 +1,4 @@
 #include "Display.h"
-#include "Adafruit_ST77xx.h"
-#include "HardwareSerial.h"
-#include "images/Snakebody.h"
-#include "images/SnakeheadEast.h"
-#include "images/SnakeheadNorth.h"
-#include "images/SnakeheadSouth.h"
-#include "images/SnakeheadWest.h"
 
 // Initialize display
 Display::Display() : display(TFT_CS, TFT_DC, TFT_RST) {
@@ -169,34 +162,34 @@ void Display::printScorePopup(const uint16_t score) {
 }
 
 void Display::drawSegment(const int8_t x, const int8_t y,
-                          Display::Segments segment) {
+                          Display::SEGMENT segment) {
   uint16_t xPixel = Display::X_OFFSET + 2 + x * SEGMENT_SIZE;
   uint16_t yPixel = Display::Y_OFFSET + 2 + y * SEGMENT_SIZE;
 
   switch (segment) {
-  case Display::Segments::BODY:
+  case Display::SEGMENT::BODY:
     display.drawRGBBitmap(xPixel, yPixel, Snakebody::image_data,
                           Snakebody::image_width, Snakebody::image_height);
     break;
-  case Display::Segments::NONE:
+  case Display::SEGMENT::NONE:
     display.fillRect(xPixel, yPixel, SEGMENT_SIZE, SEGMENT_SIZE, ST77XX_BLACK);
     break;
-  case Display::Segments::HEAD_EAST:
+  case Display::SEGMENT::HEAD_EAST:
     display.drawRGBBitmap(xPixel, yPixel, SnakeheadEast::image_data,
                           SnakeheadEast::image_width,
                           SnakeheadEast::image_height);
     break;
-  case Segments::HEAD_NORTH:
+  case SEGMENT::HEAD_NORTH:
     display.drawRGBBitmap(xPixel, yPixel, SnakeheadNorth::image_data,
                           SnakeheadNorth::image_width,
                           SnakeheadNorth::image_height);
     break;
-  case Segments::HEAD_SOUTH:
+  case SEGMENT::HEAD_SOUTH:
     display.drawRGBBitmap(xPixel, yPixel, SnakeheadSouth::image_data,
                           SnakeheadSouth::image_width,
                           SnakeheadSouth::image_height);
     break;
-  case Segments::HEAD_WEST:
+  case SEGMENT::HEAD_WEST:
     display.drawRGBBitmap(xPixel, yPixel, SnakeheadWest::image_data,
                           SnakeheadWest::image_width,
                           SnakeheadWest::image_height);
@@ -212,7 +205,7 @@ void Display::drawFood(const uint8_t x, const uint8_t y,
                         16, 16);
 }
 
-void Display::drawLogo(const int16_t x, const int16_t y) {
+void Display::drawLogo(const uint16_t x, const uint16_t y) {
   display.drawRGBBitmap(x, y, SnakeheadWest::image_data,
                         SnakeheadWest::image_width,
                         SnakeheadWest::image_height);

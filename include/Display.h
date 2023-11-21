@@ -8,6 +8,11 @@
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7789.h>
+#include "images/Snakebody.h"
+#include "images/SnakeheadEast.h"
+#include "images/SnakeheadNorth.h"
+#include "images/SnakeheadSouth.h"
+#include "images/SnakeheadWest.h"
 
 /**
  * @brief Singleton class to interact with Oled Display.
@@ -15,7 +20,6 @@
 class Display {
 private:
   // Display pins
-  // TODO: rm arduino behavior
   const uint8_t TFT_CS = 10;
   const uint8_t TFT_DC = 8;
   const uint8_t TFT_RST = 9;
@@ -89,7 +93,7 @@ public:
   /**
    * @brief Enum for drawSegment()
    */
-  enum class Segments {
+  enum class SEGMENT {
     NONE, // Clear
     BODY,
     HEAD_NORTH,
@@ -103,7 +107,7 @@ public:
    * @param y Y coordinate of rectangle.
    * @param segment Segment to draw. Type of enum Segments.
    */
-  void drawSegment(const int8_t x, const int8_t y, Segments segment);
+  void drawSegment(const int8_t x, const int8_t y, SEGMENT segment);
 
   /**
    * @brief Print a menu on the display.
@@ -165,7 +169,7 @@ public:
    * @param x Point on the x axis.
    * @param y Point on the y axis.
    */
-  void drawLogo(const int16_t x, const int16_t y);
+  void drawLogo(const uint16_t x, const uint16_t y);
 };
 
 #endif // OLED_H

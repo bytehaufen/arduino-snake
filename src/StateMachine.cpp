@@ -1,6 +1,4 @@
 #include "StateMachine.h"
-#include "Arduino.h"
-#include "Display.h"
 
 StateMachine::StateMachine(Timer &t)
     : currentState(STATE::INIT), MENU_ITEMS{"Start", "Difficulty"},

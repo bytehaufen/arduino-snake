@@ -131,6 +131,6 @@ uint16_t Input::adcRead(uint8_t pin) {
 }
 
 /**
- * @brief Interrupt service routine for Arduino pin 2
+ * @brief Interrupt service routine for Arduino UNO pin 2
  */
 ISR(INT0_vect) { middleBtn = true; }
