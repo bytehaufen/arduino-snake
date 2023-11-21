@@ -689,10 +689,12 @@
 </net>
 <net name="N$6" class="0">
 <segment>
+<pinref part="ARDUINO_UNO_R3" gate="G$1" pin="D1"/>
+<wire x1="50.8" y1="66.04" x2="50.8" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="50.8" y1="73.66" x2="71.12" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="73.66" x2="71.12" y2="-10.16" width="0.1524" layer="91"/>
 <pinref part="JOYSTICK" gate="G$1" pin="SW"/>
-<wire x1="88.9" y1="-10.16" x2="43.18" y2="-10.16" width="0.1524" layer="91"/>
-<pinref part="ARDUINO_UNO_R3" gate="G$1" pin="A0"/>
-<wire x1="43.18" y1="-10.16" x2="43.18" y2="5.08" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="-10.16" x2="88.9" y2="-10.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
