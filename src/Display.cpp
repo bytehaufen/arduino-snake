@@ -108,7 +108,6 @@ void Display::printScoreInfo(const uint16_t score, const bool init) {
   lastScore = score;
 }
 
-// TODO: @HadesTeufel refactor!
 void Display::printScorePopup(const uint16_t score) {
   const uint8_t MARGIN = 10;
   const uint8_t PADDING = 10;

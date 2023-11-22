@@ -3,7 +3,7 @@
 #include "Timer.h"
 
 // TODO: Remove in production
-#define DEBUG
+/* #define DEBUG */
 
 Timer timer;
 StateMachine stateMachine(timer);

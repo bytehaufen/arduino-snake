@@ -53,9 +53,6 @@ void StateMachine::run() {
       isFirstCall = true;
       clockCounter = 0;
       Input::getInstance().consumeJoystick();
-
-      // TODO: clear intro before menu?
-      /* Display::getInstance().clear(); */
     }
     break;
 

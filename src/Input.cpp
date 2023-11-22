@@ -120,7 +120,6 @@ uint16_t Input::adcRead(uint8_t pin) {
   // Start conversion
   ADCSRA |= (1 << ADSC);
   // Wait for conversion
-  // TODO: Change to non-blocking interrupt
   while (ADCSRA & (1 << ADSC)) {
   }
 

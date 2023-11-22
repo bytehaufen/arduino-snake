@@ -8,8 +8,8 @@
 - [x] Update class diagram -> rico-de
 - [x] Change all colors to orange -> HadesTeufel
 - [x] Exit score popup with click instead of time -> HadesTeufel
-- [ ] Check all TODO, FIX, FIXME comments -> rico-de
-- [ ] Remove debug marks, e.g. `#define DEBUG` -> rico-de
+- [x] Check all TODO, FIX, FIXME comments -> rico-de
+- [x] Remove debug marks, e.g. `#define DEBUG` -> rico-de
 
 ## Minor
 

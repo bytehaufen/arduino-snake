@@ -121,7 +121,6 @@ uint16_t Game::run() {
       (xHead < 0) ||              // if the head is left of border
       (yHead >= Display::ROWS) || // if the head is under border
       (yHead < 0)) {              // if the head is above border
-    // TODO: Implement Game finished
     return snakedItems;
   }
   // Check head hits food
