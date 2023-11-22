@@ -168,7 +168,7 @@ uint16_t Game::run() {
 }
 
 void Game::placeRandomFood(const uint8_t x, const uint8_t y) {
-  const uint8_t FOOD_COUNT = 3;
+  const uint8_t FOOD_COUNT = 4;
   switch (rand() % FOOD_COUNT) {
   case 0:
     display->drawFood(x, y, Strawberry::image_data, Strawberry::image_width,
@@ -178,6 +178,12 @@ void Game::placeRandomFood(const uint8_t x, const uint8_t y) {
     display->drawFood(x, y, Ba::image_data, Ba::image_width, Ba::image_height);
     break;
   case 2:
-    display->drawFood(x, y, Banana::image_data, Banana::image_width, Banana::image_height);
+    display->drawFood(x, y, Banana::image_data, Banana::image_width,
+                      Banana::image_height);
+    break;
+  case 3:
+    display->drawFood(x, y, Sausage::image_data, Sausage::image_width,
+                      Sausage::image_height);
+    break;
   }
 }

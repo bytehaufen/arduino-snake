@@ -10,8 +10,9 @@
 #include "Input.h"
 #include "Timer.h"
 #include "images/Ba.h"
-#include "images/Strawberry.h"
 #include "images/Banana.h"
+#include "images/Sausage.h"
+#include "images/Strawberry.h"
 
 /**
  * @class Game
