@@ -11,6 +11,7 @@
 #include "Timer.h"
 #include "images/Ba.h"
 #include "images/Strawberry.h"
+#include "images/Banana.h"
 
 /**
  * @class Game
