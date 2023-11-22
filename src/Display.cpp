@@ -150,7 +150,7 @@ void Display::printScorePopup(const uint16_t score) {
       3 * textHeight +
           2 * MARGIN, // rect height = 3 * textHeight + margin (top and bottom)
       10, ST77XX_ORANGE);
-  display.setTextColor(ST77XX_ORANGE);
+  display.setTextColor(ST77XX_WHITE);
   display.setCursor(
       (SCREEN_WIDTH - textWidth) / 2,
       (SCREEN_HEIGHT - 3 * textHeight) / 2 +
