@@ -114,14 +114,16 @@ void StateMachine::run() {
     if (isFirstCall) {
       clockCounter = 0;
       isFirstCall = false;
+      Input::getInstance().consumeJoystick();
       Display::getInstance().printScorePopup(lastScore);
     }
 
-    // Wait for 300 cycles
-    if (clockCounter++ > 300) {
+    // Continue on middle button
+    if (Input::getInstance().getPressedButton() == Input::BUTTON::MIDDLE) {
       currentState = STATE::MENU;
       clockCounter = 0;
       isFirstCall = true;
+      Input::getInstance().consumeJoystick();
     }
 
     break;
