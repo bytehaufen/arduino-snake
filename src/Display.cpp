@@ -54,9 +54,9 @@ void Display::printMenu(const char *heading, const char *menuItems[],
     const uint16_t MENU_Y = MENU_Y_OFFSET + i * MENU_Y_SPACE;
 
     if (i == selectedItem) {
-      display.drawRGBBitmap(
-          MENU_X_OFFSET, MENU_Y, SnakeheadEast::image_data,
-          SnakeheadEast::image_width, SnakeheadEast::image_height);
+      display.drawRGBBitmap(MENU_X_OFFSET, MENU_Y, SnakeheadEast::image_data,
+                            SnakeheadEast::image_width,
+                            SnakeheadEast::image_height);
 
     } else {
       display.fillRect(MENU_X_OFFSET, MENU_Y, SnakeheadEast::image_width,
@@ -69,8 +69,11 @@ void Display::printMenu(const char *heading, const char *menuItems[],
 
 void Display::clear() { display.fillScreen(ST77XX_BLACK); }
 
-void Display::drawGameBorder(const uint16_t x0, const uint16_t y0,
-                             const uint16_t x1, const uint16_t y1) {
+void Display::drawGameBorder() {
+  constexpr uint16_t x0 = Display::X_OFFSET - 1;
+  constexpr uint16_t y0 = Display::Y_OFFSET - 1;
+  constexpr uint16_t x1 = Display::SCREEN_WIDTH - 2 * Display::X_OFFSET + 2;
+  constexpr uint16_t y1 = Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET + 2;
   const uint16_t COLOR = ST77XX_ORANGE;
   display.drawRect(x0, y0, x1, y1, COLOR);
 }
@@ -139,7 +142,7 @@ void Display::printScorePopup(const uint16_t score) {
   display.drawRoundRect(
       SCREEN_WIDTH / 2 -
           (MARGIN + textWidth / 2), // position in horizontal middle and go
-                                    // (helf the text + margin) to the left
+                                    // (half the text + margin) to the left
       (SCREEN_HEIGHT - 2 * MARGIN - 3 * textHeight) /
           2, // position in vertical middle and go (3 halfs of the textHeight +
              // margin) up
@@ -164,8 +167,8 @@ void Display::printScorePopup(const uint16_t score) {
 
 void Display::drawSegment(const int8_t x, const int8_t y,
                           Display::SEGMENT segment) {
-  uint16_t xPixel = Display::X_OFFSET + 2 + x * SEGMENT_SIZE;
-  uint16_t yPixel = Display::Y_OFFSET + 2 + y * SEGMENT_SIZE;
+  uint16_t xPixel = Display::X_OFFSET + x * SEGMENT_SIZE;
+  uint16_t yPixel = Display::Y_OFFSET + y * SEGMENT_SIZE;
 
   switch (segment) {
   case Display::SEGMENT::BODY:
@@ -201,9 +204,9 @@ void Display::drawSegment(const int8_t x, const int8_t y,
 void Display::drawFood(const uint8_t x, const uint8_t y,
                        const uint16_t *image_data, const uint16_t w,
                        const uint16_t h) {
-  display.drawRGBBitmap(Display::X_OFFSET + 2 + x * SEGMENT_SIZE,
-                        Display::Y_OFFSET + 2 + y * SEGMENT_SIZE, image_data,
-                        16, 16);
+  display.drawRGBBitmap(Display::X_OFFSET + x * SEGMENT_SIZE,
+                        Display::Y_OFFSET + y * SEGMENT_SIZE, image_data, 16,
+                        16);
 }
 
 void Display::drawLogo(const uint16_t x, const uint16_t y) {

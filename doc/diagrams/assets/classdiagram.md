@@ -146,8 +146,10 @@
     +uint16_t SCREEN_WIDTH$
     +uint16_t SCREEN_HEIGHT$
     +uint8_t SEGMENT_SIZE$
-    +uint8_t X_OFFSET$
-    +uint8_t Y_OFFSET$
+    +uint16_t MIN_X_OFFSET$
+    +uint16_t X_OFFSET$
+    +uint16_t MIN_Y_OFFSET$
+    +uint16_t Y_OFFSET$
     +uint16_t ROWS$
     +uint16_t COLS$
     +getInstance()$ Display&
@@ -155,7 +157,7 @@
     +drawSegment(int16_t x, int16_t y, SEGMENT segment) void
     +printMenu(const char* heading, const char* menuItems[], uint8_t menuItemsCount, uint8_t selectedItem) void
     +clear() void
-    +drawGameBorder(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1) void
+    +drawGameBorder() void
     +printSimpleText(char* message) void
     +printScoreInfo(uint16_t score, bool init) void
     +printScorePopup(uint16_t score) void
