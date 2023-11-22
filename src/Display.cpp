@@ -110,8 +110,8 @@ void Display::printScoreInfo(const uint16_t score, const bool init) {
 
 // TODO: @HadesTeufel refactor!
 void Display::printScorePopup(const uint16_t score) {
-  const uint8_t MARGIN = 5;
-  const uint8_t PADDING = 5;
+  const uint8_t MARGIN = 10;
+  const uint8_t PADDING = 10;
   uint16_t textWidth = 0;  // used to store the textWidth of the score sentence
   uint16_t textHeight = 0; // used to store the general textHeight of texts
   const uint8_t SCORE_TEXT_LENGTH = 5;
@@ -138,7 +138,7 @@ void Display::printScorePopup(const uint16_t score) {
       3 * textHeight + 2 * MARGIN +
           2 * PADDING, // rect height = 3 * textHeight + margin (top and bottom)
                        // + padding (top + bottom)
-      10, ST77XX_BLUE);
+      10, ST77XX_BLACK);
   display.drawRoundRect(
       SCREEN_WIDTH / 2 -
           (MARGIN + textWidth / 2), // position in horizontal middle and go
@@ -150,8 +150,8 @@ void Display::printScorePopup(const uint16_t score) {
           textWidth, // rect width = textWidth + margin (left and right)
       3 * textHeight +
           2 * MARGIN, // rect height = 3 * textHeight + margin (top and bottom)
-      10, ST77XX_WHITE);
-  display.setTextColor(ST77XX_WHITE);
+      10, ST77XX_ORANGE);
+  display.setTextColor(ST77XX_ORANGE);
   display.setCursor(
       (SCREEN_WIDTH - textWidth) / 2,
       (SCREEN_HEIGHT - 3 * textHeight) / 2 +
