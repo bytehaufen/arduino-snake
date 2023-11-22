@@ -18,9 +18,7 @@ Game::Game(DIFFICULTY difficulty) {
   // Set up display
   display = &Display::getInstance();
   display->clear();
-  display->drawGameBorder(Display::X_OFFSET, Display::Y_OFFSET,
-                          Display::SCREEN_WIDTH - 2 * Display::X_OFFSET,
-                          Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET);
+  display->drawGameBorder();
   display->drawSegment(xHead, yHead, Display::SEGMENT::HEAD_SOUTH);
 
   display->printScoreInfo(0, true);

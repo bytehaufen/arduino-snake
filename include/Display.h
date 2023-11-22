@@ -8,6 +8,7 @@
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7789.h>
+
 #include "images/Snakebody.h"
 #include "images/SnakeheadEast.h"
 #include "images/SnakeheadNorth.h"
@@ -52,31 +53,42 @@ public:
    */
   static const uint16_t SCREEN_HEIGHT = 240;
   /**
-   * @brief heigt and width of a snake segment
+   * @brief height and width of a snake segment
    */
   static const uint8_t SEGMENT_SIZE = 16;
   /**
+   * @brief minimal vertical offset of the game area
+   **/
+  static const uint16_t MIN_X_OFFSET = 20;
+  /**
    * @brief horizontal offset of the game area
    */
-  static const uint16_t X_OFFSET = 20;
+  static constexpr uint16_t X_OFFSET =
+      (SCREEN_WIDTH -
+       (SCREEN_WIDTH - 2 * MIN_X_OFFSET) / SEGMENT_SIZE * SEGMENT_SIZE) /
+      2;
+  /**
+   * @brief minimal horizontal offset of the game area
+   */
+  static const uint16_t MIN_Y_OFFSET = 20;
   /**
    * @brief vertical offset of the game area
    */
-  static const uint16_t Y_OFFSET = 20;
+  static constexpr uint16_t Y_OFFSET =
+      (SCREEN_HEIGHT -
+       (SCREEN_HEIGHT - 2 * MIN_Y_OFFSET) / SEGMENT_SIZE * SEGMENT_SIZE) /
+      2;
 
   /**
    * @brief number of rows
    */
-  static constexpr uint8_t ROWS =
-      (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4) /
-      Display::SEGMENT_SIZE;
+  static constexpr uint8_t ROWS = (SCREEN_HEIGHT - 2 * Y_OFFSET) / SEGMENT_SIZE;
 
   /**
    * @brief number of columns
    */
-  static constexpr uint8_t COLS =
-      (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4) /
-      Display::SEGMENT_SIZE;
+  static constexpr uint8_t COLS = (SCREEN_WIDTH - 2 * X_OFFSET) / SEGMENT_SIZE;
+
   /**
    * @brief Get the singleton instance of Display.
    * @return The singleton instance of Display.
@@ -124,15 +136,9 @@ public:
   void clear();
 
   /**
-     @brief    Draw a line
-     @param    x0  Start point x coordinate
-     @param    y0  Start point y coordinate
-     @param    x1  End point x coordinate
-     @param    x2  End point y coordinate
-     @param    color 16-bit 5-6-5 Color to draw with
-  */
-  void drawGameBorder(const uint16_t x0, const uint16_t y0, const uint16_t x1,
-                      const uint16_t y1);
+   * @brief Draw the game border on the display.
+   */
+  void drawGameBorder();
 
   /**
    * @brief Print a simple text on the display.
