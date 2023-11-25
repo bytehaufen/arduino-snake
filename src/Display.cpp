@@ -122,7 +122,6 @@ void Display::printScorePopup(const uint16_t score) {
   display.getTextBounds(
       scoreSentence, 0, 0, 0, 0, &textWidth,
       &textHeight); // stores the calculated width and height in textX
-  printScoreInfo(textWidth, true);
   display.fillRoundRect(
       SCREEN_WIDTH / 2 -
           (PADDING + MARGIN +
