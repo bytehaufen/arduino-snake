@@ -9,6 +9,7 @@
 #include "Display.h"
 #include "Game.h"
 #include "Input.h"
+#include "Timer.h"
 
 /**
  * @class StateMachine
@@ -20,19 +21,26 @@ private:
   /**
    * @brief Enum for the different states of the game.
    */
-  enum class STATE { INIT, INTRO, MENU, GAME, SCORE };
+  enum class STATE { INIT, INTRO, MENU, GAME, SCORE_POPUP, DIFFICULTY };
   /**
    * @brief Enum for the different menu items.
    */
-  enum class MENU_ITEM { START = 0, SCORE = 1 };
+  enum class MENU_ITEM { START = 0, DIFFICULTY = 1 };
   // Holds the active state
   STATE currentState;
   // Menu items
   static const uint8_t MENU_ITEMS_COUNT = 2;
-  const String MENU_ITEMS[MENU_ITEMS_COUNT];
+  const char *MENU_ITEMS[MENU_ITEMS_COUNT];
+  // Menu items
+  static const uint8_t DIFFICULTY_ITEMS_COUNT = 5;
+  const char *DIFFICULTY_ITEMS[DIFFICULTY_ITEMS_COUNT];
   // Pointer to game
   Game *game;
-
+  Timer *timer;
+  // Stores the pressed button.
+  Input::BUTTON pressedButton;
+  // Stores the selected difficulty.
+  Game::DIFFICULTY selectedDifficulty = Game::DIFFICULTY::EASY;
   /**
    * @brief Sets the state of the game.
    * @param newState The new state of the game.
@@ -54,12 +62,28 @@ private:
    * @param item The Menu item object.
    */
   void selectNextMenuItem(MENU_ITEM &item);
+  /**
+   * @brief Selects the previous difficulty.
+   * @param item The Difficulty item object.
+   */
+  void selectPrevDifficulty(Game::DIFFICULTY &item);
+  /**
+   * @brief Selects the next difficulty.
+   * @param item The Difficulty item object.j
+   */
+  void selectNextDifficulty(Game::DIFFICULTY &item);
+
+  /**
+   * @brief Holds the last score.
+   */
+  uint16_t lastScore = 0;
 
 public:
   /**
    * @brief Constructor for the StateMachine.
+   * @param timer Timer object.
    */
-  StateMachine();
+  StateMachine(Timer &timer);
 
   /**
    * @brief Runs the state machine. Needs to be called in the main loop.

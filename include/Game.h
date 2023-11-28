@@ -7,26 +7,44 @@
 #define GAME_H
 
 #include "Display.h"
+#include "Input.h"
+#include "Timer.h"
+#include "images/Ba.h"
+#include "images/Banana.h"
+#include "images/Sausage.h"
+#include "images/Strawberry.h"
 
 /**
  * @class Game
  * @brief Class that holds the game loop.
  */
 class Game {
-private:
-  // TODO: Only for test -> maybe a complete class for the snake
-  struct Headpos {
-    uint16_t x;
-    uint16_t y;
+public:
+  /**
+   * @brief Enum for the different difficulties.
+   */
+  enum class DIFFICULTY {
+    EASY = 2,
+    MEDIUM = 4,
+    HARD = 8,
+    HARDEST = 16,
+    IMPOSSIBLE = 32
   };
-  static const uint8_t rows = (uint8_t)(Display::SCREEN_HEIGHT - 2 * Display::Y_OFFSET - 4)/Display::SEGMENT_SIZE;
-  static const uint8_t cols = (uint8_t)(Display::SCREEN_WIDTH - 2 * Display::X_OFFSET - 4)/Display::SEGMENT_SIZE;
 
+private:
   /**
    * @brief two-dimensional array holding snake segments
-  */
-  uint8_t segment[rows][cols];
+   */
+  uint8_t segment[Display::ROWS][Display::COLS];
 
+  enum ELEMENT : uint8_t { NONE = 0, BODY = 1, FOOD = 8 };
+
+  enum DIRECTION : uint8_t {
+    RIGHT = 128,
+    UP = 64,
+    LEFT = 32,
+    DOWN = 16,
+  };
   /**
    * @brief direction value;
    * @brief right: 128;
@@ -34,48 +52,61 @@ private:
    * @brief left: 32;
    * @brief down: 16;
    * @brief starting downwards
-  */
-  uint8_t direc = 16;
+   */
+  DIRECTION direc = DIRECTION::DOWN;
+
   // current position values
   /**
    * @brief current horizontal position of the snake head
-  */
+   */
   int8_t xHead = 0;
   /**
    * @brief current vertical position of the snake head
-  */
+   */
   int8_t yHead = 0;
   /**
    * @brief current horizontal position of the snake tail
-  */
+   */
   int8_t xTail = 0;
   /**
    * @brief current vertical position of the snake tail
-  */
+   */
   int8_t yTail = 0;
   /**
    * @brief Pointer to Display instance for easy access
-  */
+   */
   Display *display;
+  /**
+   * @brief Draw random food.
+   * NOTE: All added foods have to be in this method.
+   * @param x horizontal position
+   * @param y vertical position
+   */
+  void placeRandomFood(uint8_t x, uint8_t y);
 
   // Game variables
   /**
    * length of snake
-  */
+   */
   uint32_t snakedItems = 0;
-
-  /**
-   * @brief start position of snake; just for testing purposes -> delete later
-  */
-  Headpos headpos;
+  bool isFruitSpawned = false;
+  uint16_t emptyFields = 0;
+  DIFFICULTY selectedDifficulty;
 
 public:
-  Game();
+  // Status as for use as return value
+  static const uint8_t GAME_RUNNING = -1;
+  /**
+   * @brief Default constructor.
+   * @param difficulty the difficulty of the game
+   */
+  Game(DIFFICULTY difficulty);
   /**
    * @brief Progress one step of the game.
-   * @return True if game is running, false otherwise
+   * @return Returns GAME_RUNNING if game is still running, otherwise returns
+   * the reached score.
    */
-  bool run();
+  uint16_t run();
 };
 
 #endif // GAME_H

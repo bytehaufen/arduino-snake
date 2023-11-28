@@ -15,7 +15,7 @@ private:
    * @brief Calculates the value for OCR1A
    *
    * @param targetFreq Target frequency
-   * @return [TODO:return]
+   * @return Value for OCR1A
    */
   uint16_t calculate_OCR1A(uint16_t targetFreq);
 
