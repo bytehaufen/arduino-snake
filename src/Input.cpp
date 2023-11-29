@@ -12,7 +12,6 @@ Input::Input() : joystickConsumed(true) {
   DDRD &= ~(1 << BUTTON_PIN);
   PORTD |= (1 << BUTTON_PIN);
   // Set INT0 to trigger on falling edge
-  // Set INT0 to trigger on falling edge
   EICRA |= (1 << ISC01);
   EICRA &= ~(1 << ISC00);
   // Enable external interrupt 0 (INT0)
