@@ -29,7 +29,7 @@ private:
   // Max ADC value
   const uint16_t AD_MAX = 1023;
   // Debounce time
-  const uint8_t DEBOUNCE_TIME = 50;
+  const uint8_t DEBOUNCE_TIME = 100;
 
   // Helper variables to check if button is pressed
   bool middleButtonPressed;
