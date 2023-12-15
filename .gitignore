@@ -1,3 +1,4 @@
+*.pdf
 .pio
 .cache/
 include/arduino/
